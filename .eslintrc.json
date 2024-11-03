@@ -17,7 +17,7 @@
     "project": "./tsconfig.json",
     "tsconfigRootDir": "./"
   },
-  "plugins": ["@typescript-eslint", "import"],
+  "plugins": ["@typescript-eslint", "import", "prettier"],
   "rules": {
     "import/extensions": "off",
     "import/prefer-default-export": "off",
