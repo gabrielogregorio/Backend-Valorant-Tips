@@ -1,6 +1,6 @@
 @bearerToken =
 @baseUrl = http://localhost:3333
-@tokenCode = b5caeb30-11b3-4653-85e3-2b611295ba74
+@tokenCode = 3a1483a2-b7fb-412b-803e-3b3e0a3b0283
 
 ### @name createUser
 
@@ -9,8 +9,8 @@ content-type: application/json
 accept-language: pt-br
 
 {
-  "username":"x9exonos",
-  "password":"x9exonos",
+  "username":"dev",
+  "password":"dev",
   "code": "{{tokenCode}}"
 }
 

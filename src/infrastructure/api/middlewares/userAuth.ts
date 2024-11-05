@@ -19,7 +19,7 @@ export const isAuthenticate = (authorization: string) => {
 };
 
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
-  const authToken = req.headers.authorization;
+  const authToken = String(req.headers.authorization).split(' ')?.[1]?.trim();
   if (authToken === '' || authToken === undefined) {
     throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
   }
@@ -45,6 +45,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     if (error.message === 'jwt expired') {
       throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'jwt expirated');
     }
+    console.log(error);
     throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED, 'unknow error');
   }
 };
