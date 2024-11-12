@@ -18,10 +18,10 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
 
     this.postRepository.save(post);
 
-    const user = await this.userRepository.findById(post.userId);
+    const user = await this.userRepository.findById(post.userId.getValue());
 
     return {
-      id: post.id,
+      id: post.id.getValue(),
       description: post.description,
       imgs: post.imgs.map((img) => ({
         description: img.description,

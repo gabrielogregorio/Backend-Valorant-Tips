@@ -37,9 +37,9 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
 
     const postService = await this.postRepository.update(post);
 
-    const userData = await this.userRepository.findById(postService.userId);
+    const userData = await this.userRepository.findById(postService.userId.getValue());
     return {
-      id: postService.id,
+      id: postService.id.getValue(),
       description: postService.description,
       imgs: postService.imgs,
       tags: postService.tags,

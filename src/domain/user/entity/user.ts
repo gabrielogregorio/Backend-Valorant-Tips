@@ -1,11 +1,11 @@
 import { Entity } from '@/domain/common/entity/entity.abstract';
 import { NotificationError } from '@/domain/common/notification/notification.error';
-import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { UniqueId } from '@/domain/common/utils/UniqueId';
 import { UserEntityInterface } from '@/domain/user/entity/user.interface';
 import { UserValidatorFactory } from '@/domain/user/factory/user.validator';
 
 type UserEntityDto = {
-  id: string;
+  id: UniqueId;
   username: string;
   password: string;
 };
@@ -22,7 +22,7 @@ type UserEntityRestoreDto = {
 };
 
 export class UserEntity extends Entity implements UserEntityInterface {
-  private _id: string;
+  private _id: UniqueId;
 
   private _username: string;
 
@@ -30,7 +30,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   private _image: string;
 
-  private constructor({ id = UniqueIdGenerator.generate(), username = '', password = '' }: UserEntityDto) {
+  private constructor({ id, username, password }: UserEntityDto) {
     super();
     this._id = id;
     this._username = username;
@@ -42,7 +42,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   public static create({ password, username }: UserEntityCreateDto) {
     return new UserEntity({
-      id: UniqueIdGenerator.generate(),
+      id: new UniqueId(),
       username,
       password,
     });
@@ -50,7 +50,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   public static restore({ password, username, id }: UserEntityRestoreDto) {
     return new UserEntity({
-      id,
+      id: new UniqueId(id),
       username,
       password,
     });

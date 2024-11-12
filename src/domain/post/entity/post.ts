@@ -1,26 +1,43 @@
 import { Entity } from '@/domain/common/entity/entity.abstract';
 import { NotificationError } from '@/domain/common/notification/notification.error';
-import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { UniqueId } from '@/domain/common/utils/UniqueId';
 import { PostValidatorFactory } from '@/domain/post/factory/post.validator';
 import { PostImagesInterface, PostInterface, PostTagsInterface } from '@/domain/post/entity/interfaces';
+
+type PostEntityDto = {
+  title: string;
+  userId: UniqueId;
+  id?: UniqueId;
+  tags?: PostTagsInterface;
+  imgs?: PostImagesInterface[];
+  description?: string;
+};
 
 type PayloadCreatePostDto = {
   title: string;
   userId: string;
-  id?: string;
+  tags?: PostTagsInterface;
+  imgs?: PostImagesInterface[];
+  description?: string;
+};
+
+type PostEntityRestoreDto = {
+  title: string;
+  userId: string;
+  id: string;
   tags?: PostTagsInterface;
   imgs?: PostImagesInterface[];
   description?: string;
 };
 
 export class PostEntity extends Entity implements PostInterface {
-  private _id: string;
+  private _id: UniqueId;
+
+  private _userId: UniqueId;
 
   private _title: string;
 
   private _description: string;
-
-  private _userId: string;
 
   private _tags: PostTagsInterface;
 
@@ -42,7 +59,7 @@ export class PostEntity extends Entity implements PostInterface {
     return this._title;
   }
 
-  get id() {
+  get id(): UniqueId {
     return this._id;
   }
 
@@ -64,8 +81,8 @@ export class PostEntity extends Entity implements PostInterface {
       side: '',
     },
     userId,
-    id = UniqueIdGenerator.generate(),
-  }: PayloadCreatePostDto) {
+    id = new UniqueId(),
+  }: PostEntityDto) {
     super();
     this._id = id;
     this._title = title;
@@ -80,16 +97,16 @@ export class PostEntity extends Entity implements PostInterface {
   public static create(payload: Omit<PayloadCreatePostDto, 'id'>) {
     return new PostEntity({
       title: payload.title,
-      userId: payload.userId,
+      userId: new UniqueId(payload.userId),
       description: payload.description,
-      id: UniqueIdGenerator.generate(),
+      id: new UniqueId(),
       imgs: payload.imgs,
       tags: payload.tags,
     });
   }
 
-  public static restore(payload: PayloadCreatePostDto) {
-    return new PostEntity(payload);
+  public static restore(payload: PostEntityRestoreDto) {
+    return new PostEntity({ ...payload, id: new UniqueId(payload.id), userId: new UniqueId(payload.userId) });
   }
 
   public changeTags(tags: PostTagsInterface) {

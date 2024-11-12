@@ -35,7 +35,7 @@ describe('UpdatePostUseCase', () => {
     const userRepository = mockUserRepository();
     const useCase = new UpdatePostUseCase(postRepository, userRepository);
 
-    const result = await useCase.execute(post.id, {
+    const result = await useCase.execute(post.id.getValue(), {
       description: post.description,
       title: post.title,
     });

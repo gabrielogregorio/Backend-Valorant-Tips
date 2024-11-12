@@ -1,25 +1,25 @@
 import { CodeValidatorFactory } from '@/domain/code/factory/validator';
 import { Entity } from '@/domain/common/entity/entity.abstract';
 import { NotificationError } from '@/domain/common/notification/notification.error';
+import { UniqueId } from '@/domain/common/utils/UniqueId';
 import { DomainError } from '@/domain/errors';
-import { v4 as uuidV4 } from 'uuid';
 
 export interface CodeEntityInterface {
-  get code(): string;
+  get code(): UniqueId;
   get available(): boolean;
-  get id(): string;
+  get id(): UniqueId;
 
   useCode(): void;
 }
 
 export class CodeEntity extends Entity implements CodeEntityInterface {
-  _code: string;
+  _code: UniqueId;
 
-  _id: string;
+  _id: UniqueId;
 
   _available: boolean;
 
-  private constructor({ available, code, id }: { code: string; available: boolean; id: string }) {
+  private constructor({ available, code, id }: { code: UniqueId; available: boolean; id: UniqueId }) {
     super();
     this._available = available;
     this._code = code;
@@ -29,8 +29,8 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
   public static create(): CodeEntity {
     const instance = new CodeEntity({
       available: true,
-      code: uuidV4(),
-      id: uuidV4(),
+      code: new UniqueId(),
+      id: new UniqueId(),
     });
 
     instance.validate();
@@ -41,8 +41,8 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
   public static restore({ available, code, id }: { available: boolean; code: string; id: string }): CodeEntity {
     const instance = new CodeEntity({
       available,
-      code,
-      id,
+      code: new UniqueId(code),
+      id: new UniqueId(id),
     });
 
     instance.validate();
@@ -50,7 +50,7 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
     return instance;
   }
 
-  get id(): string {
+  get id(): UniqueId {
     return this._id;
   }
 
@@ -58,7 +58,7 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
     return this._available;
   }
 
-  get code(): string {
+  get code(): UniqueId {
     return this._code;
   }
 

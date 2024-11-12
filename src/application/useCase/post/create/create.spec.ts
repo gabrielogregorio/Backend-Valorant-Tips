@@ -48,7 +48,7 @@ describe('CreatePostUseCase', () => {
         moment: '',
         side: '',
       },
-      userId: post.userId,
+      userId: post.userId.getValue(),
     });
     expect(postRepository.save).toHaveBeenCalledTimes(1);
 

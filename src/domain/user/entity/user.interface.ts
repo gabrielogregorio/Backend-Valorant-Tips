@@ -1,5 +1,7 @@
+import { UniqueId } from '@/domain/common/utils/UniqueId';
+
 export interface UserEntityInterface {
-  get id(): string;
+  get id(): UniqueId;
   get username(): string;
   get password(): string;
   get image(): string;

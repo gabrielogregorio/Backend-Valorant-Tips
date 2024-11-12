@@ -37,8 +37,8 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
       createdAt: suggestion.createdAt,
       description: suggestion.description,
       email: suggestion.email,
-      id: suggestion.id,
-      postId: suggestion.postId,
+      id: suggestion.id.getValue(),
+      postId: suggestion.postId.getValue(),
       status: suggestion.status,
       updatedAt: suggestion.updatedAt,
     };

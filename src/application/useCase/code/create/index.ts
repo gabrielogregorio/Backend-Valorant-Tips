@@ -12,8 +12,8 @@ export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
 
     return {
       available: codeCreated.available,
-      code: codeCreated.code,
-      id: codeCreated.id,
+      code: codeCreated.code.getValue(),
+      id: codeCreated.id.getValue(),
     };
   };
 }

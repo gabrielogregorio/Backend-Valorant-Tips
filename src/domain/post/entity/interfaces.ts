@@ -1,3 +1,5 @@
+import { UniqueId } from '@/domain/common/utils/UniqueId';
+
 export type PostTagsInterface = {
   moment: string;
   difficult: string;
@@ -15,13 +17,13 @@ export type PostImagesInterface = {
 };
 
 export interface PostInterface {
-  get id(): string;
+  get id(): UniqueId;
 
   get title(): string;
 
   get description(): string;
 
-  get userId(): string;
+  get userId(): UniqueId;
 
   get tags(): PostTagsInterface;
 

@@ -23,7 +23,7 @@ describe('DeletePostUseCase', () => {
     const postRepository = mockRepository(post);
     const useCase = new DeletePostUseCase(postRepository);
 
-    const result = await useCase.execute('123', post.userId);
+    const result = await useCase.execute('123', post.userId.getValue());
     expect(postRepository.deleteById).toHaveBeenCalledTimes(1);
 
     expect(result).toEqual(undefined);

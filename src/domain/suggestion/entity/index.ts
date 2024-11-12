@@ -1,6 +1,6 @@
 import { Entity } from '@/domain/common/entity/entity.abstract';
 import { NotificationError } from '@/domain/common/notification/notification.error';
-import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
+import { UniqueId } from '@/domain/common/utils/UniqueId';
 import { statusSuggestionType, SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
 import { SuggestionValidatorFactory } from '@/domain/suggestion/factory/suggestion.validator';
 
@@ -8,8 +8,8 @@ type SuggestionEntityDto = {
   status: statusSuggestionType;
   email: string;
   description: string;
-  postId: string;
-  id: string;
+  postId: UniqueId;
+  id: UniqueId;
   createdAt: string;
   updatedAt: string;
 };
@@ -37,23 +37,15 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
 
   private _description: string;
 
-  private _postId: string;
+  private _postId: UniqueId;
 
-  private _id: string;
+  private _id: UniqueId;
 
   private _createdAt: string;
 
   private _updatedAt: string;
 
-  private constructor({
-    id = UniqueIdGenerator.generate(),
-    status,
-    email,
-    description,
-    postId,
-    createdAt,
-    updatedAt,
-  }: SuggestionEntityDto) {
+  private constructor({ id, status, email, description, postId, createdAt, updatedAt }: SuggestionEntityDto) {
     super();
     this._id = id;
     this._status = status;
@@ -70,8 +62,8 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     return new SuggestionEntity({
       description,
       email,
-      postId,
-      id: UniqueIdGenerator.generate(),
+      postId: new UniqueId(postId),
+      id: new UniqueId(),
       status: 'waiting',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -79,7 +71,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
   }
 
   public static restore(payload: SuggestionEntityRestoreDto) {
-    return new SuggestionEntity(payload);
+    return new SuggestionEntity({ ...payload, id: new UniqueId(payload.id), postId: new UniqueId(payload.postId) });
   }
 
   get id() {
