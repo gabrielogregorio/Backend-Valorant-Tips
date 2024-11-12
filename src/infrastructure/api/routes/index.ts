@@ -7,6 +7,7 @@ import { postRouter } from './postRouter';
 import { suggestionRouter } from './suggestionRouter';
 import { userRouter } from './userRouter';
 import { viewsRouter } from './viewsRouter';
+import { fileRouter } from '@/infrastructure/api/routes/fileRouter';
 
 export const router = Router();
 
@@ -15,6 +16,7 @@ router.use(express.static('public'));
 router.use('/', baseRouter);
 router.use('/users', userRouter);
 router.use('/posts', postRouter);
+router.use('/upload', fileRouter);
 router.use('/auth', authRouter);
 router.use('/suggestions', suggestionRouter);
 router.use('/code', codeRouter);

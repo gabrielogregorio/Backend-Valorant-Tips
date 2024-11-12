@@ -1,0 +1,16 @@
+
+@baseUrl = http://localhost:3333
+@bearerToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRldiIsIm5hbWUiOiJkZXYiLCJpZCI6IjY3YWVhOWVkLWE0YjEtNDMyZi1iNDBhLThlMmNhMGQwYjNkZSIsImlhdCI6MTczMDc2NjQwNCwiZXhwIjoxNzMxMjI3MjA0fQ.TMJfPtzYPS6wPTsw0aRNqcUA0kLY22bh8HDXoPiHLp8
+
+
+### @name uploadFile
+
+POST {{baseUrl}}/upload HTTP/1.1
+Authorization: {{bearerToken}}
+Content-Type: multipart/form-data; boundary=xyz
+
+--xyz
+Content-Disposition: form-data; name="file"; filename="example.jpg"
+Content-Type: image/png
+../../../../public/docs/project.png
+
