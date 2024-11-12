@@ -2,8 +2,9 @@ import { CodeRepositoryInterface } from '@/domain/code/repository/interface';
 import { UserEntity } from '@/domain/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { AppError } from '@/application/errors/AppError';
-import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
+
 import { CreateUserUseCaseInterface, CreateUserInputDto } from './CreateUserUseCaseInterface';
+import { PasswordHasherInterface } from '@/domain/services/PasswordHasherInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(
@@ -14,8 +15,8 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
 
   execute = async (code: string, { username, password, image }: CreateUserInputDto): Promise<void> => {
     const codeEntity = await this.codeRepository.findByCode(code);
-    if (!codeEntity || !codeEntity?.available) {
-      throw new AppError('CODE_IS_NOT_AVAILABLE', { code: codeEntity?.code, available: codeEntity?.available });
+    if (!codeEntity) {
+      throw new AppError('CODE_NOT_FOUND');
     }
 
     const userFound = await this.userRepository.findOneByUsername(username);
@@ -26,9 +27,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     codeEntity.useCode();
 
     this.codeRepository.updateEntity(codeEntity);
-    const user = new UserEntity({ username });
-
-    user.changePassword(await this.passwordHasher.generateHashPassword(password));
+    const user = UserEntity.create({ username, password: await this.passwordHasher.generateHashPassword(password) });
 
     if (image) {
       user.changeImage(image);

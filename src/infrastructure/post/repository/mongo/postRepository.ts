@@ -40,7 +40,7 @@ export class PostRepository implements PostRepositoryInterface {
       throw new AppError('POST_NOT_EXISTS', { postId: post.id });
     }
 
-    const postEntityUpdated = new PostEntity({
+    const postEntityUpdated = PostEntity.restore({
       title: postUpdated.title,
       id: postUpdated.id.toString(),
       userId: postUpdated.userId,
@@ -60,7 +60,7 @@ export class PostRepository implements PostRepositoryInterface {
       return null;
     }
 
-    return new PostEntity({
+    return PostEntity.restore({
       title: post.title,
       tags: post.tags,
       imgs: this.imageMongoToImageApplication(post.imgs),
@@ -81,32 +81,30 @@ export class PostRepository implements PostRepositoryInterface {
       },
     });
 
-    return posts.map(
-      (postItem) =>
-        new PostEntity({
-          title: postItem.title,
-          tags: postItem.tags,
-          imgs: this.imageMongoToImageApplication(postItem.imgs),
-          description: postItem.description,
-          userId: postItem.userId || '',
-          id: postItem.id.toString(),
-        }),
+    return posts.map((postItem) =>
+      PostEntity.restore({
+        title: postItem.title,
+        tags: postItem.tags,
+        imgs: this.imageMongoToImageApplication(postItem.imgs),
+        description: postItem.description,
+        userId: postItem.userId || '',
+        id: postItem.id.toString(),
+      }),
     );
   };
 
   findAllByMapAndAgent = async (agent: string, map: string): Promise<PostEntity[]> => {
     const posts = await Post.find({ 'tags.agent': agent, 'tags.map': map }, null, { sort: { updatedAt: -1 } });
 
-    return posts.map(
-      (postItem) =>
-        new PostEntity({
-          title: postItem.title,
-          tags: postItem.tags,
-          imgs: this.imageMongoToImageApplication(postItem.imgs),
-          description: postItem.description,
-          userId: postItem.userId.toString() || '',
-          id: postItem.id,
-        }),
+    return posts.map((postItem) =>
+      PostEntity.restore({
+        title: postItem.title,
+        tags: postItem.tags,
+        imgs: this.imageMongoToImageApplication(postItem.imgs),
+        description: postItem.description,
+        userId: postItem.userId.toString() || '',
+        id: postItem.id,
+      }),
     );
   };
 

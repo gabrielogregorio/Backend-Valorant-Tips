@@ -6,7 +6,7 @@ export class CreateViewUseCase implements CreateViewUseCaseInterface {
   constructor(private viewRepository: ViewsRepositoryInterface) {}
 
   execute = async (ip: string): Promise<void> => {
-    const view = new ViewsEntity({
+    const view = ViewsEntity.create({
       ip,
     });
 

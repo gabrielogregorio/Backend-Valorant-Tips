@@ -21,7 +21,7 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
       throw new AppError('POST_NOT_EXISTS', { postId: dto.postId });
     }
 
-    const suggestion = new SuggestionEntity({
+    const suggestion = SuggestionEntity.create({
       postId: dto.postId,
       description: dto.description,
       email: dto.email,

@@ -2,7 +2,7 @@ import { UserEntity } from '@/domain/user/entity/user';
 
 export class UserFactory {
   static mongoDataToUserEntity(userMongoData: any): UserEntity {
-    const userEntity = new UserEntity({
+    const userEntity = UserEntity.restore({
       id: userMongoData.id,
       password: userMongoData.password,
       username: userMongoData.username,

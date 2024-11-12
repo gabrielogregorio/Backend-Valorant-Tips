@@ -60,7 +60,7 @@ describe('GenerateUserKeys', () => {
       password: 'password test',
     });
 
-    expect(res.body).toEqual({ error: 'CODE_IS_NOT_AVAILABLE' });
+    expect(res.body).toEqual({ error: 'CODE_NOT_FOUND' });
     expect(res.statusCode).toEqual(409);
   });
 });

@@ -9,8 +9,8 @@ content-type: application/json
 accept-language: pt-br
 
 {
-  "username":"x9exonos",
-  "password":"x9exonos",
+  "username":"example",
+  "password":"example",
   "code": "{{tokenCode}}"
 }
 

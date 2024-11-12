@@ -30,5 +30,4 @@ export interface PostInterface {
   changeTags(tags: PostTagsInterface): void;
   changeDescription(description: string): void;
   changeImgs(imgs: PostImagesInterface[]): void;
-  validate(): void;
 }

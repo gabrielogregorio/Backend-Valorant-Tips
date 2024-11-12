@@ -4,6 +4,32 @@ import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
 import { statusSuggestionType, SuggestionEntityInterface } from '@/domain/suggestion/entity/interfaces';
 import { SuggestionValidatorFactory } from '@/domain/suggestion/factory/suggestion.validator';
 
+type SuggestionEntityDto = {
+  status: statusSuggestionType;
+  email: string;
+  description: string;
+  postId: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type SuggestionEntityCreateDto = {
+  email: string;
+  description: string;
+  postId: string;
+};
+
+type SuggestionEntityRestoreDto = {
+  status: statusSuggestionType;
+  email: string;
+  description: string;
+  postId: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export class SuggestionEntity extends Entity implements SuggestionEntityInterface {
   private _status: statusSuggestionType;
 
@@ -19,7 +45,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
 
   private _updatedAt: string;
 
-  constructor({
+  private constructor({
     id = UniqueIdGenerator.generate(),
     status,
     email,
@@ -27,25 +53,33 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     postId,
     createdAt,
     updatedAt,
-  }: {
-    status?: statusSuggestionType;
-    email: string;
-    description: string;
-    postId: string;
-    id?: string;
-    createdAt?: string;
-    updatedAt?: string;
-  }) {
+  }: SuggestionEntityDto) {
     super();
     this._id = id;
-    this._status = status || 'waiting';
+    this._status = status;
     this._email = email;
     this._description = description;
     this._postId = postId;
-    this._createdAt = createdAt || new Date().toISOString();
-    this._updatedAt = updatedAt || new Date().toISOString();
+    this._createdAt = createdAt;
+    this._updatedAt = updatedAt;
 
     this.validate();
+  }
+
+  public static create({ description, email, postId }: SuggestionEntityCreateDto) {
+    return new SuggestionEntity({
+      description,
+      email,
+      postId,
+      id: UniqueIdGenerator.generate(),
+      status: 'waiting',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  public static restore(payload: SuggestionEntityRestoreDto) {
+    return new SuggestionEntity(payload);
   }
 
   get id() {
@@ -80,7 +114,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     console.log('DELETED_ENTITY');
   }
 
-  validate() {
+  private validate() {
     SuggestionValidatorFactory.create().validate(this);
 
     if (this.notification.hasErrors()) {

@@ -4,6 +4,23 @@ import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
 import { UserEntityInterface } from '@/domain/user/entity/user.interface';
 import { UserValidatorFactory } from '@/domain/user/factory/user.validator';
 
+type UserEntityDto = {
+  id: string;
+  username: string;
+  password: string;
+};
+
+type UserEntityCreateDto = {
+  username: string;
+  password: string;
+};
+
+type UserEntityRestoreDto = {
+  id: string;
+  username: string;
+  password: string;
+};
+
 export class UserEntity extends Entity implements UserEntityInterface {
   private _id: string;
 
@@ -13,15 +30,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   private _image: string;
 
-  constructor({
-    id = UniqueIdGenerator.generate(),
-    username = '',
-    password = '',
-  }: {
-    id?: string;
-    username?: string;
-    password?: string;
-  }) {
+  private constructor({ id = UniqueIdGenerator.generate(), username = '', password = '' }: UserEntityDto) {
     super();
     this._id = id;
     this._username = username;
@@ -31,17 +40,33 @@ export class UserEntity extends Entity implements UserEntityInterface {
     this.validate();
   }
 
-  changePassword(password: string) {
+  public static create({ password, username }: UserEntityCreateDto) {
+    return new UserEntity({
+      id: UniqueIdGenerator.generate(),
+      username,
+      password,
+    });
+  }
+
+  public static restore({ password, username, id }: UserEntityRestoreDto) {
+    return new UserEntity({
+      id,
+      username,
+      password,
+    });
+  }
+
+  public changePassword(password: string) {
     this._password = password;
     this.validate();
   }
 
-  changeImage(image: string) {
+  public changeImage(image: string) {
     this._image = image;
     this.validate();
   }
 
-  changeUsername(username: string) {
+  public changeUsername(username: string) {
     this._username = username;
     this.validate();
   }

@@ -26,7 +26,7 @@ export class SuggestionRepository implements SuggestionRepositoryInterface {
       throw new Error('Suggestion not found');
     }
 
-    return new SuggestionEntity({
+    return SuggestionEntity.restore({
       description: suggestion.description,
       email: suggestion.email,
       postId: suggestion.postId.toString(),
@@ -40,17 +40,16 @@ export class SuggestionRepository implements SuggestionRepositoryInterface {
   findAll = async (): Promise<SuggestionEntityInterface[]> => {
     const suggestions = await Suggestion.find();
 
-    return suggestions.map(
-      (suggestion) =>
-        new SuggestionEntity({
-          description: suggestion.description,
-          email: suggestion.email,
-          postId: suggestion.postId,
-          createdAt: suggestion.createdAt,
-          id: suggestion.id,
-          status: suggestion.status,
-          updatedAt: suggestion.updatedAt,
-        }),
+    return suggestions.map((suggestion) =>
+      SuggestionEntity.restore({
+        description: suggestion.description,
+        email: suggestion.email,
+        postId: suggestion.postId,
+        createdAt: suggestion.createdAt,
+        id: suggestion.id,
+        status: suggestion.status,
+        updatedAt: suggestion.updatedAt,
+      }),
     );
   };
 

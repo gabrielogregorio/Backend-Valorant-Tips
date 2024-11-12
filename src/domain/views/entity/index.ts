@@ -1,24 +1,44 @@
 import { Entity } from '@/domain/common/entity/entity.abstract';
 import { NotificationError } from '@/domain/common/notification/notification.error';
+import { ViewsEntityInterface } from '@/domain/views/entity/types';
 import { ViewsValidatorFactory } from '@/domain/views/factory/validator';
 
-export interface ViewsEntityInterface {
-  get ip(): string;
-  get dateAccess(): Date;
+type ViewsEntityDto = {
+  dateAccess: Date;
+  ip: string;
+};
 
-  validate(): void;
-}
+type ViewsEntityCreateDto = {
+  ip: string;
+};
+
+type ViewsEntityRestoreDto = {
+  dateAccess: Date;
+  ip: string;
+};
 
 export class ViewsEntity extends Entity implements ViewsEntityInterface {
   private _ip: string;
 
   private _dateAccess: Date;
 
-  constructor({ dateAccess = new Date(), ip }: { dateAccess?: Date; ip: string }) {
+  private constructor({ dateAccess, ip }: ViewsEntityDto) {
     super();
 
     this._ip = ip;
     this._dateAccess = dateAccess;
+    this.validate();
+  }
+
+  public static create(payload: ViewsEntityCreateDto) {
+    return new ViewsEntity({
+      dateAccess: new Date(),
+      ip: payload.ip,
+    });
+  }
+
+  public static restore(payload: ViewsEntityRestoreDto) {
+    return new ViewsEntity(payload);
   }
 
   get dateAccess(): Date {
@@ -29,7 +49,7 @@ export class ViewsEntity extends Entity implements ViewsEntityInterface {
     return this._ip;
   }
 
-  validate() {
+  private validate() {
     ViewsValidatorFactory.create().validate(this);
 
     if (this.notification.hasErrors()) {

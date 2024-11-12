@@ -6,7 +6,7 @@ export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
   constructor(private codeRepository: CodeRepositoryInterface) {}
 
   execute = async (): Promise<CreateCodeOutputDto> => {
-    const code = new CodeEntity();
+    const code = CodeEntity.create();
 
     const codeCreated = await this.codeRepository.save(code);
 

@@ -3,7 +3,7 @@ import { PostRepositoryInterface } from '@/domain/post/repository/postRepository
 import { UserRepositoryInterface } from '@/domain/user/repository/userRepository.interface';
 import { UpdatePostUseCase } from '.';
 
-const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
+const post = PostEntity.restore({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
 const mockRepository = (): PostRepositoryInterface => ({
   update: jest.fn().mockReturnValue(Promise.resolve(post)),

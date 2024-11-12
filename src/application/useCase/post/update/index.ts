@@ -12,7 +12,7 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   execute = async (id: string, payload: UpdatePostInputDto): Promise<UpdatePostOutputDto> => {
     const { title, description, tags, imgs, userId } = payload;
 
-    const post = new PostEntity({ userId: String(userId), title: title || '', id });
+    const post = PostEntity.restore({ userId: String(userId), title: title || '', id });
 
     if (description) {
       post.changeDescription(description);

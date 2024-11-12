@@ -2,7 +2,7 @@ import { PostEntity } from '@/domain/post/entity/post';
 import { PostRepositoryInterface } from '@/domain/post/repository/postRepository.interface';
 import { DeletePostUseCase } from '.';
 
-const post = new PostEntity({ id: '123', userId: '456', description: 'new description', title: 'new title' });
+const post = PostEntity.restore({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 
 const mockRepository = (mockFindById: any): PostRepositoryInterface => ({
   update: jest.fn(),

@@ -10,7 +10,7 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
   ) {}
 
   execute = async ({ title, description, userId, tags, imgs }: CreatePostInputDto): Promise<CreatePostOutputDto> => {
-    const post = new PostEntity({ userId, title });
+    const post = PostEntity.create({ userId, title });
 
     post.changeDescription(description);
     post.changeTags(tags);

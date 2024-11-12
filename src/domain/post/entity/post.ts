@@ -4,6 +4,15 @@ import { UniqueIdGenerator } from '@/domain/common/utils/UniqueIdGenerator';
 import { PostValidatorFactory } from '@/domain/post/factory/post.validator';
 import { PostImagesInterface, PostInterface, PostTagsInterface } from '@/domain/post/entity/interfaces';
 
+type PayloadCreatePostDto = {
+  title: string;
+  userId: string;
+  id?: string;
+  tags?: PostTagsInterface;
+  imgs?: PostImagesInterface[];
+  description?: string;
+};
+
 export class PostEntity extends Entity implements PostInterface {
   private _id: string;
 
@@ -41,7 +50,7 @@ export class PostEntity extends Entity implements PostInterface {
     return this._userId;
   }
 
-  constructor({
+  private constructor({
     title,
     imgs = [],
     description = '',
@@ -56,14 +65,7 @@ export class PostEntity extends Entity implements PostInterface {
     },
     userId,
     id = UniqueIdGenerator.generate(),
-  }: {
-    title: string;
-    userId: string;
-    id?: string;
-    tags?: PostTagsInterface;
-    imgs?: PostImagesInterface[];
-    description?: string;
-  }) {
+  }: PayloadCreatePostDto) {
     super();
     this._id = id;
     this._title = title;
@@ -75,22 +77,37 @@ export class PostEntity extends Entity implements PostInterface {
     this.validate();
   }
 
-  changeTags(tags: PostTagsInterface) {
+  public static create(payload: Omit<PayloadCreatePostDto, 'id'>) {
+    return new PostEntity({
+      title: payload.title,
+      userId: payload.userId,
+      description: payload.description,
+      id: UniqueIdGenerator.generate(),
+      imgs: payload.imgs,
+      tags: payload.tags,
+    });
+  }
+
+  public static restore(payload: PayloadCreatePostDto) {
+    return new PostEntity(payload);
+  }
+
+  public changeTags(tags: PostTagsInterface) {
     this._tags = tags;
     this.validate();
   }
 
-  changeDescription(description: string) {
+  public changeDescription(description: string) {
     this._description = description;
     this.validate();
   }
 
-  changeImgs(imgs: PostImagesInterface[]) {
+  public changeImgs(imgs: PostImagesInterface[]) {
     this._imgs = imgs;
     this.validate();
   }
 
-  validate() {
+  private validate() {
     PostValidatorFactory.create().validate(this);
 
     if (this.notification.hasErrors()) {

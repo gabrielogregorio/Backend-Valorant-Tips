@@ -11,7 +11,7 @@ export class CodeRepository implements CodeRepositoryInterface {
     });
     await newCode.save();
 
-    return new CodeEntity({
+    return CodeEntity.restore({
       available: newCode.available,
       code: newCode.code,
       id: newCode.id,
@@ -25,7 +25,7 @@ export class CodeRepository implements CodeRepositoryInterface {
       return null;
     }
 
-    return new CodeEntity({ available: codeFound.available, code: codeFound.code });
+    return CodeEntity.restore({ id: codeFound.id, available: codeFound.available, code: codeFound.code });
   };
 
   updateEntity = async (code: CodeEntity): Promise<CodeEntity | null> => {
@@ -37,6 +37,6 @@ export class CodeRepository implements CodeRepositoryInterface {
       return null;
     }
 
-    return new CodeEntity({ available: result?.available, code: result.code });
+    return CodeEntity.restore({ id: result.id, available: result?.available, code: result.code });
   };
 }
