@@ -18,6 +18,7 @@ module.exports = {
           '@/useCase': './src/application/useCase',
           '@/application': './src/application',
           '@/domain': './src/domain',
+          '@/utils': './src/utils',
           '@/infrastructure': './src/infrastructure',
           '@/api': './src/infrastructure/api',
         },
