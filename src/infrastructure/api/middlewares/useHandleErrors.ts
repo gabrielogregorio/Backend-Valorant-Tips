@@ -5,6 +5,7 @@ import { statusCode } from '../config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { AppError } from '../../../application/errors/AppError';
 import { i18nTranslate } from '@/infrastructure/config/i18nTranslate';
+import { DomainError } from '@/domain/errors';
 
 const toObject = (object: unknown) => {
   if (typeof object === 'string') {
@@ -34,6 +35,13 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
     Log.warning(`ApiError: ${error?.error.code} ${error?.error.name}${contextLog}${fileLog}`);
     res.status(error?.error.code).json({ message: error.error.message });
     return;
+  }
+
+  if (error instanceof DomainError) {
+    const details = error.details ? `details: ${JSON.stringify(error.details).trim()}` : '';
+
+    Log.error(`DomainError: ${error.message} ${details} shortStack: ${error.shortStack}`);
+    return res.status(409).send({ error: error.message });
   }
 
   if (error instanceof AppError) {
