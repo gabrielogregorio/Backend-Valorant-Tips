@@ -1,4 +1,4 @@
-import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { randomBytes, pbkdf2Sync } from 'crypto';
 
 const configHasher = {

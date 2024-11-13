@@ -19,6 +19,8 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
 
   _available: boolean;
 
+  _validatorTypes = CodeValidatorFactory.create();
+
   private constructor({ available, code, id }: { code: UniqueId; available: boolean; id: UniqueId }) {
     super();
     this._available = available;
@@ -72,7 +74,7 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
   }
 
   private validate() {
-    CodeValidatorFactory.create().validate(this);
+    this._validatorTypes.validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());

@@ -22,6 +22,8 @@ export class ViewsEntity extends Entity implements ViewsEntityInterface {
 
   private _dateAccess: Date;
 
+  private _validatorTypes = ViewsValidatorFactory.create();
+
   private constructor({ dateAccess, ip }: ViewsEntityDto) {
     super();
 
@@ -50,7 +52,7 @@ export class ViewsEntity extends Entity implements ViewsEntityInterface {
   }
 
   private validate() {
-    ViewsValidatorFactory.create().validate(this);
+    this._validatorTypes.validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());

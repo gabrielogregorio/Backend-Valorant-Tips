@@ -72,7 +72,7 @@ export const createPostMocker = async (authorization: {
 };
 
 // @ts-ignore
-export const generateToken = async (requestMockItem: TestAgent<supertest.SuperTestStatic.Test>): Promise<string> => {
+export const HandleAuthToken = async (requestMockItem: TestAgent<supertest.SuperTestStatic.Test>): Promise<string> => {
   const res = await requestMockItem.post('/code').send({ securityCode: SECURITY_CODE });
   return res.body.token;
 };

@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3333
 
-### @name GenerateToken
+### @name HandleAuthToken
 POST {{baseUrl}}/code HTTP/1.1
 content-type: application/json
 

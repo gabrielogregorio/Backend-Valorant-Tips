@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import { CreateUserBodyType } from '../schemas/createUser.schema';
 import { statusCode } from '../config/statusCode';
 import { UserControllerInterface } from './interfaces/UserControllerInterface';

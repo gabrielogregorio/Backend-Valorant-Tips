@@ -46,6 +46,8 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
 
   private _updatedAt: string;
 
+  private _validatorTypes = SuggestionValidatorFactory.create();
+
   private constructor({ id, status, email, description, postId, createdAt, updatedAt }: SuggestionEntityDto) {
     super();
     this._id = id;
@@ -108,7 +110,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
   }
 
   private validate() {
-    SuggestionValidatorFactory.create().validate(this);
+    this._validatorTypes.validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());

@@ -1,6 +1,6 @@
 const INDEX_AFTER_TITLE = 1;
 const REGEX_TEXT_AT_STACK = /^\s{1,}at\s{1,}/;
-// const REGEX_PATH_STACK_FILE = /\([a-zA-Z0-9\\.:\\/_-]{1,}\)/;
+const REGEX_PATH_STACK_FILE = /\([a-zA-Z0-9\\.:\\/_-]{1,}\)/;
 const REGEX_REMOVE_ANONYMOUS_INFO = /(\.<anonymous>|\(<anonymous>\))/;
 
 type optionsType = {
@@ -21,7 +21,7 @@ export const formatStackToBeautiful = ({ stack = undefined, maxLengthStack = Inf
     .map((item) =>
       item
         .replace(REGEX_TEXT_AT_STACK, '')
-        // .replace(REGEX_PATH_STACK_FILE, '')
+        .replace(REGEX_PATH_STACK_FILE, '')
         .replace(REGEX_REMOVE_ANONYMOUS_INFO, '')
         .trim(),
     );

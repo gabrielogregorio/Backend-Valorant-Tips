@@ -6,8 +6,8 @@ export class CodeRepository implements CodeRepositoryInterface {
   save = async (code: CodeEntity): Promise<CodeEntity> => {
     const newCode = new Code({
       available: code.available,
-      code: code.code,
-      id: code.id,
+      code: code.code.getValue(),
+      id: code.id.getValue(),
     });
     await newCode.save();
 
@@ -29,8 +29,8 @@ export class CodeRepository implements CodeRepositoryInterface {
   };
 
   updateEntity = async (code: CodeEntity): Promise<CodeEntity | null> => {
-    const filter = { code: code.code };
-    const updateTo = { $set: { available: code.available, code: code.code } };
+    const filter = { code: code.code.getValue() };
+    const updateTo = { $set: { available: code.available, code: code.code.getValue() } };
     const options = { new: true };
     const result = await Code.findOneAndUpdate(filter, updateTo, options);
     if (!result) {

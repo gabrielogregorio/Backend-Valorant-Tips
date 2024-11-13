@@ -1,12 +1,11 @@
-import { v7 } from 'uuid';
-
+import { randomUUID } from 'crypto';
 /**
- * This function serves to decouple the v7 from the entities, but without needing to be injected, which would make the code much more verbose. This is a tradeoff I accepted
+ * This function serves to decouple the randomUUID from the entities, but without needing to be injected, which would make the code much more verbose. This is a tradeoff I accepted
  */
 export class UniqueId {
   id: string;
 
-  constructor(id: string = v7()) {
+  constructor(id: string = randomUUID()) {
     this.id = id;
   }
 

@@ -1,8 +1,8 @@
-import { ValidatorInterface } from '@/domain/contexts/common/validators/validator.interface';
+import { ValidatorInterface } from '@/domain/contexts/common/validators';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { z } from 'zod';
 
-export class UserYupValidator implements ValidatorInterface<UserEntity> {
+export class UserZodValidator implements ValidatorInterface<UserEntity> {
   private schema = z.object({
     id: z.string(),
   });
@@ -10,7 +10,7 @@ export class UserYupValidator implements ValidatorInterface<UserEntity> {
   public validate(entity: UserEntity): void {
     try {
       this.schema.parse({
-        id: entity.id,
+        id: entity.id.getValue(),
       });
     } catch (e) {
       if (e instanceof z.ZodError) {

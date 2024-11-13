@@ -1,9 +1,9 @@
-import { ValidatorInterface } from '@/domain/contexts/common/validators/validator.interface';
+import { ValidatorInterface } from '@/domain/contexts/common/validators';
 import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
-import { ViewsYupValidator } from '@/infrastructure/contexts/views/validator/yup';
+import { ViewsZodValidator } from '@/infrastructure/contexts/views/validator';
 
 export class ViewsValidatorFactory {
   static create(): ValidatorInterface<ViewsEntity> {
-    return new ViewsYupValidator();
+    return new ViewsZodValidator();
   }
 }

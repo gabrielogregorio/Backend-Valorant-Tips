@@ -8,9 +8,9 @@ export class SuggestionRepository implements SuggestionRepositoryInterface {
     const newSuggestion = new Suggestion({
       description: suggestion.description,
       email: suggestion.email,
-      id: suggestion.id,
+      id: suggestion.id.getValue(),
       createdAt: suggestion.createdAt,
-      postId: suggestion.postId,
+      postId: suggestion.postId.getValue(),
       status: suggestion.status,
       updatedAt: suggestion.updatedAt,
     });

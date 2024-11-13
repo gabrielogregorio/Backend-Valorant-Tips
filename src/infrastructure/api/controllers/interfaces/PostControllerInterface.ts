@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 
 export interface PostControllerInterface {
   uploadFile: (req: Request, res: Response) => Promise<Response>;
-
   createPost: (req: Request<undefined, undefined, CreatePostBodyType>, res: Response) => Promise<Response>;
   updatePost: (req: Request<undefined, undefined, updatePostBodyType>, res: Response) => Promise<Response>;
   get: (req: Request, res: Response) => Promise<Response>;

@@ -30,6 +30,8 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   private _image: string;
 
+  private _validatorTypes = UserValidatorFactory.create();
+
   private constructor({ id, username, password }: UserEntityDto) {
     super();
     this._id = id;
@@ -88,7 +90,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
   }
 
   validate() {
-    UserValidatorFactory.create().validate(this);
+    this._validatorTypes.validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());

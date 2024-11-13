@@ -1,9 +1,12 @@
 import { AppError } from '@/application/errors/AppError';
-import { CreateUserUseCaseInterface, CreateUserInputDto } from './CreateUserUseCaseInterface';
-import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
+import {
+  CreateUserInputDto,
+  CreateUserUseCaseInterface,
+} from '@/useCase/contexts/user/create/CreateUserUseCaseInterface';
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(

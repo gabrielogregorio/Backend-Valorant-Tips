@@ -9,7 +9,7 @@ export class AuthController implements AuthControllerInterface {
     req: Request<never, never, { username: string; password: string }>,
     res: Response<{
       token: string;
-      id: string;
+      userId: string;
     }>,
   ) => {
     const { username, password } = req.body;

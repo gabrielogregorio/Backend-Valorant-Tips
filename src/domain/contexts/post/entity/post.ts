@@ -47,6 +47,8 @@ export class PostEntity extends Entity implements PostInterface {
 
   private _imgs: PostImagesInterface[];
 
+  private _validatorTypes = PostValidatorFactory.create();
+
   get imgs() {
     return this._imgs;
   }
@@ -129,7 +131,7 @@ export class PostEntity extends Entity implements PostInterface {
   }
 
   private validate() {
-    PostValidatorFactory.create().validate(this);
+    this._validatorTypes.validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());

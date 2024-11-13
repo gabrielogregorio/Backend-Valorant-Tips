@@ -17,7 +17,7 @@ export class UserFactory {
 
   static userEntityToMongo(user: UserEntity): any {
     return {
-      id: user.id,
+      id: user.id.getValue(),
       image: user.image,
       password: user.password,
       username: user.username,

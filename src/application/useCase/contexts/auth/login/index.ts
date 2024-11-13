@@ -1,18 +1,19 @@
 import { AppError } from '@/application/errors/AppError';
-import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
+import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
 import {
   LoginUseCaseInputDto,
   LoginUseCaseInterface,
   LoginUseCaseOutputDto,
 } from '@/useCase/contexts/auth/login/LoginUseCaseInterface';
-import jwt from 'jsonwebtoken'; // desacoplar
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
     private userRepository: UserRepositoryInterface,
     private passwordHasher: PasswordHasherInterface,
+    private HandleAuthToken: HandleAuthTokenInterface,
   ) {}
 
   execute = async ({ username, password }: LoginUseCaseInputDto): Promise<LoginUseCaseOutputDto> => {
@@ -26,16 +27,21 @@ export class LoginUseCase implements LoginUseCaseInterface {
       throw new AppError('INVALID_PASSWORD');
     }
 
-    return new Promise<{ token: string; id: string }>((resolve, reject) => {
-      // desacoplar isso
-      jwt.sign({ username, name: user.username, id: user.id }, JWT_SECRET, { expiresIn: '128h' }, (error, token) => {
-        if (error || token === undefined) {
-          reject(new AppError('INTERNAL_ERROR'));
-          return;
-        }
+    const HandleAuthToken = await this.HandleAuthToken.generate(
+      { username, name: user.username, userId: user.id.getValue() },
+      {
+        expiresIn: '128h',
+        secret: JWT_SECRET,
+      },
+    );
 
-        resolve({ token, id: user.id?.toString() as string });
-      });
-    });
+    if (HandleAuthToken.errors !== null || !HandleAuthToken.data) {
+      throw new AppError('INTERNAL_ERROR');
+    }
+
+    return {
+      userId: HandleAuthToken.data.userId,
+      token: HandleAuthToken.data.token,
+    };
   };
 }

@@ -1,9 +1,9 @@
-import { ValidatorInterface } from '@/domain/contexts/common/validators/validator.interface';
+import { ValidatorInterface } from '@/domain/contexts/common/validators';
 import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion/entity/interfaces';
-import { SuggestionYupValidator } from '@/infrastructure/contexts/suggestion/validator/suggestion.yup';
+import { SuggestionZodValidator } from '@/infrastructure/contexts/suggestion/validator';
 
 export class SuggestionValidatorFactory {
   static create(): ValidatorInterface<SuggestionEntityInterface> {
-    return new SuggestionYupValidator();
+    return new SuggestionZodValidator();
   }
 }

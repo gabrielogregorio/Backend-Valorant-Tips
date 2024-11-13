@@ -19,8 +19,8 @@ export class PostRepository implements PostRepositoryInterface {
       imgs: post.imgs,
       tags: post.tags,
       title: post.title,
-      userId: post.userId,
-      id: post.id,
+      userId: post.userId.getValue(),
+      id: post.id.getValue(),
     });
     await newPost.save();
   };
@@ -31,8 +31,8 @@ export class PostRepository implements PostRepositoryInterface {
       imgs: post.imgs,
       tags: post.tags,
       title: post.title,
-      userId: post.userId,
-      id: post.id,
+      userId: post.userId.getValue(),
+      id: post.id.getValue(),
     };
 
     const postUpdated = await Post.findOneAndUpdate({ id: post.id }, { $set: updatePost }, { new: true });

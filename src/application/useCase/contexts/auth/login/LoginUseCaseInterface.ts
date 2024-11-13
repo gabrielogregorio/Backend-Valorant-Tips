@@ -5,7 +5,7 @@ export interface LoginUseCaseInputDto {
 
 export interface LoginUseCaseOutputDto {
   token: string;
-  id: string;
+  userId: string;
 }
 
 export interface LoginUseCaseInterface {

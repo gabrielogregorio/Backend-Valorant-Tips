@@ -1,9 +1,10 @@
+import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
 import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/suggestion/repository';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { ViewsRepositoryInterface } from '@/domain/contexts/contexts/views/repository';
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { AuthController } from '@/infrastructure/api/controllers/authController';
 import { CodeController } from '@/infrastructure/api/controllers/codeController';
 import { DashboardController } from '@/infrastructure/api/controllers/dashboardController';
@@ -23,6 +24,7 @@ import { PostRepository } from '@/infrastructure/contexts/post/repository/mongo/
 import { SuggestionRepository } from '@/infrastructure/contexts/suggestion/repository/mongo/suggestionRepository';
 import { UserRepository } from '@/infrastructure/contexts/user/repository/mongo/userRepository';
 import { ViewsRepository } from '@/infrastructure/contexts/views/repository/mongo/viewsRepository';
+import { HandleAuthToken } from '@/infrastructure/services/HandleAuthToken';
 import { PasswordHasher } from '@/infrastructure/services/PasswordHasher';
 import { LoginUseCase } from '@/useCase/contexts/auth/login';
 import { LoginUseCaseInterface } from '@/useCase/contexts/auth/login/LoginUseCaseInterface';
@@ -66,6 +68,7 @@ import { CreateViewUseCase } from '@/useCase/contexts/views/add';
 import { CreateViewUseCaseInterface } from '@/useCase/contexts/views/add/CreateViewUseCaseInterface';
 import { GetViewUseCase } from '@/useCase/contexts/views/get';
 import { GetViewUseCaseInterface } from '@/useCase/contexts/views/get/GetViewUseCaseInterface';
+
 export class AppDependencyInjector {
   private static dashboardControllerInstance: DashboardControllerInterface;
 
@@ -133,7 +136,17 @@ export class AppDependencyInjector {
 
   private static postRepositoryInstance: PostRepositoryInterface;
 
-  private static DashboardUseCaseInstance: DashboardUseCaseInterface;
+  private static dashboardUseCaseInstance: DashboardUseCaseInterface;
+
+  private static handleAuthTokenInstance: HandleAuthTokenInterface;
+
+  static get handleAuthToken(): HandleAuthTokenInterface {
+    if (!this.handleAuthTokenInstance) {
+      this.handleAuthTokenInstance = new HandleAuthToken();
+    }
+
+    return this.handleAuthTokenInstance;
+  }
 
   static get authController(): AuthControllerInterface {
     if (!this.authControllerInstance) {
@@ -208,15 +221,15 @@ export class AppDependencyInjector {
   }
 
   static get DashboardUseCase(): DashboardUseCaseInterface {
-    if (!this.DashboardUseCaseInstance) {
-      this.DashboardUseCaseInstance = new DashboardUseCase(
+    if (!this.dashboardUseCaseInstance) {
+      this.dashboardUseCaseInstance = new DashboardUseCase(
         this.userRepository,
         this.postRepository,
         this.suggestionRepository,
         this.viewRepository,
       );
     }
-    return this.DashboardUseCaseInstance;
+    return this.dashboardUseCaseInstance;
   }
 
   static get suggestionRepository(): SuggestionRepositoryInterface {
@@ -263,7 +276,7 @@ export class AppDependencyInjector {
 
   static get loginUseCase(): LoginUseCaseInterface {
     if (!this.loginUseCaseInstance) {
-      this.loginUseCaseInstance = new LoginUseCase(this.userRepository, this.passwordHasher);
+      this.loginUseCaseInstance = new LoginUseCase(this.userRepository, this.passwordHasher, this.handleAuthToken);
     }
 
     return this.loginUseCaseInstance;

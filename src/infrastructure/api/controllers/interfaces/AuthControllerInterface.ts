@@ -5,7 +5,7 @@ export interface AuthControllerInterface {
     req: Request<never, never, { username: string; password: string }>,
     res: Response<{
       token: string;
-      id: string;
+      userId: string;
     }>,
-  ) => Promise<Response>; // melhorar essas tipagens
+  ) => Promise<Response>;
 }

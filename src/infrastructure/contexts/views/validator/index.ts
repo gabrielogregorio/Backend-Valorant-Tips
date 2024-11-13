@@ -1,24 +1,23 @@
-import { ValidatorInterface } from '@/domain/contexts/common/validators/validator.interface';
-import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
+import { ValidatorInterface } from '@/domain/contexts/common/validators';
+import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
 import { z } from 'zod';
 
-export class PostYupValidator implements ValidatorInterface<PostEntity> {
+export class ViewsZodValidator implements ValidatorInterface<ViewsEntity> {
   private schema = z.object({
     id: z.string(),
     title: z.string(),
   });
 
-  public validate(entity: PostEntity): void {
+  public validate(entity: ViewsEntity): void {
     try {
       this.schema.parse({
-        id: entity.id.getValue(),
-        title: entity.title,
+        ip: entity.ip,
       });
     } catch (e) {
       if (e instanceof z.ZodError) {
         e.errors.forEach((error) => {
           entity.notification.addError({
-            context: 'PostEntity',
+            context: 'ViewsEntity',
             message: error.message,
           });
         });

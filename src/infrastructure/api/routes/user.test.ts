@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { createDatabaseMock, generateToken } from '../../../test/utils';
+import { createDatabaseMock, HandleAuthToken } from '../../../test/utils';
 import { app } from '../app';
 
 const databaseMock = createDatabaseMock();
@@ -17,7 +17,7 @@ describe('Users', () => {
   });
 
   it('should register a user', async () => {
-    const code = await generateToken(requestMock);
+    const code = await HandleAuthToken(requestMock);
     const response = await requestMock.post('/users').send({
       code,
       username: 'lucia santos teste',
@@ -28,7 +28,7 @@ describe('Users', () => {
   });
 
   it('should bock register when user already exists', async () => {
-    const code = await generateToken(requestMock);
+    const code = await HandleAuthToken(requestMock);
     const payload = {
       code,
       username: 'lucia santos teste',

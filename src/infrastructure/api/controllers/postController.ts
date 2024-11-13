@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import { updatePostBodyType } from '../schemas/updatePost.schema';
 import { CreatePostBodyType } from '../schemas/createPost.schema';
 import { statusCode } from '../config/statusCode';
