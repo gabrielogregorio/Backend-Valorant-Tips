@@ -1,6 +1,6 @@
 import morgan from 'morgan';
-import { DISABLE_LOGS } from '../config/envs';
 import { formatStartMessage, getTraceId, getUserId, levelsType } from '../logs';
+import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
 
 const getLevelErrorByStatusCode = (status: string): levelsType => {
   if (status.startsWith('2') || status.startsWith('3')) {

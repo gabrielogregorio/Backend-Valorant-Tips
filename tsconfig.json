@@ -23,7 +23,7 @@
     "paths": {
       "@/useCase/*": ["./src/application/useCase/*"],
       "@/application/*": ["./src/application/*"],
-      "@/domain/*": ["./src/domain/*"],
+      "@/domain/contexts/*": ["./src/domain/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/infrastructure/*": ["./src/infrastructure/*"],
       "@/api/*": ["./src/infrastructure/api/*"]

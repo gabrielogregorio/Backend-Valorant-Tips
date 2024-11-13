@@ -1,0 +1,31 @@
+import { ViewsRepositoryInterface } from '@/domain/contexts/contexts/views/repository';
+import { View } from './View';
+import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+
+export class ViewsRepository implements ViewsRepositoryInterface {
+  save = async (view: ViewsEntity): Promise<ViewsEntity> => {
+    const newView = new View({
+      dateAccess: view.dateAccess,
+      ip: view.ip,
+    });
+
+    await newView.save();
+
+    return ViewsEntity.restore({
+      dateAccess: newView.dateAccess,
+      ip: newView.ip,
+    });
+  };
+
+  findAll = async (): Promise<ViewsEntity[]> => {
+    const views = await View.find();
+
+    return views.map((item) => ViewsEntity.restore({ dateAccess: item.dateAccess, ip: item.ip }));
+  };
+
+  findAllDistinctIp = async (): Promise<string[]> => {
+    const ips = await View.find().distinct('ip');
+
+    return ips;
+  };
+}

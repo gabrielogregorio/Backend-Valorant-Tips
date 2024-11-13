@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
-import { CreatePostUseCaseInterface } from '@/useCase/post/create/CreatePostUseCaseInterface';
-import { UpdatePostUseCaseInterface } from '@/useCase/post/update/UpdatePostUseCaseInterface';
-import { FindPostByIdOrThrowUseCaseInterface } from '@/useCase/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
-import { FindAvailableMapsUseCaseInterface } from '@/useCase/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
-import { FindAvailableAgentsUseCaseInterface } from '@/useCase/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
-import { FindAllPostUseCaseInterface } from '@/useCase/post/findAll/FindAllPostUseCaseInterface';
-import { FindAllByMapAndAgentUseCaseInterface } from '@/useCase/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
-import { DeletePostUseCaseInterface } from '@/useCase/post/deleteById/DeletePostUseCaseInterface';
+
 import { updatePostBodyType } from '../schemas/updatePost.schema';
 import { CreatePostBodyType } from '../schemas/createPost.schema';
 import { statusCode } from '../config/statusCode';
 import { PostControllerInterface } from './interfaces/PostControllerInterface';
+import { CreatePostUseCaseInterface } from '@/useCase/contexts/post/create/CreatePostUseCaseInterface';
+import { UpdatePostUseCaseInterface } from '@/useCase/contexts/post/update/UpdatePostUseCaseInterface';
+import { FindPostByIdOrThrowUseCaseInterface } from '@/useCase/contexts/post/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
+import { FindAvailableMapsUseCaseInterface } from '@/useCase/contexts/post/findAvailableMaps/FindAvailableMapsUseCaseInterface';
+import { FindAvailableAgentsUseCaseInterface } from '@/useCase/contexts/post/findAvailableAgents/FindAvailableAgentsUseCaseInterface';
+import { FindAllPostUseCaseInterface } from '@/useCase/contexts/post/findAll/FindAllPostUseCaseInterface';
+import { FindAllByMapAndAgentUseCaseInterface } from '@/useCase/contexts/post/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
+import { DeletePostUseCaseInterface } from '@/useCase/contexts/post/deleteById/DeletePostUseCaseInterface';
 
 export class PostController implements PostControllerInterface {
   constructor(

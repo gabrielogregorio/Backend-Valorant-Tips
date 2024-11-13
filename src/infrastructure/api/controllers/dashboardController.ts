@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { DashboardUseCaseInterface } from '@/useCase/dashboard/get/DashboardUseCaseInterface';
 import { DashboardControllerInterface, IDashboardServiceType } from './interfaces/DashboardControllerInterface';
+import { DashboardUseCaseInterface } from '@/useCase/contexts/dashboard/get/DashboardUseCaseInterface';
 
 export class DashboardController implements DashboardControllerInterface {
   constructor(private DashboardUseCase: DashboardUseCaseInterface) {}

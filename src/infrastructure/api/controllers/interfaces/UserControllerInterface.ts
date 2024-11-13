@@ -1,6 +1,5 @@
+import { CreateUserBodyType } from '@/infrastructure/api/schemas/createUser.schema';
 import { Request, Response } from 'express';
-import { CreateUserBodyType } from '../../schemas/createUser.schema';
-
 export interface UserControllerInterface {
   uploadImage: (req: Request, res: Response) => Promise<Response>;
   createUser: (req: Request<undefined, undefined, CreateUserBodyType>, res: Response) => Promise<Response>;

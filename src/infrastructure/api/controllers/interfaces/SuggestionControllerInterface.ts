@@ -1,5 +1,5 @@
+import { ICreateSuggestion, IResponseSuggestion } from '@/infrastructure/api/interfaces/suggestion';
 import { Request, Response } from 'express';
-import { ICreateSuggestion, IResponseSuggestion } from '../../interfaces/suggestion';
 
 export interface SuggestionControllerInterface {
   createSuggestion: (

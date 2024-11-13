@@ -5,7 +5,7 @@ import { statusCode } from '../config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { AppError } from '../../../application/errors/AppError';
 import { i18nTranslate } from '@/infrastructure/config/i18nTranslate';
-import { DomainError } from '@/domain/errors';
+import { DomainError } from '@/domain/contexts/errors';
 
 const toObject = (object: unknown) => {
   if (typeof object === 'string') {

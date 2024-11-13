@@ -1,5 +1,5 @@
+import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
 import { randomBytes, pbkdf2Sync } from 'crypto';
-import { PasswordHasherInterface } from '../../domain/services/PasswordHasherInterface';
 
 const configHasher = {
   iterations: 100,
