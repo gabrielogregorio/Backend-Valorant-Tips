@@ -19,7 +19,7 @@ export const isAuthenticate = (authorization: string) => {
 };
 
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
-  const authToken = String(req.headers.authorization).split(' ')?.[1]?.trim();
+  const authToken = String(req.headers.authorization);
   if (authToken === '' || authToken === undefined) {
     throw new ApiError(errorStates.TOKEN_IS_INVALID_OR_EXPIRED);
   }

@@ -12,7 +12,9 @@ export class HandleAuthToken implements HandleAuthTokenInterface {
     return new Promise((resolve, reject) => {
       jwt.sign(payload, config.secret, { expiresIn: config.expiresIn }, (error, token) => {
         if (error || token === undefined) {
-          Log.error(`Error on generate token error: ${error}`);
+          const context =
+            error instanceof Error ? { message: error.message, name: error.name } : { error: String(error) };
+          Log.error(`Error on generate token error`, { token, ...context });
           return resolve({ data: null, errors: 'ANY_ERROR' });
         }
 

@@ -31,12 +31,13 @@ export const useLogger = morgan((tokens, req, res) => {
     'HttpRequest:',
     method,
     url,
-    `| Status: ${status}`,
-    `| ResponseLength: ${contentLength || 0} bytes`,
-    `| Time: ${responseTime}ms`,
-    `| Ip: ${ip}`,
-    `| UserId: ${userId || 'anonymous'}`,
-    traceId ? `| TraceId: ${traceId}` : '',
-    ,
+    status,
+    `context: ${JSON.stringify({
+      contentLength,
+      responseTime,
+      ip,
+      userId,
+      traceId,
+    })}`,
   ].join(' ');
 });

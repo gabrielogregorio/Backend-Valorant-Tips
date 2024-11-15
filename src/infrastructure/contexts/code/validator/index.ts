@@ -6,13 +6,10 @@ export class CodeZodValidator implements ValidatorInterface<CodeEntity> {
   private schema = z.object({ code: z.string() });
 
   validate(entity: CodeEntity): void {
-    console.log('tap2', entity.code.getValue());
     try {
       this.schema.parse({
         code: entity.code.getValue(),
       });
-
-      console.log('end');
     } catch (e) {
       if (e instanceof z.ZodError) {
         e.errors.forEach((error) => {
@@ -22,11 +19,8 @@ export class CodeZodValidator implements ValidatorInterface<CodeEntity> {
           });
         });
 
-        console.log('bbbbbbbb');
         return;
       }
-
-      console.log('aaaaaaaa');
 
       throw e;
     }

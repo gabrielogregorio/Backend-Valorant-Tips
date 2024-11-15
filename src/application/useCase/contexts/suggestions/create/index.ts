@@ -18,7 +18,7 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
   execute = async (dto: CreateSuggestionInputDto): Promise<SuggestionOutputDto> => {
     const postFound = await this.postRepository.findById(dto.postId);
     if (!postFound) {
-      throw new AppError('POST_NOT_EXISTS', { postId: dto.postId });
+      throw new AppError('POST_NOT_EXISTS', { ...dto });
     }
 
     const suggestion = SuggestionEntity.create({

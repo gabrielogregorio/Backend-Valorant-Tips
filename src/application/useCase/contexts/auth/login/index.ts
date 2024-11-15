@@ -24,10 +24,10 @@ export class LoginUseCase implements LoginUseCaseInterface {
 
     const passwordIsValid = await this.passwordHasher.passwordIsValid(password, user.password);
     if (!passwordIsValid) {
-      throw new AppError('INVALID_PASSWORD');
+      throw new AppError('INVALID_PASSWORD', { username });
     }
 
-    const HandleAuthToken = await this.HandleAuthToken.generate(
+    const handleAuthToken = await this.HandleAuthToken.generate(
       { username, name: user.username, userId: user.id.getValue() },
       {
         expiresIn: '128h',
@@ -35,13 +35,13 @@ export class LoginUseCase implements LoginUseCaseInterface {
       },
     );
 
-    if (HandleAuthToken.errors !== null || !HandleAuthToken.data) {
-      throw new AppError('INTERNAL_ERROR');
+    if (handleAuthToken.errors !== null || !handleAuthToken.data) {
+      throw new AppError('INTERNAL_ERROR', handleAuthToken);
     }
 
     return {
-      userId: HandleAuthToken.data.userId,
-      token: HandleAuthToken.data.token,
+      userId: handleAuthToken.data.userId,
+      token: handleAuthToken.data.token,
     };
   };
 }

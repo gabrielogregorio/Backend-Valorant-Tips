@@ -15,12 +15,13 @@ export class Database {
       .connect(uri, {})
       .then(() => {
         if (this.verbose) {
-          Log.info('App: db connected');
+          Log.info('App: db connected', { uri });
         }
       })
       .catch((error) => {
         if (this.verbose) {
-          Log.error('App: error on connect db', error);
+          const context = error instanceof Error ? { name: error.name, message: error.message } : {};
+          Log.error('App: error on connect db', context);
         }
         throw error;
       });

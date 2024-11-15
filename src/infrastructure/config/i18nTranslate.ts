@@ -1,4 +1,5 @@
 import { translationErrorsResources } from '@/application/errors/translations';
+import { contextType } from '@/infrastructure/api/logs/types';
 import { languageMapsType, modelsI18nType } from '@/infrastructure/config/i18nInterface';
 
 type modelsI18nLibType = { [key in languageMapsType]: { translation: { [key: string]: string } } };
@@ -25,7 +26,7 @@ class I18nTranslate {
     return language === 'en' || language === 'pt-br';
   }
 
-  translate(language: unknown, code: string, context?: { [key: string]: string | boolean | number }): string {
+  translate(language: unknown, code: string, context?: contextType): string {
     if (!this.languageIsValid(language)) {
       return `Language '${language}' is invalid`;
     }
@@ -41,7 +42,7 @@ class I18nTranslate {
 
     const contextItems = Object.keys(context) as (keyof typeof context)[];
     contextItems.forEach((key) => {
-      message = message.replace(new RegExp(`\{\{${key}\}\}`, 'g'), context[key].toString());
+      message = message.replace(new RegExp(`\{\{${key}\}\}`, 'g'), context[key]?.toString() || '');
     });
 
     return message;

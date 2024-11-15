@@ -1,7 +1,7 @@
 import { AppError } from '@/application/errors/AppError';
 import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from './UpdateUserUseCaseInterface';
-import { PasswordHasherInterface } from '@/domain/contexts/contexts/services/PasswordHasherInterface';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
+import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(
@@ -18,7 +18,10 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     if (username) {
       const userFound = await this.userRepository.findOneByUsername(username);
       if (userFound !== null && userFound.id?.toString() !== id) {
-        throw new AppError('USERNAME_ALREADY_EXISTS', { username });
+        throw new AppError('USERNAME_ALREADY_EXISTS', {
+          input: { username, id },
+          db: { userId: userFound.id.getValue() },
+        });
       }
 
       user.changeUsername(username);

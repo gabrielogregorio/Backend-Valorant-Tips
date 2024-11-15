@@ -18,7 +18,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
   execute = async (code: string, { username, password, image }: CreateUserInputDto): Promise<void> => {
     const codeEntity = await this.codeRepository.findByCode(code);
     if (!codeEntity) {
-      throw new AppError('CODE_NOT_FOUND');
+      throw new AppError('CODE_NOT_FOUND', { code, username, image });
     }
 
     const userFound = await this.userRepository.findOneByUsername(username);

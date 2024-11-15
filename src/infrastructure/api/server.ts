@@ -4,17 +4,18 @@ import { PORT } from './config/envs';
 import { Database } from './database/database';
 import { Log } from './logs';
 
-Log.info(`App: app started in http://localhost:${PORT}`);
+Log.info(`app started in http://localhost:${PORT}`);
 
 new Database({ verbose: true })
   .connect()
   .then(() => {
-    Log.info('App: db connected');
+    Log.info('db connected');
 
     app.listen(PORT, () => {
-      Log.info(`App: app started in http://localhost:${PORT}`);
+      Log.info(`app started in http://localhost:${PORT}`);
     });
   })
   .catch((error) => {
-    Log.error('App: 🚨 error on connect db', error);
+    const context = error instanceof Error ? { name: error.name, message: error.message } : {};
+    Log.error('🚨 error on connect db', context);
   });

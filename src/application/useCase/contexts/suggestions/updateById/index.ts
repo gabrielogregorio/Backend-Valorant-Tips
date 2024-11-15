@@ -12,7 +12,7 @@ export class UpdateSuggestionByIdUseCase implements UpdateSuggestionByIdUseCaseI
   execute = async (id: string, status: statusSuggestionType): Promise<UpdateByIdSuggestionOutputDto> => {
     const suggestionUpdated = await this.suggestionRepository.updateById(id, status);
     if (suggestionUpdated === null) {
-      throw new AppError('SUGGESTION_NOT_FOUND', { suggestionId: id });
+      throw new AppError('SUGGESTION_NOT_FOUND', { id, status });
     }
 
     return {
