@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { CreateUserBodyType } from '../schemas/createUser.schema';
 import { statusCode } from '../config/statusCode';
 import { UserControllerInterface } from './interfaces/UserControllerInterface';
-import { CreateUserUseCaseInterface } from '@/useCase/contexts/user/create/CreateUserUseCaseInterface';
-import { UpdateUserUseCaseInterface } from '@/useCase/contexts/user/update/UpdateUserUseCaseInterface';
-import { FindUserByIdUseCaseInterface } from '@/useCase/contexts/user/findById/FindUserByIdUseCaseInterface';
-import { DeleteUserByIdUseCaseInterface } from '@/useCase/contexts/user/deleteById/DeleteUserByIdUseCaseInterface';
+import { CreateUserUseCaseInterface } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
+import { UpdateUserUseCaseInterface } from '@/application/contexts/user/useCases/update/UpdateUserUseCaseInterface';
+import { FindUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/findById/FindUserByIdUseCaseInterface';
+import { DeleteUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/deleteById/DeleteUserByIdUseCaseInterface';
 
 export class UserController implements UserControllerInterface {
   constructor(

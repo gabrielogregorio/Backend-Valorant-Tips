@@ -4,10 +4,10 @@ import { statusCode } from '@/infrastructure/api/config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
 import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
-import { CreateSuggestionUseCaseInterface } from '@/useCase/contexts/suggestions/create/createSuggestionUseCase';
-import { FindAllSuggestionsUseCaseInterface } from '@/useCase/contexts/suggestions/findAll/FindAllSuggestionsUseCaseInterface';
-import { UpdateSuggestionByIdUseCaseInterface } from '@/useCase/contexts/suggestions/updateById/UpdateSuggestionByIdUseCaseInterface';
-import { DeleteSuggestionByIdUseCaseInterface } from '@/useCase/contexts/suggestions/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { CreateSuggestionUseCaseInterface } from '@/application/contexts/suggestions/useCases/create/createSuggestionUseCase';
+import { FindAllSuggestionsUseCaseInterface } from '@/application/contexts/suggestions/useCases/findAll/FindAllSuggestionsUseCaseInterface';
+import { UpdateSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/updateById/UpdateSuggestionByIdUseCaseInterface';
+import { DeleteSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/deleteById/DeleteSuggestionByIdUseCaseInterface';
 
 export class SuggestionController implements SuggestionControllerInterface {
   constructor(

@@ -1,13 +1,13 @@
+import {
+  LoginUseCaseInputDto,
+  LoginUseCaseInterface,
+  LoginUseCaseOutputDto,
+} from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
 import { AppError } from '@/application/errors/AppError';
 import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
-import {
-  LoginUseCaseInputDto,
-  LoginUseCaseInterface,
-  LoginUseCaseOutputDto,
-} from '@/useCase/contexts/auth/login/LoginUseCaseInterface';
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(

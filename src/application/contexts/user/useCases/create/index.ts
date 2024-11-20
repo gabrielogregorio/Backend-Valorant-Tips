@@ -5,7 +5,7 @@ import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/reposit
 import {
   CreateUserInputDto,
   CreateUserUseCaseInterface,
-} from '@/useCase/contexts/user/create/CreateUserUseCaseInterface';
+} from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {

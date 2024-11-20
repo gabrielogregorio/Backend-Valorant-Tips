@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { AuthControllerInterface } from './interfaces/AuthControllerInterface';
-import { LoginUseCaseInterface } from '@/useCase/contexts/auth/login/LoginUseCaseInterface';
+import { LoginUseCaseInterface } from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
 
 export class AuthController implements AuthControllerInterface {
   constructor(private loginUseCase: LoginUseCaseInterface) {}

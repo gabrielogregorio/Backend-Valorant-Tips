@@ -66,7 +66,11 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
 
   public useCode() {
     if (!this.available) {
-      throw new DomainError('CodeIsNotAvailable', 'Código não pode ser usado');
+      throw new DomainError('CodeIsNotAvailable', 'Código não pode ser usado', {
+        code: this.code.getValue(),
+        available: this.available,
+        id: this.id.getValue(),
+      });
     }
 
     this._available = false;

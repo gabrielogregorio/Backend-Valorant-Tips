@@ -21,7 +21,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/useCase/*": ["./src/application/useCase/*"],
+      "@/useCases/*": ["./src/application/useCases/*"],
       "@/application/*": ["./src/application/*"],
       "@/domain/contexts/*": ["./src/domain/*"],
       "@/utils/*": ["./src/utils/*"],

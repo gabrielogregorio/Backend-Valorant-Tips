@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CodeControllerInterface } from './interfaces/CodeControllerInterface';
-import { CreateCodeUseCaseInterface } from '@/useCase/contexts/code/create/CreateCodeUseCaseInterface';
+import { CreateCodeUseCaseInterface } from '@/application/contexts/code/useCases/create/CreateCodeUseCaseInterface';
 
 export class CodeController implements CodeControllerInterface {
   constructor(private createCodeUseCase: CreateCodeUseCaseInterface) {}

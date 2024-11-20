@@ -1,0 +1,17 @@
+engines:
+  duplication:
+    exclude_paths:
+      - '**.cy.ts'
+    config:
+      languages:
+        - 'typescript'
+languages:
+  css:
+    extensions:
+      - '.scss'
+
+exclude_paths:
+  - '**.js'
+  - '**/docs/**'
+include_paths:
+  - '**/database/**'
