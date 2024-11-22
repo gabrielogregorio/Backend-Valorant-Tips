@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { updatePostBodyType } from '../schemas/updatePost.schema';
-import { CreatePostBodyType } from '../schemas/createPost.schema';
+import { schemaUpdatePosts } from '../schemas/updatePost.schema';
+import { schemaCreatePost } from '../schemas/createPost.schema';
 import { statusCode } from '../config/statusCode';
 import { PostControllerInterface } from './interfaces/PostControllerInterface';
 import { CreatePostUseCaseInterface } from '@/application/contexts/post/useCases/create/CreatePostUseCaseInterface';
@@ -11,6 +11,7 @@ import { FindAvailableAgentsUseCaseInterface } from '@/application/contexts/post
 import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCases/findAll/FindAllPostUseCaseInterface';
 import { FindAllByMapAndAgentUseCaseInterface } from '@/application/contexts/post/useCases/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
 import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 
 export class PostController implements PostControllerInterface {
   constructor(
@@ -26,8 +27,9 @@ export class PostController implements PostControllerInterface {
 
   uploadFile = async (req: Request, res: Response): Promise<Response> => res.json({ filename: req!.file!.path });
 
-  createPost = async (req: Request<undefined, undefined, CreatePostBodyType>, res: Response) => {
-    const { title, description, tags, imgs } = req.body;
+  createPost = async (req: Request, res: Response) => {
+    const content = useValidation(req, schemaCreatePost);
+    const { title, description, tags, imgs } = content.body;
     const userId = req.data.id as string;
 
     const post = await this.createPostUseCase.execute({ title, description, userId, tags, imgs });
@@ -45,9 +47,11 @@ export class PostController implements PostControllerInterface {
     });
   };
 
-  updatePost = async (req: Request<undefined, undefined, updatePostBodyType>, res: Response): Promise<Response> => {
-    const { title, description, tags, imgs } = req.body;
-    const { id } = req.params as unknown as { id: string };
+  updatePost = async (req: Request, res: Response): Promise<Response> => {
+    const content = useValidation(req, schemaUpdatePosts);
+
+    const { title, description, tags, imgs } = content.body;
+    const { id } = content.params;
     const userId = req.data.id as string;
 
     const post = await this.updatePostUseCase.execute(id, {

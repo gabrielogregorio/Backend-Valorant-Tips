@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
-import { CreateUserBodyType } from '../schemas/createUser.schema';
+import { schemaCreateUser } from '../schemas/createUser.schema';
 import { statusCode } from '../config/statusCode';
 import { UserControllerInterface } from './interfaces/UserControllerInterface';
 import { CreateUserUseCaseInterface } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
 import { UpdateUserUseCaseInterface } from '@/application/contexts/user/useCases/update/UpdateUserUseCaseInterface';
 import { FindUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/findById/FindUserByIdUseCaseInterface';
 import { DeleteUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/deleteById/DeleteUserByIdUseCaseInterface';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { schemaUpdateUser } from '@/infrastructure/api/schemas/updateUser.schema';
 
 export class UserController implements UserControllerInterface {
   constructor(
@@ -20,8 +22,10 @@ export class UserController implements UserControllerInterface {
     return res.json({ filename });
   };
 
-  createUser = async (req: Request<undefined, undefined, CreateUserBodyType>, res: Response): Promise<Response> => {
-    const { username, password, image, code } = req.body;
+  createUser = async (req: Request, res: Response): Promise<Response> => {
+    const data = useValidation(req, schemaCreateUser);
+
+    const { username, password, image, code } = data.body;
 
     await this.createUserUseCase.execute(code, {
       image,
@@ -33,8 +37,9 @@ export class UserController implements UserControllerInterface {
   };
 
   updateUser = async (req: Request, res: Response): Promise<Response> => {
-    const { password } = req.body;
-    const { username, image } = req.body;
+    const content = useValidation(req, schemaUpdateUser);
+
+    const { password, username, image } = content.body;
     const { id } = req.data;
 
     await this.updateUserUseCase.execute(id, {

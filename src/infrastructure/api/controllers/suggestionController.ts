@@ -2,12 +2,15 @@ import { Request, Response } from 'express';
 import { errorStates } from '@/infrastructure/api/errors/types';
 import { statusCode } from '@/infrastructure/api/config/statusCode';
 import { ApiError } from '../errors/ApiError';
-import { ICreateSuggestion, IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
+import { IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
 import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
 import { CreateSuggestionUseCaseInterface } from '@/application/contexts/suggestions/useCases/create/createSuggestionUseCase';
 import { FindAllSuggestionsUseCaseInterface } from '@/application/contexts/suggestions/useCases/findAll/FindAllSuggestionsUseCaseInterface';
 import { UpdateSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/updateById/UpdateSuggestionByIdUseCaseInterface';
 import { DeleteSuggestionByIdUseCaseInterface } from '@/application/contexts/suggestions/useCases/deleteById/DeleteSuggestionByIdUseCaseInterface';
+import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { schemaCreateSuggestion } from '@/infrastructure/api/schemas/createSuggestions.schema';
+import { schemaEditSuggestion } from '@/infrastructure/api/schemas/updateSuggestion.schema';
 
 export class SuggestionController implements SuggestionControllerInterface {
   constructor(
@@ -29,11 +32,10 @@ export class SuggestionController implements SuggestionControllerInterface {
     };
   }
 
-  createSuggestion = async (
-    req: Request<undefined, undefined, Omit<ICreateSuggestion, 'status'>>,
-    res: Response<IResponseSuggestion>,
-  ) => {
-    const { postId, email, description } = req.body;
+  createSuggestion = async (req: Request, res: Response) => {
+    const dto = useValidation(req, schemaCreateSuggestion);
+
+    const { postId, email, description } = dto.body;
 
     const suggestion = await this.createSuggestionUseCase.execute({
       postId,
@@ -54,10 +56,11 @@ export class SuggestionController implements SuggestionControllerInterface {
     return res.json(suggestionsFactory);
   };
 
-  // added middleware in params
-  editSuggestion = async (req: Request, res: Response<IResponseSuggestion>): Promise<Response> => {
-    const suggestionId = req.params.id;
-    const newStatus = req.body.status;
+  editSuggestion = async (req: Request, res: Response): Promise<Response> => {
+    const dto = useValidation(req, schemaEditSuggestion);
+
+    const suggestionId = dto.params.id;
+    const newStatus = dto.body.status;
 
     const suggestionEdited = await this.updateSuggestionByIdUseCase.execute(suggestionId, newStatus);
     return res.json(this.toHttp(suggestionEdited));

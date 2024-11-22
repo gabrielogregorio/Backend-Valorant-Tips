@@ -1,13 +1,9 @@
-import Joi from 'joi';
+import { z } from 'zod';
 
-export type updateUserBodyType = {
-  password?: string;
-  username?: string;
-  image?: string;
-};
-
-export const schemaUpdateUser = Joi.object<updateUserBodyType, true>().keys({
-  password: Joi.string().optional(),
-  username: Joi.string().optional(),
-  image: Joi.string().optional(),
+export const schemaUpdateUser = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    username: z.string().optional(),
+    image: z.string().optional(),
+  }),
 });

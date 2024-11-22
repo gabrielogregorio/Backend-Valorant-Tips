@@ -1,11 +1,10 @@
-import Joi from 'joi';
+import { z } from 'zod';
 
-export type AuthBodyType = {
-  username: string;
-  password: string;
-};
-
-export const schemaAuth = Joi.object<AuthBodyType, true>().keys({
-  username: Joi.string().required(),
-  password: Joi.string().required(),
+export const schemaAuth = z.object({
+  body: z.object({
+    password: z.string(),
+    username: z.string(),
+  }),
+  query: z.any(),
+  params: z.any(),
 });

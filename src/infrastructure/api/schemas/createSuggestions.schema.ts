@@ -1,10 +1,9 @@
-import Joi from 'joi';
-import { ICreateSuggestion } from '../interfaces/suggestion';
+import { z } from 'zod';
 
-type typeSchema = Omit<ICreateSuggestion, 'status'>;
-
-export const schemaCreateSuggestion = Joi.object<typeSchema, true>().keys({
-  postId: Joi.string().required(),
-  email: Joi.string().required(),
-  description: Joi.string().required(),
+export const schemaCreateSuggestion = z.object({
+  body: z.object({
+    postId: z.string(),
+    email: z.string(),
+    description: z.string(),
+  }),
 });
