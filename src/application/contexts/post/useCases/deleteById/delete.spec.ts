@@ -1,6 +1,6 @@
 import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
-import { DeletePostUseCase } from '.';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import { DeletePostUseCase } from '.';
 
 const post = PostEntity.restore({ id: '123', userId: '456', description: 'new description', title: 'new title' });
 

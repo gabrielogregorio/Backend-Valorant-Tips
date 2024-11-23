@@ -14,6 +14,8 @@ new Database({ verbose: true })
     app.listen(PORT, () => {
       Log.info(`app started in http://localhost:${PORT}`);
     });
+
+    return null;
   })
   .catch((error) => {
     const context = error instanceof Error ? { name: error.name, message: error.message } : {};

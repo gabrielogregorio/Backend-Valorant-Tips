@@ -44,8 +44,8 @@ yarn test
 - Se tudo estiver dando errado no docker, experimente usar outra compilação, saia do ALPINE, tente o SLIM, BULLSEYE ou BUSTER, principalmente se os erros não tiverem nenhum contexto, nem mensagem, nem consumirem muitos recursos, nem darem nenhum tipo de erro detectável.
 
 # Conceitos
-Entidades são objetos de dominio, tipo Usuário, Post ou Sugestão, elas não sabem onde estão armazenadas e nem nada do tipo, são isoladas do mundo de fora.
 
+Entidades são objetos de dominio, tipo Usuário, Post ou Sugestão, elas não sabem onde estão armazenadas e nem nada do tipo, são isoladas do mundo de fora.
 
 Repositorios são as interfaces que persistem ou alteram entidades, eles tem uma série de kmétodos para se comunicar com fontes de dados e retornar uma ou várias entidade
 
