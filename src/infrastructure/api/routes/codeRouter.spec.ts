@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-hardcoded-credentials */
 import { SECURITY_CODE } from '@/api/config/envs';
 import { createDatabaseMock, requestMock } from '../../../test/utils';
 
@@ -38,7 +39,7 @@ describe('GenerateUserKeys', () => {
     const newUser = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
-      password: 'password test',
+      password: 'example password',
     });
 
     expect(newUser.body).toEqual({});
@@ -47,17 +48,17 @@ describe('GenerateUserKeys', () => {
   it('should make authentication with valid user', async () => {
     const newUser = await requestMock.post('/auth').send({
       username: 'username test',
-      password: 'password test',
+      password: 'example password',
     });
 
-    expect(newUser.body).toEqual({ id: expect.stringContaining(''), token: expect.stringContaining('') }); // fixme
+    expect(newUser.body).toEqual({ id: expect.stringContaining(''), token: expect.stringContaining('') });
   });
 
   it('should block register with repeated token', async () => {
     const res = await requestMock.post('/users').send({
       code: codeGenerate,
       username: 'username test',
-      password: 'password test',
+      password: 'example password',
     });
 
     expect(res.body).toEqual({ error: 'CODE_NOT_FOUND' });

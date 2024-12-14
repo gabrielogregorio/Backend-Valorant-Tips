@@ -12,9 +12,10 @@ export const translationErrorsResources: modelsI18nType = {
     SUGGESTION_NOT_FOUND: 'Suggestion not found',
     INTERNAL_ERROR: 'Internal Server Error',
     UNKNOWN_ERROR: 'Error not mapped',
+    ENTITY_INVALID: 'Invalid state',
   },
 
-  'pt-br': {
+  ptBr: {
     USERNAME_ALREADY_EXISTS: "Usuário '{{username}}' já existe",
     POST_NOT_EXISTS: "Post '{postId}' não existe",
     NO_CAN_DELETE_POST_ANOTHER_USER: 'Você não pode deletar um post de outro usuário',
@@ -25,5 +26,6 @@ export const translationErrorsResources: modelsI18nType = {
     SUGGESTION_NOT_FOUND: 'Sugestão não encontrada',
     INTERNAL_ERROR: 'Internal Server Error',
     UNKNOWN_ERROR: 'Error not mapped',
+    ENTITY_INVALID: 'Estado interno inválido',
   },
 };

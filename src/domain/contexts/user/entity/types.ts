@@ -9,5 +9,4 @@ export interface UserEntityInterface {
   changeUsername(username: string): void;
   changePassword(passwordHash: string): void;
   changeImage(image: string): void;
-  validate(): void;
 }

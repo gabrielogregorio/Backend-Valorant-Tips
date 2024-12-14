@@ -1,6 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import supertest from 'supertest';
 import { SECURITY_CODE } from '@/api/config/envs';
-import TestAgent from 'supertest/lib/agent';
+import testAgent from 'supertest/lib/agent';
 import { Database } from '@/api/database/database';
 import { app } from '../infrastructure/api/app';
 
@@ -72,7 +73,7 @@ export const createPostMocker = async (authorization: {
 };
 
 // @ts-ignore
-export const HandleAuthToken = async (requestMockItem: TestAgent<supertest.SuperTestStatic.Test>): Promise<string> => {
+export const handleAuthToken = async (requestMockItem: testAgent<supertest.SuperTestStatic.Test>): Promise<string> => {
   const res = await requestMockItem.post('/code').send({ securityCode: SECURITY_CODE });
   return res.body.token;
 };

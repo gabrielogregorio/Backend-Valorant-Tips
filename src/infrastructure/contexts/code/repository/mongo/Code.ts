@@ -20,4 +20,5 @@ const codeSchema = new mongoose.Schema<ICode>(
   },
 );
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const Code = mongoose.model<ICode>('Code', codeSchema);

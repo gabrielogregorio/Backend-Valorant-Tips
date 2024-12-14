@@ -30,4 +30,5 @@ const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
   },
 );
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const Suggestion = mongoose.model<IDatabaseSuggestion>('Suggestion', suggestionSchema);

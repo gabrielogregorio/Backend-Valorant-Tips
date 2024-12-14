@@ -1,4 +1,3 @@
-import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
 import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/suggestion/repository';
@@ -24,7 +23,6 @@ import { PostRepository } from '@/infrastructure/contexts/post/repository/mongo/
 import { SuggestionRepository } from '@/infrastructure/contexts/suggestion/repository/mongo/suggestionRepository';
 import { UserRepository } from '@/infrastructure/contexts/user/repository/mongo/userRepository';
 import { ViewsRepository } from '@/infrastructure/contexts/views/repository/mongo/viewsRepository';
-import { HandleAuthToken } from '@/infrastructure/services/HandleAuthToken';
 import { PasswordHasher } from '@/infrastructure/services/PasswordHasher';
 import { LoginUseCase } from '@/application/contexts/auth/useCases/login';
 import { LoginUseCaseInterface } from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
@@ -68,144 +66,146 @@ import { CreateViewUseCaseInterface } from '@/application/contexts/views/useCase
 import { GetViewUseCaseInterface } from '@/application/contexts/views/useCases/get/GetViewUseCaseInterface';
 import { GetViewUseCase } from '@/application/contexts/views/useCases/get';
 import { CreateViewUseCase } from '@/application/contexts/views/useCases/add';
+import { HandleAuthToken } from '@/infrastructure/services/HandleAuthToken';
+import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 
 export class AppDependencyInjector {
-  private static dashboardControllerInstance: DashboardControllerInterface;
+  private static _dashboardControllerInstance: DashboardControllerInterface;
 
-  private static suggestionControllerInstance: SuggestionControllerInterface;
+  private static _suggestionControllerInstance: SuggestionControllerInterface;
 
-  private static postControllerInstance: PostControllerInterface;
+  private static _postControllerInstance: PostControllerInterface;
 
-  private static authControllerInstance: AuthControllerInterface;
+  private static _authControllerInstance: AuthControllerInterface;
 
-  private static codeControllerInstance: CodeControllerInterface;
+  private static _codeControllerInstance: CodeControllerInterface;
 
-  private static viewsControllerInstance: ViewsControllerInterface;
+  private static _viewsControllerInstance: ViewsControllerInterface;
 
-  private static userControllerInstance: UserControllerInterface;
+  private static _userControllerInstance: UserControllerInterface;
 
-  private static createSuggestionUseCaseInstance: CreateSuggestionUseCaseInterface;
+  private static _createSuggestionUseCaseInstance: CreateSuggestionUseCaseInterface;
 
-  private static findAllSuggestionsUseCaseInstance: FindAllSuggestionsUseCaseInterface;
+  private static _findAllSuggestionsUseCaseInstance: FindAllSuggestionsUseCaseInterface;
 
-  private static updateSuggestionByIdUseCaseInstance: UpdateSuggestionByIdUseCaseInterface;
+  private static _updateSuggestionByIdUseCaseInstance: UpdateSuggestionByIdUseCaseInterface;
 
-  private static deleteSuggestionByIdUseCaseInstance: DeleteSuggestionByIdUseCaseInterface;
+  private static _deleteSuggestionByIdUseCaseInstance: DeleteSuggestionByIdUseCaseInterface;
 
-  private static suggestionRepositoryInstance: SuggestionRepositoryInterface;
+  private static _suggestionRepositoryInstance: SuggestionRepositoryInterface;
 
-  private static createViewUseCaseInstance: CreateViewUseCaseInterface;
+  private static _createViewUseCaseInstance: CreateViewUseCaseInterface;
 
-  private static getViewUseCaseInstance: GetViewUseCaseInterface;
+  private static _getViewUseCaseInstance: GetViewUseCaseInterface;
 
-  private static viewRepositoryInstance: ViewsRepositoryInterface;
+  private static _viewRepositoryInstance: ViewsRepositoryInterface;
 
-  private static createUserUseCaseInstance: CreateUserUseCaseInterface;
+  private static _createUserUseCaseInstance: CreateUserUseCaseInterface;
 
-  private static updateUserUseCaseInstance: UpdateUserUseCaseInterface;
+  private static _updateUserUseCaseInstance: UpdateUserUseCaseInterface;
 
-  private static findUserByIdUseCaseInstance: FindUserByIdUseCaseInterface;
+  private static _findUserByIdUseCaseInstance: FindUserByIdUseCaseInterface;
 
-  private static createCodeUseCaseInstance: CreateCodeUseCaseInterface;
+  private static _createCodeUseCaseInstance: CreateCodeUseCaseInterface;
 
-  private static deleteUserByIdUseCaseInstance: DeleteUserByIdUseCaseInterface;
+  private static _deleteUserByIdUseCaseInstance: DeleteUserByIdUseCaseInterface;
 
-  private static userRepositoryInstance: UserRepositoryInterface;
+  private static _userRepositoryInstance: UserRepositoryInterface;
 
-  private static codeRepositoryInstance: CodeRepositoryInterface;
+  private static _codeRepositoryInstance: CodeRepositoryInterface;
 
-  private static passwordHasherInstance: PasswordHasherInterface;
+  private static _passwordHasherInstance: PasswordHasherInterface;
 
-  private static loginUseCaseInstance: LoginUseCaseInterface;
+  private static _loginUseCaseInstance: LoginUseCaseInterface;
 
-  private static createPostUseCaseInstance: CreatePostUseCaseInterface;
+  private static _createPostUseCaseInstance: CreatePostUseCaseInterface;
 
-  private static updatePostUseCaseInstance: UpdatePostUseCaseInterface;
+  private static _updatePostUseCaseInstance: UpdatePostUseCaseInterface;
 
-  private static findPostByIdOrThrowUseCaseInstance: FindPostByIdOrThrowUseCaseInterface;
+  private static _findPostByIdOrThrowUseCaseInstance: FindPostByIdOrThrowUseCaseInterface;
 
-  private static findAvailableMapsUseCaseInstance: FindAvailableMapsUseCaseInterface;
+  private static _findAvailableMapsUseCaseInstance: FindAvailableMapsUseCaseInterface;
 
-  private static findAvailableAgentsUseCaseInstance: FindAvailableAgentsUseCaseInterface;
+  private static _findAvailableAgentsUseCaseInstance: FindAvailableAgentsUseCaseInterface;
 
-  private static findAllPostUseCaseInstance: FindAllPostUseCaseInterface;
+  private static _findAllPostUseCaseInstance: FindAllPostUseCaseInterface;
 
-  private static findAllByMapAndAgentUseCaseInstance: FindAllByMapAndAgentUseCaseInterface;
+  private static _findAllByMapAndAgentUseCaseInstance: FindAllByMapAndAgentUseCaseInterface;
 
-  private static deletePostUseCaseInstance: DeletePostUseCaseInterface;
+  private static _deletePostUseCaseInstance: DeletePostUseCaseInterface;
 
-  private static postRepositoryInstance: PostRepositoryInterface;
+  private static _postRepositoryInstance: PostRepositoryInterface;
 
-  private static dashboardUseCaseInstance: DashboardUseCaseInterface;
+  private static _dashboardUseCaseInstance: DashboardUseCaseInterface;
 
-  private static handleAuthTokenInstance: HandleAuthTokenInterface;
+  private static _handleAuthTokenInstance: handleAuthTokenInterface;
 
-  static get handleAuthToken(): HandleAuthTokenInterface {
-    if (!this.handleAuthTokenInstance) {
-      this.handleAuthTokenInstance = new HandleAuthToken();
+  static get handleAuthToken(): handleAuthTokenInterface {
+    if (!this._handleAuthTokenInstance) {
+      this._handleAuthTokenInstance = new HandleAuthToken();
     }
 
-    return this.handleAuthTokenInstance;
+    return this._handleAuthTokenInstance;
   }
 
   static get authController(): AuthControllerInterface {
-    if (!this.authControllerInstance) {
-      this.authControllerInstance = new AuthController(this.loginUseCase);
+    if (!this._authControllerInstance) {
+      this._authControllerInstance = new AuthController(this.loginUseCase);
     }
 
-    return this.authControllerInstance;
+    return this._authControllerInstance;
   }
 
   static get dashboardController(): DashboardControllerInterface {
-    if (!this.dashboardControllerInstance) {
-      this.dashboardControllerInstance = new DashboardController(this.DashboardUseCase);
+    if (!this._dashboardControllerInstance) {
+      this._dashboardControllerInstance = new DashboardController(this.dashboardUseCase);
     }
 
-    return this.dashboardControllerInstance;
+    return this._dashboardControllerInstance;
   }
 
   static get suggestionController(): SuggestionControllerInterface {
-    if (!this.suggestionControllerInstance) {
-      this.suggestionControllerInstance = new SuggestionController(
+    if (!this._suggestionControllerInstance) {
+      this._suggestionControllerInstance = new SuggestionController(
         this.createSuggestionUseCase,
         this.findAllSuggestionsUseCase,
         this.updateSuggestionByIdUseCase,
         this.deleteSuggestionByIdUseCase,
       );
     }
-    return this.suggestionControllerInstance;
+    return this._suggestionControllerInstance;
   }
 
   static get codeController(): CodeControllerInterface {
-    if (!this.codeControllerInstance) {
-      this.codeControllerInstance = new CodeController(this.createCodeUseCase);
+    if (!this._codeControllerInstance) {
+      this._codeControllerInstance = new CodeController(this.createCodeUseCase);
     }
 
-    return this.codeControllerInstance;
+    return this._codeControllerInstance;
   }
 
   static get userController(): UserControllerInterface {
-    if (!this.userControllerInstance) {
-      this.userControllerInstance = new UserController(
+    if (!this._userControllerInstance) {
+      this._userControllerInstance = new UserController(
         this.createUserUseCase,
         this.updateUserUseCase,
         this.findUserByIdUseCase,
         this.deleteUserByIdUseCase,
       );
     }
-    return this.userControllerInstance;
+    return this._userControllerInstance;
   }
 
   static get viewsController(): ViewsControllerInterface {
-    if (!this.viewsControllerInstance) {
-      this.viewsControllerInstance = new ViewsController(this.createViewUseCase, this.getViewUseCase);
+    if (!this._viewsControllerInstance) {
+      this._viewsControllerInstance = new ViewsController(this.createViewUseCase, this.getViewUseCase);
     }
-    return this.viewsControllerInstance;
+    return this._viewsControllerInstance;
   }
 
   static get postController(): PostControllerInterface {
-    if (!this.postControllerInstance) {
-      this.postControllerInstance = new PostController(
+    if (!this._postControllerInstance) {
+      this._postControllerInstance = new PostController(
         this.createPostUseCase,
         this.updatePostUseCase,
         this.findPostByIdOrThrowUseCase,
@@ -217,229 +217,229 @@ export class AppDependencyInjector {
       );
     }
 
-    return this.postControllerInstance;
+    return this._postControllerInstance;
   }
 
-  static get DashboardUseCase(): DashboardUseCaseInterface {
-    if (!this.dashboardUseCaseInstance) {
-      this.dashboardUseCaseInstance = new DashboardUseCase(
+  static get dashboardUseCase(): DashboardUseCaseInterface {
+    if (!this._dashboardUseCaseInstance) {
+      this._dashboardUseCaseInstance = new DashboardUseCase(
         this.userRepository,
         this.postRepository,
         this.suggestionRepository,
         this.viewRepository,
       );
     }
-    return this.dashboardUseCaseInstance;
+    return this._dashboardUseCaseInstance;
   }
 
   static get suggestionRepository(): SuggestionRepositoryInterface {
-    if (!this.suggestionRepositoryInstance) {
-      this.suggestionRepositoryInstance = new SuggestionRepository();
+    if (!this._suggestionRepositoryInstance) {
+      this._suggestionRepositoryInstance = new SuggestionRepository();
     }
-    return this.suggestionRepositoryInstance;
+    return this._suggestionRepositoryInstance;
   }
 
   static get createSuggestionUseCase(): CreateSuggestionUseCaseInterface {
-    if (!this.createSuggestionUseCaseInstance) {
-      this.createSuggestionUseCaseInstance = new CreateSuggestionUseCase(
+    if (!this._createSuggestionUseCaseInstance) {
+      this._createSuggestionUseCaseInstance = new CreateSuggestionUseCase(
         this.suggestionRepository,
         this.postRepository,
       );
     }
 
-    return this.createSuggestionUseCaseInstance;
+    return this._createSuggestionUseCaseInstance;
   }
 
   static get findAllSuggestionsUseCase(): FindAllSuggestionsUseCaseInterface {
-    if (!this.findAllSuggestionsUseCaseInstance) {
-      this.findAllSuggestionsUseCaseInstance = new FindAllSuggestionsUseCase(this.suggestionRepository);
+    if (!this._findAllSuggestionsUseCaseInstance) {
+      this._findAllSuggestionsUseCaseInstance = new FindAllSuggestionsUseCase(this.suggestionRepository);
     }
 
-    return this.findAllSuggestionsUseCaseInstance;
+    return this._findAllSuggestionsUseCaseInstance;
   }
 
   static get updateSuggestionByIdUseCase(): UpdateSuggestionByIdUseCaseInterface {
-    if (!this.updateSuggestionByIdUseCaseInstance) {
-      this.updateSuggestionByIdUseCaseInstance = new UpdateSuggestionByIdUseCase(this.suggestionRepository);
+    if (!this._updateSuggestionByIdUseCaseInstance) {
+      this._updateSuggestionByIdUseCaseInstance = new UpdateSuggestionByIdUseCase(this.suggestionRepository);
     }
 
-    return this.updateSuggestionByIdUseCaseInstance;
+    return this._updateSuggestionByIdUseCaseInstance;
   }
 
   static get deleteSuggestionByIdUseCase(): DeleteSuggestionByIdUseCaseInterface {
-    if (!this.deleteSuggestionByIdUseCaseInstance) {
-      this.deleteSuggestionByIdUseCaseInstance = new DeleteSuggestionByIdUseCase(this.suggestionRepository);
+    if (!this._deleteSuggestionByIdUseCaseInstance) {
+      this._deleteSuggestionByIdUseCaseInstance = new DeleteSuggestionByIdUseCase(this.suggestionRepository);
     }
 
-    return this.deleteSuggestionByIdUseCaseInstance;
+    return this._deleteSuggestionByIdUseCaseInstance;
   }
 
   static get loginUseCase(): LoginUseCaseInterface {
-    if (!this.loginUseCaseInstance) {
-      this.loginUseCaseInstance = new LoginUseCase(this.userRepository, this.passwordHasher, this.handleAuthToken);
+    if (!this._loginUseCaseInstance) {
+      this._loginUseCaseInstance = new LoginUseCase(this.userRepository, this.passwordHasher, this.handleAuthToken);
     }
 
-    return this.loginUseCaseInstance;
+    return this._loginUseCaseInstance;
   }
 
   static get createPostUseCase(): CreatePostUseCaseInterface {
-    if (!this.createPostUseCaseInstance) {
-      this.createPostUseCaseInstance = new CreatePostUseCase(this.postRepository, this.userRepository);
+    if (!this._createPostUseCaseInstance) {
+      this._createPostUseCaseInstance = new CreatePostUseCase(this.postRepository, this.userRepository);
     }
 
-    return this.createPostUseCaseInstance;
+    return this._createPostUseCaseInstance;
   }
 
   static get updatePostUseCase(): UpdatePostUseCaseInterface {
-    if (!this.updatePostUseCaseInstance) {
-      this.updatePostUseCaseInstance = new UpdatePostUseCase(this.postRepository, this.userRepository);
+    if (!this._updatePostUseCaseInstance) {
+      this._updatePostUseCaseInstance = new UpdatePostUseCase(this.postRepository, this.userRepository);
     }
 
-    return this.updatePostUseCaseInstance;
+    return this._updatePostUseCaseInstance;
   }
 
   static get findPostByIdOrThrowUseCase(): FindPostByIdOrThrowUseCaseInterface {
-    if (!this.findPostByIdOrThrowUseCaseInstance) {
-      this.findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(
+    if (!this._findPostByIdOrThrowUseCaseInstance) {
+      this._findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(
         this.postRepository,
         this.userRepository,
       );
     }
 
-    return this.findPostByIdOrThrowUseCaseInstance;
+    return this._findPostByIdOrThrowUseCaseInstance;
   }
 
   static get findAvailableMapsUseCase(): FindAvailableMapsUseCaseInterface {
-    if (!this.findAvailableMapsUseCaseInstance) {
-      this.findAvailableMapsUseCaseInstance = new FindAvailableMapsUseCase(this.postRepository);
+    if (!this._findAvailableMapsUseCaseInstance) {
+      this._findAvailableMapsUseCaseInstance = new FindAvailableMapsUseCase(this.postRepository);
     }
 
-    return this.findAvailableMapsUseCaseInstance;
+    return this._findAvailableMapsUseCaseInstance;
   }
 
   static get findAvailableAgentsUseCase(): FindAvailableAgentsUseCaseInterface {
-    if (!this.findAvailableAgentsUseCaseInstance) {
-      this.findAvailableAgentsUseCaseInstance = new FindAvailableAgentsUseCase(this.postRepository);
+    if (!this._findAvailableAgentsUseCaseInstance) {
+      this._findAvailableAgentsUseCaseInstance = new FindAvailableAgentsUseCase(this.postRepository);
     }
 
-    return this.findAvailableAgentsUseCaseInstance;
+    return this._findAvailableAgentsUseCaseInstance;
   }
 
   static get findAllPostUseCase(): FindAllPostUseCaseInterface {
-    if (!this.findAllPostUseCaseInstance) {
-      this.findAllPostUseCaseInstance = new FindAllPostUseCase(this.postRepository, this.userRepository);
+    if (!this._findAllPostUseCaseInstance) {
+      this._findAllPostUseCaseInstance = new FindAllPostUseCase(this.postRepository, this.userRepository);
     }
 
-    return this.findAllPostUseCaseInstance;
+    return this._findAllPostUseCaseInstance;
   }
 
   static get findAllByMapAndAgentUseCase(): FindAllByMapAndAgentUseCaseInterface {
-    if (!this.findAllByMapAndAgentUseCaseInstance) {
-      this.findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(
+    if (!this._findAllByMapAndAgentUseCaseInstance) {
+      this._findAllByMapAndAgentUseCaseInstance = new FindAllByMapAndAgentUseCase(
         this.postRepository,
         this.userRepository,
       );
     }
 
-    return this.findAllByMapAndAgentUseCaseInstance;
+    return this._findAllByMapAndAgentUseCaseInstance;
   }
 
   static get deletePostUseCase(): DeletePostUseCaseInterface {
-    if (!this.deletePostUseCaseInstance) {
-      this.deletePostUseCaseInstance = new DeletePostUseCase(this.postRepository);
+    if (!this._deletePostUseCaseInstance) {
+      this._deletePostUseCaseInstance = new DeletePostUseCase(this.postRepository);
     }
 
-    return this.deletePostUseCaseInstance;
+    return this._deletePostUseCaseInstance;
   }
 
   static get postRepository(): PostRepositoryInterface {
-    if (!this.postRepositoryInstance) {
-      this.postRepositoryInstance = new PostRepository();
+    if (!this._postRepositoryInstance) {
+      this._postRepositoryInstance = new PostRepository();
     }
 
-    return this.postRepositoryInstance;
+    return this._postRepositoryInstance;
   }
 
   static get userRepository(): UserRepositoryInterface {
-    if (!this.userRepositoryInstance) {
-      this.userRepositoryInstance = new UserRepository();
+    if (!this._userRepositoryInstance) {
+      this._userRepositoryInstance = new UserRepository();
     }
-    return this.userRepositoryInstance;
+    return this._userRepositoryInstance;
   }
 
   static get codeRepository(): CodeRepositoryInterface {
-    if (!this.codeRepositoryInstance) {
-      this.codeRepositoryInstance = new CodeRepository();
+    if (!this._codeRepositoryInstance) {
+      this._codeRepositoryInstance = new CodeRepository();
     }
-    return this.codeRepositoryInstance;
+    return this._codeRepositoryInstance;
   }
 
   static get createCodeUseCase(): CreateCodeUseCaseInterface {
-    if (!this.createCodeUseCaseInstance) {
-      this.createCodeUseCaseInstance = new CreateCodeUseCase(this.codeRepository);
+    if (!this._createCodeUseCaseInstance) {
+      this._createCodeUseCaseInstance = new CreateCodeUseCase(this.codeRepository);
     }
 
-    return this.createCodeUseCaseInstance;
+    return this._createCodeUseCaseInstance;
   }
 
   static get passwordHasher(): PasswordHasherInterface {
-    if (!this.passwordHasherInstance) {
-      this.passwordHasherInstance = new PasswordHasher();
+    if (!this._passwordHasherInstance) {
+      this._passwordHasherInstance = new PasswordHasher();
     }
-    return this.passwordHasherInstance;
+    return this._passwordHasherInstance;
   }
 
   static get createUserUseCase(): CreateUserUseCaseInterface {
-    if (!this.createUserUseCaseInstance) {
-      this.createUserUseCaseInstance = new CreateUserUseCase(
+    if (!this._createUserUseCaseInstance) {
+      this._createUserUseCaseInstance = new CreateUserUseCase(
         this.userRepository,
         this.codeRepository,
         this.passwordHasher,
       );
     }
-    return this.createUserUseCaseInstance;
+    return this._createUserUseCaseInstance;
   }
 
   static get updateUserUseCase(): UpdateUserUseCaseInterface {
-    if (!this.updateUserUseCaseInstance) {
-      this.updateUserUseCaseInstance = new UpdateUserUseCase(this.userRepository, this.passwordHasher);
+    if (!this._updateUserUseCaseInstance) {
+      this._updateUserUseCaseInstance = new UpdateUserUseCase(this.userRepository, this.passwordHasher);
     }
-    return this.updateUserUseCaseInstance;
+    return this._updateUserUseCaseInstance;
   }
 
   static get findUserByIdUseCase(): FindUserByIdUseCaseInterface {
-    if (!this.findUserByIdUseCaseInstance) {
-      this.findUserByIdUseCaseInstance = new FindUserByIdUseCase(this.userRepository);
+    if (!this._findUserByIdUseCaseInstance) {
+      this._findUserByIdUseCaseInstance = new FindUserByIdUseCase(this.userRepository);
     }
-    return this.findUserByIdUseCaseInstance;
+    return this._findUserByIdUseCaseInstance;
   }
 
   static get deleteUserByIdUseCase(): DeleteUserByIdUseCaseInterface {
-    if (!this.deleteUserByIdUseCaseInstance) {
-      this.deleteUserByIdUseCaseInstance = new DeleteUserByIdUseCase(this.userRepository);
+    if (!this._deleteUserByIdUseCaseInstance) {
+      this._deleteUserByIdUseCaseInstance = new DeleteUserByIdUseCase(this.userRepository);
     }
-    return this.deleteUserByIdUseCaseInstance;
+    return this._deleteUserByIdUseCaseInstance;
   }
 
   static get viewRepository(): ViewsRepositoryInterface {
-    if (!this.viewRepositoryInstance) {
-      this.viewRepositoryInstance = new ViewsRepository();
+    if (!this._viewRepositoryInstance) {
+      this._viewRepositoryInstance = new ViewsRepository();
     }
-    return this.viewRepositoryInstance;
+    return this._viewRepositoryInstance;
   }
 
   static get createViewUseCase(): CreateViewUseCaseInterface {
-    if (!this.createViewUseCaseInstance) {
-      this.createViewUseCaseInstance = new CreateViewUseCase(this.viewRepository);
+    if (!this._createViewUseCaseInstance) {
+      this._createViewUseCaseInstance = new CreateViewUseCase(this.viewRepository);
     }
-    return this.createViewUseCaseInstance;
+    return this._createViewUseCaseInstance;
   }
 
   static get getViewUseCase(): GetViewUseCaseInterface {
-    if (!this.getViewUseCaseInstance) {
-      this.getViewUseCaseInstance = new GetViewUseCase(this.viewRepository);
+    if (!this._getViewUseCaseInstance) {
+      this._getViewUseCaseInstance = new GetViewUseCase(this.viewRepository);
     }
 
-    return this.getViewUseCaseInstance;
+    return this._getViewUseCaseInstance;
   }
 }

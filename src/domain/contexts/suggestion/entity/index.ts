@@ -1,5 +1,4 @@
 import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
-import { NotificationError } from '@/domain/contexts/common/notification/notification.error';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion/entity/interfaces';
 import { SuggestionValidatorFactory } from '@/domain/contexts/contexts/suggestion/factory/suggestion.validator';
@@ -58,7 +57,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
 
-    this.validate();
+    this._validate();
   }
 
   public static create({ description, email, postId }: SuggestionEntityCreateDto) {
@@ -109,11 +108,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     console.log('DELETED_ENTITY');
   }
 
-  private validate() {
+  private _validate() {
     this._validatorTypes.validate(this);
-
-    if (this.notification.hasErrors()) {
-      throw new NotificationError(this.notification.getErrors());
-    }
   }
 }

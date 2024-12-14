@@ -1,7 +1,7 @@
-import { User } from './User';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { UserFactory } from '@/domain/contexts/contexts/user/factory/UserFactory';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
+import { User } from './User';
 
 export class UserRepository implements UserRepositoryInterface {
   save = async (user: UserEntity): Promise<UserEntity> => {

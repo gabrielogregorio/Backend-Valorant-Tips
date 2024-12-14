@@ -16,4 +16,5 @@ const userSchema = new mongoose.Schema<IUser>(
   },
 );
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const User = mongoose.model<IUser>('User', userSchema);

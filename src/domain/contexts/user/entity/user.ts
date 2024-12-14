@@ -1,5 +1,4 @@
 import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
-import { NotificationError } from '@/domain/contexts/common/notification/notification.error';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import { UserEntityInterface } from '@/domain/contexts/contexts/user/entity/types';
 import { UserValidatorFactory } from '@/domain/contexts/contexts/user/factory/user.validator';
@@ -39,7 +38,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
     this._password = password;
     this._image = '';
 
-    this.validate();
+    this._validate();
   }
 
   public static create({ password, username }: UserEntityCreateDto) {
@@ -60,17 +59,17 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   public changePassword(password: string) {
     this._password = password;
-    this.validate();
+    this._validate();
   }
 
   public changeImage(image: string) {
     this._image = image;
-    this.validate();
+    this._validate();
   }
 
   public changeUsername(username: string) {
     this._username = username;
-    this.validate();
+    this._validate();
   }
 
   get id() {
@@ -89,11 +88,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
     return this._password;
   }
 
-  validate() {
+  private _validate() {
     this._validatorTypes.validate(this);
-
-    if (this.notification.hasErrors()) {
-      throw new NotificationError(this.notification.getErrors());
-    }
   }
 }

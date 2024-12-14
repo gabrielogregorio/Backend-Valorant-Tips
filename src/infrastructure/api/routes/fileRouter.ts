@@ -1,12 +1,13 @@
-import express, { Router } from 'express';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Router } from 'express';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '@/api/config/envs';
 import { useHasFile } from '@/api/middlewares/useHasFile';
 import { convertMegabytesToBytes } from '@/api/helpers/conversors';
-import { AppDependencyInjector } from '../container';
 import { userAuth } from '@/infrastructure/api/middlewares/userAuth';
+import { AppDependencyInjector } from '../container';
 
 const cloudinaryV2 = cloudinary.v2;
 
@@ -33,7 +34,7 @@ const upload = multer({
   // },
 });
 
-export const fileRouter: Router = express.Router();
+export const fileRouter: Router = Router();
 
 const { postController } = AppDependencyInjector;
 

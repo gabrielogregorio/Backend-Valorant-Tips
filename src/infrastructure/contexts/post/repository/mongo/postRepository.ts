@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AppError } from '@/application/errors/AppError';
-import { Post } from './Post';
 import { IPost } from '@/infrastructure/api/interfaces/post';
 import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import { Post } from './Post';
 
 export class PostRepository implements PostRepositoryInterface {
-  private imageMongoToImageApplication(images: IPost['imgs'][0][]): IPost['imgs'] {
+  private _imageMongoToImageApplication(images: IPost['imgs'][0][]): IPost['imgs'] {
     return images.map((image) => ({
       description: image.description,
       id: image.id,
@@ -41,13 +42,13 @@ export class PostRepository implements PostRepositoryInterface {
     }
 
     const postEntityUpdated = PostEntity.restore({
-      title: postUpdated.title,
+      title: postUpdated.title ?? '',
       id: postUpdated.id.toString(),
-      userId: postUpdated.userId,
+      userId: postUpdated.userId ?? '',
     });
 
     postEntityUpdated.changeDescription(postUpdated.description);
-    postEntityUpdated.changeImgs(this.imageMongoToImageApplication(postUpdated.imgs));
+    postEntityUpdated.changeImgs(this._imageMongoToImageApplication(postUpdated.imgs));
     postEntityUpdated.changeTags(postUpdated.tags);
 
     return postEntityUpdated;
@@ -63,7 +64,7 @@ export class PostRepository implements PostRepositoryInterface {
     return PostEntity.restore({
       title: post.title,
       tags: post.tags,
-      imgs: this.imageMongoToImageApplication(post.imgs),
+      imgs: this._imageMongoToImageApplication(post.imgs),
       description: post.description,
       userId: post.userId || '',
       id: post.id,
@@ -85,7 +86,7 @@ export class PostRepository implements PostRepositoryInterface {
       PostEntity.restore({
         title: postItem.title,
         tags: postItem.tags,
-        imgs: this.imageMongoToImageApplication(postItem.imgs),
+        imgs: this._imageMongoToImageApplication(postItem.imgs),
         description: postItem.description,
         userId: postItem.userId || '',
         id: postItem.id.toString(),
@@ -100,7 +101,7 @@ export class PostRepository implements PostRepositoryInterface {
       PostEntity.restore({
         title: postItem.title,
         tags: postItem.tags,
-        imgs: this.imageMongoToImageApplication(postItem.imgs),
+        imgs: this._imageMongoToImageApplication(postItem.imgs),
         description: postItem.description,
         userId: postItem.userId.toString() || '',
         id: postItem.id,
@@ -108,11 +109,13 @@ export class PostRepository implements PostRepositoryInterface {
     );
   };
 
-  deleteById = async (id: string): Promise<any> => Post.findOneAndDelete({ id });
+  deleteById = async (id: string): Promise<void> => {
+    await Post.findOneAndDelete({ id });
+  };
 
-  countAll = async (): Promise<any> => Post.countDocuments({});
+  countAll = async (): Promise<number> => Post.countDocuments({});
 
-  findMaps = async (): Promise<any> => Post.find().distinct('tags.map');
+  findMaps = async (): Promise<string[]> => Post.find().distinct('tags.map');
 
-  findAgents = async (): Promise<any> => Post.find().distinct('tags.agent');
+  findAgents = async (): Promise<string[]> => Post.find().distinct('tags.agent');
 }

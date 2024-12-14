@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { schemaCreateUser } from '../schemas/createUser.schema';
-import { statusCode } from '../config/statusCode';
-import { UserControllerInterface } from './interfaces/UserControllerInterface';
 import { CreateUserUseCaseInterface } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
 import { UpdateUserUseCaseInterface } from '@/application/contexts/user/useCases/update/UpdateUserUseCaseInterface';
 import { FindUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/findById/FindUserByIdUseCaseInterface';
 import { DeleteUserByIdUseCaseInterface } from '@/application/contexts/user/useCases/deleteById/DeleteUserByIdUseCaseInterface';
 import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { schemaUpdateUser } from '@/infrastructure/api/schemas/updateUser.schema';
+import { UserControllerInterface } from './interfaces/UserControllerInterface';
+import { statusCode } from '../config/statusCode';
+import { schemaCreateUser } from '../schemas/createUser.schema';
 
 export class UserController implements UserControllerInterface {
   constructor(
@@ -40,9 +40,9 @@ export class UserController implements UserControllerInterface {
     const content = useValidation(req, schemaUpdateUser);
 
     const { password, username, image } = content.body;
-    const { id } = req.data;
+    const { userId } = req.data;
 
-    await this.updateUserUseCase.execute(id, {
+    await this.updateUserUseCase.execute(userId, {
       image,
       password,
       username,
@@ -52,17 +52,18 @@ export class UserController implements UserControllerInterface {
   };
 
   get = async (req: Request, res: Response) => {
-    const { id } = req.data;
+    const { userId } = req.data;
 
-    const userFounded = await this.findUserByIdUseCase.execute(id);
+    console.log(req.data);
+    const userFounded = await this.findUserByIdUseCase.execute(userId);
 
     return res.json(userFounded);
   };
 
   delete = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.data;
+    const { userId } = req.data;
 
-    await this.deleteUserByIdUseCase.execute(id);
+    await this.deleteUserByIdUseCase.execute(userId);
 
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

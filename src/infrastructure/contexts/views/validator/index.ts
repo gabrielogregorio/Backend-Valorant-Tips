@@ -1,17 +1,18 @@
 import { ValidatorInterface } from '@/domain/contexts/common/validators';
-import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+import { ViewsValueObject } from '@/domain/contexts/contexts/views/valueObject';
 import { ValidationError } from '@/infrastructure/contexts/validationError';
 import { z } from 'zod';
 
-export class ViewsZodValidator implements ValidatorInterface<ViewsEntity> {
-  private schema = z.object({
+export class ViewsZodValidator implements ValidatorInterface<ViewsValueObject> {
+  private _schema = z.object({
     id: z.string(),
-    title: z.string(),
+    dateAccess: z.date(),
   });
 
-  public validate(entity: ViewsEntity): void {
-    const result = this.schema.safeParse({
+  public validate(entity: ViewsValueObject): void {
+    const result = this._schema.safeParse({
       ip: entity.ip,
+      dateAccess: entity.dateAccess,
     });
 
     if (!result?.error) {
@@ -22,14 +23,7 @@ export class ViewsZodValidator implements ValidatorInterface<ViewsEntity> {
       result.error.errors.map((item) => ({
         location: item.path[0].toString(),
         message: item.message,
-        path: item.path
-          .reduce((prev, current) => {
-            if (prev) {
-              return `${prev}.${current}`;
-            }
-            return current;
-          }, '')
-          .toString(),
+        path: item.path.reduce((prev, current) => (prev ? `${prev}.${current}` : String(current)), '').toString(),
         type: item.code,
       })),
     );

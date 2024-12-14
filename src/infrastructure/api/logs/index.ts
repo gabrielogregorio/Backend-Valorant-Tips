@@ -1,6 +1,5 @@
 import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
 import { asyncLocalStorage } from '../container/globalState';
-import { contextType } from '@/infrastructure/api/logs/types';
 
 export const getActualMoment = (): string => {
   const date = new Date();
@@ -11,7 +10,7 @@ export const getActualMoment = (): string => {
 export const getTraceId = () => {
   const storeData = asyncLocalStorage.getStore();
 
-  if (!storeData || !storeData.traceId) {
+  if (!storeData?.traceId) {
     return '';
   }
 
@@ -21,7 +20,7 @@ export const getTraceId = () => {
 export const getUserId = () => {
   const oldStore = asyncLocalStorage.getStore();
 
-  if (!oldStore || !oldStore.userId) {
+  if (!oldStore?.userId) {
     return;
   }
   return oldStore.userId;
@@ -29,28 +28,30 @@ export const getUserId = () => {
 
 export type levelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
 
-export const formatStartMessage = (level: string) => {
-  return `${getActualMoment()} ` + `[${level}]`.padEnd(8, ' ');
-};
+export const formatStartMessage = (level: string) => `${getActualMoment()} ${`[${level}]`.padEnd(8, ' ')}`;
 
 export class Log {
-  public static info(message: string, context?: contextType): void {
-    this.showLogs('info', message, context);
+  public static info(message: string, context?: any): void {
+    this._showLogs('info', message, context);
   }
 
-  public static error(message: string, context?: contextType): void {
-    this.showLogs('error', message, context);
+  public static error(message: string, context?: any): void {
+    this._showLogs('error', message, context);
   }
 
-  public static debug(message: string, context?: contextType): void {
-    this.showLogs('debug', message, context);
+  public static debug(message: string, context?: any): void {
+    this._showLogs('debug', message, context);
   }
 
-  public static warning(message: string, context?: contextType): void {
-    this.showLogs('warn', message, context);
+  public static warning(message: string, context?: any): void {
+    this._showLogs('warn', message, context);
   }
 
-  private static showLogs(level: 'warn' | 'debug' | 'error' | 'info', message: string, context: contextType = {}) {
+  private static _showLogs(
+    level: 'warn' | 'debug' | 'error' | 'info',
+    message: string,
+    contextFinal: any | any[] = {},
+  ) {
     if (DISABLE_LOGS) {
       return;
     }
@@ -58,12 +59,16 @@ export class Log {
     const traceId = getTraceId();
     const userId = getUserId();
 
+    const item = Boolean(contextFinal);
+    const messageContext = item ? 'context:' : '';
+    const context = contextFinal || undefined;
+
     console[level](
       formatStartMessage(level.toUpperCase()),
       message,
-      'context:',
+      messageContext,
       JSON.stringify({
-        ...context,
+        context,
         ...(userId ? { userId } : {}),
         ...(traceId ? { traceId } : {}),
       }),

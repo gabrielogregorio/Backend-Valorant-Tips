@@ -1,14 +1,14 @@
 const INDEX_AFTER_TITLE = 1;
-const REGEX_TEXT_AT_STACK = /^\s{1,}at\s{1,}/;
-const REGEX_PATH_STACK_FILE = /\([a-zA-Z0-9\\.:\\/_-]{1,}\)/;
+const REGEX_TEXT_AT_STACK = /^\s+at\s+/;
+const REGEX_PATH_STACK_FILE = /\([a-zA-Z0-9.:\\/_-]+\)/;
 const REGEX_REMOVE_ANONYMOUS_INFO = /(\.<anonymous>|\(<anonymous>\))/;
 
-type optionsType = {
+type OptionsType = {
   stack?: string | null;
   maxLengthStack?: number;
 };
 
-export const formatStackToBeautiful = ({ stack = undefined, maxLengthStack = Infinity }: optionsType): string => {
+export const formatStackToBeautiful = ({ stack = undefined, maxLengthStack = Infinity }: OptionsType): string => {
   if (!stack) {
     return '';
   }

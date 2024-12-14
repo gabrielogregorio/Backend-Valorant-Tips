@@ -10,14 +10,10 @@ export class Database {
     mongoose.set('strictQuery', false);
   }
 
-  private async mongoConnect(uri: string) {
+  private async _mongoConnect(uri: string) {
     return mongoose
       .connect(uri, {})
-      .then(() => {
-        if (this.verbose) {
-          Log.info('App: db connected', { uri });
-        }
-      })
+      .then(() => Log.info('database connected with sucess'))
       .catch((error) => {
         if (this.verbose) {
           const context = error instanceof Error ? { name: error.name, message: error.message } : {};
@@ -28,11 +24,11 @@ export class Database {
   }
 
   public async connect() {
-    await this.mongoConnect(MONGO_URI);
+    await this._mongoConnect(MONGO_URI);
   }
 
   public async e2eTestConnect() {
-    await this.mongoConnect(MONGO_URI);
+    await this._mongoConnect(MONGO_URI);
   }
 
   public async close() {

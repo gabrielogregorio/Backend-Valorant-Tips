@@ -12,4 +12,5 @@ const viewSchema = new mongoose.Schema<IView>(
   },
 );
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const View = mongoose.model<IView>('View', viewSchema);

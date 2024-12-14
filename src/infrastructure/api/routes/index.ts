@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { fileRouter } from '@/infrastructure/api/routes/fileRouter';
 import { baseRouter } from './baseRouter';
 import { authRouter } from './authRouter';
 import { codeRouter } from './codeRouter';
@@ -7,7 +8,6 @@ import { postRouter } from './postRouter';
 import { suggestionRouter } from './suggestionRouter';
 import { userRouter } from './userRouter';
 import { viewsRouter } from './viewsRouter';
-import { fileRouter } from '@/infrastructure/api/routes/fileRouter';
 
 export const router = Router();
 

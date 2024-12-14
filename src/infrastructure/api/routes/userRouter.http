@@ -6,7 +6,7 @@
 
 POST {{baseUrl}}/users HTTP/1.1
 content-type: application/json
-accept-language: pt-br
+accept-language: ptBr
 
 {
   "username":"dev2",
@@ -27,7 +27,7 @@ Authorization: {{bearerToken}}
 PATCH  {{baseUrl}}/users HTTP/1.1
 Authorization: {{bearerToken}}
 content-type: application/json
-accept-language: pt-br
+accept-language: ptBr
 
 {
   "username":"ademirss2",

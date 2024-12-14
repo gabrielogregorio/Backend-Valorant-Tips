@@ -13,8 +13,9 @@ describe('Server', () => {
     await databaseMock.close();
   });
 
-  it('should application response on get /', () =>
-    requestMock.get('/').then((res) => {
-      expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
-    }));
+  it('should application response on get /', async () => {
+    const res = await requestMock.get('/');
+
+    expect(res.statusCode).toEqual(statusCode.SUCCESS.code);
+  });
 });

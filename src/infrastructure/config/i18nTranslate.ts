@@ -2,16 +2,17 @@ import { translationErrorsResources } from '@/application/errors/translations';
 import { contextType } from '@/infrastructure/api/logs/types';
 import { languageMapsType, modelsI18nType } from '@/infrastructure/config/i18nInterface';
 
-type modelsI18nLibType = { [key in languageMapsType]: { translation: { [key: string]: string } } };
+type ModelsI18nLibType = { [key in languageMapsType]: { translation: { [key: string]: string } } };
 
 class I18nTranslate {
-  model: modelsI18nLibType;
+  model: ModelsI18nLibType;
 
   constructor() {
-    this.model = this.formatToResourcesI18n([translationErrorsResources]);
+    this.model = this._formatToResourcesI18n([translationErrorsResources]);
   }
-  private formatToResourcesI18n(models: modelsI18nType[]): modelsI18nLibType {
-    const resourceI18n: modelsI18nLibType = { 'pt-br': { translation: {} }, en: { translation: {} } };
+
+  private _formatToResourcesI18n(models: modelsI18nType[]): ModelsI18nLibType {
+    const resourceI18n: ModelsI18nLibType = { ptBr: { translation: {} }, en: { translation: {} } };
     models.forEach((model) => {
       const keys = Object.keys(model) as languageMapsType[];
       keys.forEach((key) => {
@@ -22,12 +23,12 @@ class I18nTranslate {
     return resourceI18n;
   }
 
-  private languageIsValid(language: unknown): language is languageMapsType {
-    return language === 'en' || language === 'pt-br';
+  private _languageIsValid(language: unknown): language is languageMapsType {
+    return language === 'en' || language === 'ptBr';
   }
 
   translate(language: unknown, code: string, context?: contextType): string {
-    if (!this.languageIsValid(language)) {
+    if (!this._languageIsValid(language)) {
       return `Language '${language}' is invalid`;
     }
 
@@ -42,7 +43,7 @@ class I18nTranslate {
 
     const contextItems = Object.keys(context) as (keyof typeof context)[];
     contextItems.forEach((key) => {
-      message = message.replace(new RegExp(`\{\{${key}\}\}`, 'g'), context[key]?.toString() || '');
+      message = message.replace(new RegExp(`{{${key}}}`, 'g'), context[key]?.toString() ?? '');
     });
 
     return message;

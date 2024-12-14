@@ -1,6 +1,6 @@
 import { CodeEntity } from '@/domain/contexts/contexts/code/entity';
-import { Code } from './Code';
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
+import { Code } from './Code';
 
 export class CodeRepository implements CodeRepositoryInterface {
   save = async (code: CodeEntity): Promise<CodeEntity> => {

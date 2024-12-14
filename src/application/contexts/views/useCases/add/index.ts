@@ -1,15 +1,15 @@
 import { ViewsRepositoryInterface } from '@/domain/contexts/contexts/views/repository';
+import { ViewsValueObject } from '@/domain/contexts/contexts/views/valueObject';
 import { CreateViewUseCaseInterface } from './CreateViewUseCaseInterface';
-import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
 
 export class CreateViewUseCase implements CreateViewUseCaseInterface {
-  constructor(private viewRepository: ViewsRepositoryInterface) {}
+  constructor(private _viewRepository: ViewsRepositoryInterface) {}
 
   execute = async (ip: string): Promise<void> => {
-    const view = ViewsEntity.create({
+    const view = ViewsValueObject.create({
       ip,
     });
 
-    await this.viewRepository.save(view);
+    await this._viewRepository.save(view);
   };
 }

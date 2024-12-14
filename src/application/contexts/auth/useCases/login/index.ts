@@ -4,7 +4,7 @@ import {
   LoginUseCaseOutputDto,
 } from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
 import { AppError } from '@/application/errors/AppError';
-import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { handleAuthTokenInterface } from '@/application/services/handleAuthToken';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
@@ -13,7 +13,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
     private userRepository: UserRepositoryInterface,
     private passwordHasher: PasswordHasherInterface,
-    private HandleAuthToken: HandleAuthTokenInterface,
+    private handleAuthToken: handleAuthTokenInterface,
   ) {}
 
   execute = async ({ username, password }: LoginUseCaseInputDto): Promise<LoginUseCaseOutputDto> => {
@@ -27,7 +27,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
       throw new AppError('INVALID_PASSWORD', { username });
     }
 
-    const handleAuthToken = await this.HandleAuthToken.generate(
+    const handleAuthToken = await this.handleAuthToken.generate(
       { username, name: user.username, userId: user.id.getValue() },
       {
         expiresIn: '128h',

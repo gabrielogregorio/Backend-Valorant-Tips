@@ -1,5 +1,4 @@
 import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
-import { NotificationError } from '@/domain/contexts/common/notification/notification.error';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import { CodeValidatorFactory } from '@/domain/contexts/contexts/code/factory/validator';
 import { DomainError } from '@/domain/contexts/errors';
@@ -13,13 +12,13 @@ export interface CodeEntityInterface {
 }
 
 export class CodeEntity extends Entity implements CodeEntityInterface {
-  _code: UniqueId;
+  private _code: UniqueId;
 
-  _id: UniqueId;
+  private _id: UniqueId;
 
-  _available: boolean;
+  private _available: boolean;
 
-  _validatorTypes = CodeValidatorFactory.create();
+  private _validatorTypes = CodeValidatorFactory.create();
 
   private constructor({ available, code, id }: { code: UniqueId; available: boolean; id: UniqueId }) {
     super();
@@ -35,7 +34,7 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
       id: new UniqueId(),
     });
 
-    instance.validate();
+    instance._validate();
 
     return instance;
   }
@@ -47,7 +46,7 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
       id: new UniqueId(id),
     });
 
-    instance.validate();
+    instance._validate();
 
     return instance;
   }
@@ -74,14 +73,10 @@ export class CodeEntity extends Entity implements CodeEntityInterface {
     }
 
     this._available = false;
-    this.validate();
+    this._validate();
   }
 
-  private validate() {
+  private _validate() {
     this._validatorTypes.validate(this);
-
-    if (this.notification.hasErrors()) {
-      throw new NotificationError(this.notification.getErrors());
-    }
   }
 }

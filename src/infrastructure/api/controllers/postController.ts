@@ -1,8 +1,4 @@
 import { Request, Response } from 'express';
-import { schemaUpdatePosts } from '../schemas/updatePost.schema';
-import { schemaCreatePost } from '../schemas/createPost.schema';
-import { statusCode } from '../config/statusCode';
-import { PostControllerInterface } from './interfaces/PostControllerInterface';
 import { CreatePostUseCaseInterface } from '@/application/contexts/post/useCases/create/CreatePostUseCaseInterface';
 import { UpdatePostUseCaseInterface } from '@/application/contexts/post/useCases/update/UpdatePostUseCaseInterface';
 import { FindPostByIdOrThrowUseCaseInterface } from '@/application/contexts/post/useCases/findByIdOrThrow/IFindPostByIdOrThrowUseCase';
@@ -12,6 +8,10 @@ import { FindAllPostUseCaseInterface } from '@/application/contexts/post/useCase
 import { FindAllByMapAndAgentUseCaseInterface } from '@/application/contexts/post/useCases/findAllByMapAndAgent/FindAllByMapAndAgentUseCaseInterface';
 import { DeletePostUseCaseInterface } from '@/application/contexts/post/useCases/deleteById/DeletePostUseCaseInterface';
 import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
+import { PostControllerInterface } from './interfaces/PostControllerInterface';
+import { statusCode } from '../config/statusCode';
+import { schemaCreatePost } from '../schemas/createPost.schema';
+import { schemaUpdatePosts } from '../schemas/updatePost.schema';
 
 export class PostController implements PostControllerInterface {
   constructor(
@@ -30,7 +30,7 @@ export class PostController implements PostControllerInterface {
   createPost = async (req: Request, res: Response) => {
     const content = useValidation(req, schemaCreatePost);
     const { title, description, tags, imgs } = content.body;
-    const userId = req.data.id as string;
+    const userId = req.data.userId as string;
 
     const post = await this.createPostUseCase.execute({ title, description, userId, tags, imgs });
 
@@ -52,7 +52,7 @@ export class PostController implements PostControllerInterface {
 
     const { title, description, tags, imgs } = content.body;
     const { id } = content.params;
-    const userId = req.data.id as string;
+    const userId = req.data.userId as string;
 
     const post = await this.updatePostUseCase.execute(id, {
       tags,
@@ -119,7 +119,7 @@ export class PostController implements PostControllerInterface {
 
   delete = async (req: Request, res: Response): Promise<Response> => {
     const idPost = req.params.id;
-    const userId = req.data.id as string;
+    const userId = req.data.userId as string;
 
     await this.deletePostUseCase.execute(idPost, userId);
 

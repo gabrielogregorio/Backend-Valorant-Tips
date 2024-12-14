@@ -1,5 +1,4 @@
 import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
-import { NotificationError } from '@/domain/contexts/common/notification/notification.error';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import {
   PostImagesInterface,
@@ -97,7 +96,7 @@ export class PostEntity extends Entity implements PostInterface {
     this._imgs = imgs;
     this._tags = tags;
 
-    this.validate();
+    this._validate();
   }
 
   public static create(payload: Omit<PayloadCreatePostDto, 'id'>) {
@@ -117,24 +116,20 @@ export class PostEntity extends Entity implements PostInterface {
 
   public changeTags(tags: PostTagsInterface) {
     this._tags = tags;
-    this.validate();
+    this._validate();
   }
 
   public changeDescription(description: string) {
     this._description = description;
-    this.validate();
+    this._validate();
   }
 
   public changeImgs(imgs: PostImagesInterface[]) {
     this._imgs = imgs;
-    this.validate();
+    this._validate();
   }
 
-  private validate() {
+  private _validate() {
     this._validatorTypes.validate(this);
-
-    if (this.notification.hasErrors()) {
-      throw new NotificationError(this.notification.getErrors());
-    }
   }
 }

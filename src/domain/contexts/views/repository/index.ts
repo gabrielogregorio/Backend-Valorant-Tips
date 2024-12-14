@@ -1,8 +1,8 @@
 import { RepositoryInterface } from '@/domain/contexts/common/repository/customRepository.interface';
-import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+import { ViewsValueObject } from '@/domain/contexts/contexts/views/valueObject';
 
-export interface ViewsRepositoryInterface extends RepositoryInterface<ViewsEntity> {
-  save: (view: ViewsEntity) => Promise<ViewsEntity>;
-  findAll: () => Promise<ViewsEntity[]>;
+export interface ViewsRepositoryInterface extends RepositoryInterface<ViewsValueObject> {
+  save: (view: ViewsValueObject) => Promise<ViewsValueObject>;
+  findAll: () => Promise<ViewsValueObject[]>;
   findAllDistinctIp: () => Promise<string[]>;
 }

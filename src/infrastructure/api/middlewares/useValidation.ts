@@ -7,7 +7,7 @@ export const useValidation = <T extends ZodSchema>(req: Request, schema: T): z.i
   const validate = schema.safeParse({ body: req.body, params: req.params, query: req.query, data: req.data });
 
   if (validate?.error) {
-    throw new ApiError(errorStates.PAYLOAD_IS_INVALID, validate.error.errors[0].message); // arrumar isso
+    throw new ApiError(errorStates.PAYLOAD_IS_INVALID, validate.error.errors);
   }
 
   return validate.data;

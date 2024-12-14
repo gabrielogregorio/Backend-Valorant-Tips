@@ -1,9 +1,9 @@
 import { ViewsRepositoryInterface } from '@/domain/contexts/contexts/views/repository';
-import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+import { ViewsValueObject } from '@/domain/contexts/contexts/views/valueObject';
 import { View } from './View';
 
 export class ViewsRepository implements ViewsRepositoryInterface {
-  save = async (view: ViewsEntity): Promise<ViewsEntity> => {
+  save = async (view: ViewsValueObject): Promise<ViewsValueObject> => {
     const newView = new View({
       dateAccess: view.dateAccess,
       ip: view.ip,
@@ -11,21 +11,21 @@ export class ViewsRepository implements ViewsRepositoryInterface {
 
     await newView.save();
 
-    return ViewsEntity.restore({
+    return ViewsValueObject.restore({
       dateAccess: newView.dateAccess,
       ip: newView.ip,
     });
   };
 
-  findAll = async (): Promise<ViewsEntity[]> => {
+  findAll = async (): Promise<ViewsValueObject[]> => {
     const views = await View.find();
 
-    return views.map((item) => ViewsEntity.restore({ dateAccess: item.dateAccess, ip: item.ip }));
+    return views.map((item) => ViewsValueObject.restore({ dateAccess: item.dateAccess, ip: item.ip }));
   };
 
   findAllDistinctIp = async (): Promise<string[]> => {
-    const ips = await View.find().distinct('ip');
+    const items = await View.find().distinct('ip');
 
-    return ips;
+    return items;
   };
 }
