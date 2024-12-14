@@ -12,18 +12,18 @@ export class UserZodValidator implements ValidatorInterface<UserEntity> {
       this.schema.parse({
         id: entity.id.getValue(),
       });
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        e.errors.forEach((error) => {
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        error.errors.forEach((errorItem) => {
           entity.notification.addError({
             context: 'UserEntity',
-            message: error.message,
+            message: errorItem.message,
           });
         });
         return;
       }
 
-      throw e;
+      throw error;
     }
   }
 }

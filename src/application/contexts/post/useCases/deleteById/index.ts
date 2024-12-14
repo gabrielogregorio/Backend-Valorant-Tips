@@ -1,6 +1,6 @@
 import { AppError } from '@/application/errors/AppError';
-import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 
 export class DeletePostUseCase implements DeletePostUseCaseInterface {
   constructor(private postRepository: PostRepositoryInterface) {}

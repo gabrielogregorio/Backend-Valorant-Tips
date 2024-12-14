@@ -1,5 +1,6 @@
 import { ValidatorInterface } from '@/domain/contexts/common/validators';
 import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+import { ValidationError } from '@/infrastructure/contexts/validationError';
 import { z } from 'zod';
 
 export class ViewsZodValidator implements ValidatorInterface<ViewsEntity> {
@@ -9,22 +10,28 @@ export class ViewsZodValidator implements ValidatorInterface<ViewsEntity> {
   });
 
   public validate(entity: ViewsEntity): void {
-    try {
-      this.schema.parse({
-        ip: entity.ip,
-      });
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        e.errors.forEach((error) => {
-          entity.notification.addError({
-            context: 'ViewsEntity',
-            message: error.message,
-          });
-        });
-        return;
-      }
+    const result = this.schema.safeParse({
+      ip: entity.ip,
+    });
 
-      throw e;
+    if (!result?.error) {
+      return;
     }
+
+    throw new ValidationError(
+      result.error.errors.map((item) => ({
+        location: item.path[0].toString(),
+        message: item.message,
+        path: item.path
+          .reduce((prev, current) => {
+            if (prev) {
+              return `${prev}.${current}`;
+            }
+            return current;
+          }, '')
+          .toString(),
+        type: item.code,
+      })),
+    );
   }
 }

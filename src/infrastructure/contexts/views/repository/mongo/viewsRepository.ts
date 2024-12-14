@@ -1,6 +1,6 @@
 import { ViewsRepositoryInterface } from '@/domain/contexts/contexts/views/repository';
-import { View } from './View';
 import { ViewsEntity } from '@/domain/contexts/contexts/views/entity';
+import { View } from './View';
 
 export class ViewsRepository implements ViewsRepositoryInterface {
   save = async (view: ViewsEntity): Promise<ViewsEntity> => {

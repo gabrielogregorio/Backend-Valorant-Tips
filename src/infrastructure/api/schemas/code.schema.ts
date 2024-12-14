@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
 export const schemaCode = z.object({
-  securityCode: z.string(),
+  body: z.object({
+    securityCode: z.string(),
+  }),
 });
