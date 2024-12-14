@@ -29,5 +29,5 @@
       "@/api/*": ["./src/infrastructure/api/*"]
     }
   },
-  "include": ["src/**/*", "src/**.ts", "./src"]
+  "include": ["./src/**/*"]
 }

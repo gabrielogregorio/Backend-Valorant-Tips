@@ -12,7 +12,7 @@
     "test": "jest --runInBand --verbose",
     "test:watch": "jest --watchAll --runInBand --verbose ",
     "test:workflow:coverage": "jest --coverage --runInBand",
-    "lint": "eslint -c ./.eslintrc.js . && tsc --noEmit",
+    "lint": "eslint -c ./.eslintrc.js --ext .js,.jsx,.ts,.tsx ./src && tsc --noEmit",
     "prepare": "husky install",
     "upgrade-packages": "yarn upgrade-interactive --latest",
     "depcheck-packages": "npx depcheck"
