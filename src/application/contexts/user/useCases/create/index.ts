@@ -3,7 +3,7 @@ import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
 import {
-  CreateUserInputDto,
+  CreateUserInputDtoInterface,
   CreateUserUseCaseInterface,
 } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
@@ -15,7 +15,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     private passwordHasher: PasswordHasherInterface,
   ) {}
 
-  execute = async (code: string, { username, password, image }: CreateUserInputDto): Promise<void> => {
+  execute = async (code: string, { username, password, image }: CreateUserInputDtoInterface): Promise<void> => {
     const codeEntity = await this.codeRepository.findByCode(code);
     if (!codeEntity) {
       throw new AppError('CODE_NOT_FOUND', { code, username, image });

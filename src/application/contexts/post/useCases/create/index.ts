@@ -1,12 +1,12 @@
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
-import { CreatePostUseCaseInterface, CreatePostInputDto, CreatePostOutputDto } from './CreatePostUseCaseInterface';
 import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import { CreatePostUseCaseInterface, CreatePostInputDto, CreatePostOutputDto } from './CreatePostUseCaseInterface';
 
 export class CreatePostUseCase implements CreatePostUseCaseInterface {
   constructor(
-    private postRepository: PostRepositoryInterface,
-    private userRepository: UserRepositoryInterface,
+    private _postRepository: PostRepositoryInterface,
+    private _userRepository: UserRepositoryInterface,
   ) {}
 
   execute = async ({ title, description, userId, tags, imgs }: CreatePostInputDto): Promise<CreatePostOutputDto> => {
@@ -16,9 +16,9 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
     post.changeTags(tags);
     post.changeImgs(imgs);
 
-    this.postRepository.save(post);
+    this._postRepository.save(post);
 
-    const user = await this.userRepository.findById(post.userId.getValue());
+    const user = await this._userRepository.findById(post.userId.getValue());
 
     return {
       id: post.id.getValue(),
@@ -31,8 +31,8 @@ export class CreatePostUseCase implements CreatePostUseCaseInterface {
       tags: post.tags,
       title: post.title,
       user: {
-        username: user?.username || '',
-        image: user?.image || '',
+        username: user?.username ?? '',
+        image: user?.image ?? '',
       },
     };
   };

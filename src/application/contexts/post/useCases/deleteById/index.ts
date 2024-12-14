@@ -3,10 +3,10 @@ import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/reposit
 import { DeletePostUseCaseInterface } from './DeletePostUseCaseInterface';
 
 export class DeletePostUseCase implements DeletePostUseCaseInterface {
-  constructor(private postRepository: PostRepositoryInterface) {}
+  constructor(private _postRepository: PostRepositoryInterface) {}
 
   execute = async (idPost: string, userId: string): Promise<void> => {
-    const post = await this.postRepository.findById(idPost);
+    const post = await this._postRepository.findById(idPost);
     if (!post) {
       throw new AppError('POST_NOT_EXISTS', { idPost, userId });
     }
@@ -22,6 +22,6 @@ export class DeletePostUseCase implements DeletePostUseCaseInterface {
       });
     }
 
-    this.postRepository.deleteById(idPost);
+    this._postRepository.deleteById(idPost);
   };
 }

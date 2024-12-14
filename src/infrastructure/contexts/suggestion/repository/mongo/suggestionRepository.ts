@@ -1,7 +1,7 @@
 import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion/entity/interfaces';
-import { Suggestion } from './Suggestion';
 import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/suggestion/repository';
 import { SuggestionEntity } from '@/domain/contexts/contexts/suggestion/entity';
+import { Suggestion } from './Suggestion';
 
 export class SuggestionRepository implements SuggestionRepositoryInterface {
   save = async (suggestion: SuggestionEntityInterface): Promise<SuggestionEntityInterface> => {

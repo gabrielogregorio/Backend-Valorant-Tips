@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
+import { i18nTranslate } from '@/infrastructure/config/i18nTranslate';
+import { DomainError } from '@/domain/contexts/errors';
+import { ValidationError } from '@/infrastructure/contexts/validationError';
 import { Log } from '../logs';
 import { statusCode } from '../config/statusCode';
 import { ApiError } from '../errors/ApiError';
 import { AppError } from '../../../application/errors/AppError';
-import { i18nTranslate } from '@/infrastructure/config/i18nTranslate';
-import { DomainError } from '@/domain/contexts/errors';
 
 function getLocationError(error: Error): string {
   try {
@@ -38,6 +39,18 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
 
     Log.error(`AppError: ${error?.code}`, { ...error.context, file: getLocationError(error) });
     res.status(409).json({ error: error.code, message });
+    return;
+  }
+
+  if (error instanceof ValidationError) {
+    const language = req.headers['accept-language'] ?? 'en';
+    // const message = i18nTranslate.translate(language, );
+
+    Log.error(`ValidationError: ${error?.message}`, {
+      context: error.errors,
+      file: getLocationError(error),
+    });
+    res.status(422).json({ error: 'invalid state', message: error.message });
     return;
   }
 

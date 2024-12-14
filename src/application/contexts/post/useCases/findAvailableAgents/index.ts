@@ -2,7 +2,7 @@ import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/reposit
 import { FindAvailableAgentsUseCaseInterface } from './FindAvailableAgentsUseCaseInterface';
 
 export class FindAvailableAgentsUseCase implements FindAvailableAgentsUseCaseInterface {
-  constructor(private postRepository: PostRepositoryInterface) {}
+  constructor(private _postRepository: PostRepositoryInterface) {}
 
-  execute = async (map: string): Promise<string[]> => this.postRepository.findAvailableAgents(map);
+  execute = async (map: string): Promise<string[]> => this._postRepository.findAvailableAgents(map);
 }

@@ -1,9 +1,9 @@
-export interface CreateUserInputDto {
+export interface CreateUserInputDtoInterface {
   username: string;
   password: string;
   image?: string;
 }
 
 export interface CreateUserUseCaseInterface {
-  execute: (code: string, payload: CreateUserInputDto) => Promise<void>;
+  execute: (code: string, payload: CreateUserInputDtoInterface) => Promise<void>;
 }

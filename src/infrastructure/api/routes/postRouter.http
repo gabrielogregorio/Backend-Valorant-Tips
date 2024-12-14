@@ -20,7 +20,7 @@ GET {{baseUrl}}/posts/Bind/Sova HTTP/1.1
 ### @name CreatePost
 
 POST {{baseUrl}}/posts HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -47,13 +47,13 @@ content-type: application/json
 ### @name GetPost
 
 GET {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
 
 ### @name UpdatePost
 
 PUT {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -80,4 +80,4 @@ content-type: application/json
 ###  @name DeletPost
 
 DELETE {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}

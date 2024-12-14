@@ -17,14 +17,14 @@ content-type: application/json
 ### @name GetSuggestions
 
 GET {{baseUrl}}/suggestions HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 
 
 ### @name UpdateSuggestion
 
 
 PUT {{baseUrl}}/suggestions/{{suggestionIdExample}}/ HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
 
 {
@@ -35,5 +35,5 @@ content-type: application/json
 ### @name DeleteSuggestion
 
 DELETE {{baseUrl}}/suggestions/{{suggestionIdExample}} HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 

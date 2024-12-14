@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
 import { JWT_SECRET } from '../config/envs';
 import { errorStates } from '../errors/types';
 import { ApiError } from '../errors/ApiError';
-import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
 
 export const isAuthenticate = (authorization: string) => {
   try {

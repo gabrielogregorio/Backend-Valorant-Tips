@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';
 import { asyncLocalStorage } from '../container/globalState';
 
@@ -26,7 +28,7 @@ export const getUserId = () => {
   return oldStore.userId;
 };
 
-export type levelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
+export type LevelsType = 'ERROR' | 'INFO' | 'WARN' | 'DEBUG';
 
 export const formatStartMessage = (level: string) => `${getActualMoment()} ${`[${level}]`.padEnd(8, ' ')}`;
 

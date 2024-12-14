@@ -1,7 +1,7 @@
-export type statusSuggestionType = 'accepted' | 'rejected' | 'waiting';
+export type StatusSuggestionType = 'accepted' | 'rejected' | 'waiting';
 
 interface ISuggestion {
-  status: statusSuggestionType;
+  status: StatusSuggestionType;
   email: string;
   description: string;
 }

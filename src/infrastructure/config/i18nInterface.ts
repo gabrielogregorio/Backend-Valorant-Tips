@@ -1,3 +1,3 @@
-export type languageMapsType = 'en' | 'ptBr';
+export type LanguageMapsType = 'en' | 'ptBr';
 
-export type modelsI18nType = { [key in languageMapsType]: { [key: string]: string } };
+export type ModelsI18nType = { [key in LanguageMapsType]: { [key: string]: string } };

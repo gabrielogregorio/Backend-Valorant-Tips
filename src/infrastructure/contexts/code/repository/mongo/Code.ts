@@ -1,12 +1,6 @@
 import mongoose from 'mongoose';
 
-interface ICode {
-  id: string;
-  code: string;
-  available: boolean;
-}
-
-const codeSchema = new mongoose.Schema<ICode>(
+const codeSchema = new mongoose.Schema(
   {
     id: {
       type: String,
@@ -21,4 +15,4 @@ const codeSchema = new mongoose.Schema<ICode>(
 );
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const Code = mongoose.model<ICode>('Code', codeSchema);
+export const Code = mongoose.model('Code', codeSchema);

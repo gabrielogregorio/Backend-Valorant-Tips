@@ -1,22 +1,22 @@
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { FindAllPostUseCaseInterface, FindAllPostOutputDto } from './FindAllPostUseCaseInterface';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
+import { FindAllPostUseCaseInterface, FindAllPostOutputDtoInterface } from './FindAllPostUseCaseInterface';
 
 export class FindAllPostUseCase implements FindAllPostUseCaseInterface {
   constructor(
-    private postRepository: PostRepositoryInterface,
-    private userRepository: UserRepositoryInterface,
+    private _postRepository: PostRepositoryInterface,
+    private _userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async (): Promise<FindAllPostOutputDto[]> => {
-    const postsItems = await this.postRepository.findAll();
+  execute = async (): Promise<FindAllPostOutputDtoInterface[]> => {
+    const postsItems = await this._postRepository.findAll();
     if (postsItems.length === 0) {
       return [];
     }
 
     const ids = [...new Set(postsItems.map((user) => user.userId.getValue()))];
-    const users = await this.userRepository.findByIds(ids);
+    const users = await this._userRepository.findByIds(ids);
 
     const userMap: { [key: string]: UserEntity } = {};
     users.forEach((user) => {

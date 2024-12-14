@@ -1,8 +1,8 @@
-export interface GetViewsOutputDto {
+export interface GetViewsOutputDtoInterface {
   countAll: number;
   countIps: number;
 }
 
 export interface GetViewUseCaseInterface {
-  execute: () => Promise<GetViewsOutputDto>;
+  execute: () => Promise<GetViewsOutputDtoInterface>;
 }

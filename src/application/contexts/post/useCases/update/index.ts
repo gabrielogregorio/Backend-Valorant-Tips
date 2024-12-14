@@ -1,18 +1,18 @@
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { UpdatePostInputDto, UpdatePostOutputDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
 import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
+import { UpdatePostInputDto, UpdatePostOutputDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
 
 export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   constructor(
-    private postRepository: PostRepositoryInterface,
-    private userRepository: UserRepositoryInterface,
+    private _postRepository: PostRepositoryInterface,
+    private _userRepository: UserRepositoryInterface,
   ) {}
 
   execute = async (id: string, payload: UpdatePostInputDto): Promise<UpdatePostOutputDto> => {
     const { title, description, tags, imgs, userId } = payload;
 
-    const post = PostEntity.restore({ userId: String(userId), title: title || '', id });
+    const post = PostEntity.restore({ userId: String(userId), title: title ?? '', id });
 
     if (description) {
       post.changeDescription(description);
@@ -35,9 +35,9 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
       post.changeImgs(newImgs);
     }
 
-    const postService = await this.postRepository.update(post);
+    const postService = await this._postRepository.update(post);
 
-    const userData = await this.userRepository.findById(postService.userId.getValue());
+    const userData = await this._userRepository.findById(postService.userId.getValue());
     return {
       id: postService.id.getValue(),
       description: postService.description,
@@ -45,8 +45,8 @@ export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
       tags: postService.tags,
       title: postService.title,
       user: {
-        image: userData?.image || '',
-        username: userData?.username || '',
+        image: userData?.image ?? '',
+        username: userData?.username ?? '',
       },
     };
   };

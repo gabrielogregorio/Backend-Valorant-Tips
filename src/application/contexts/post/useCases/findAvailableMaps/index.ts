@@ -2,7 +2,7 @@ import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/reposit
 import { FindAvailableMapsUseCaseInterface } from './FindAvailableMapsUseCaseInterface';
 
 export class FindAvailableMapsUseCase implements FindAvailableMapsUseCaseInterface {
-  constructor(private postRepository: PostRepositoryInterface) {}
+  constructor(private _postRepository: PostRepositoryInterface) {}
 
-  execute = async (): Promise<string[]> => this.postRepository.findAvailableMaps();
+  execute = async (): Promise<string[]> => this._postRepository.findAvailableMaps();
 }

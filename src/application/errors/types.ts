@@ -1,4 +1,4 @@
-export type codeErrors =
+export type CodeErrors =
   | 'USERNAME_ALREADY_EXISTS'
   | 'POST_NOT_EXISTS'
   | 'NO_CAN_DELETE_POST_ANOTHER_USER'

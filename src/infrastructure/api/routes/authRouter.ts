@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import { AppDependencyInjector } from '../container';
 
-export const authRouter = express.Router();
+export const authRouter = Router();
 
 const { authController } = AppDependencyInjector;
 

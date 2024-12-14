@@ -1,7 +1,7 @@
-import { statusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
+import { StatusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
 
 export interface FindAllSuggestionsOutputDto {
-  status: statusSuggestionType;
+  status: StatusSuggestionType;
   email: string;
   description: string;
   id: string;

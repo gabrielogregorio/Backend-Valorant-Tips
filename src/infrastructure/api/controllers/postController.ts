@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 import { Request, Response } from 'express';
 import { CreatePostUseCaseInterface } from '@/application/contexts/post/useCases/create/CreatePostUseCaseInterface';
 import { UpdatePostUseCaseInterface } from '@/application/contexts/post/useCases/update/UpdatePostUseCaseInterface';
@@ -15,14 +16,14 @@ import { schemaUpdatePosts } from '../schemas/updatePost.schema';
 
 export class PostController implements PostControllerInterface {
   constructor(
-    private createPostUseCase: CreatePostUseCaseInterface,
-    private updatePostUseCase: UpdatePostUseCaseInterface,
-    private findPostByIdOrThrowUseCase: FindPostByIdOrThrowUseCaseInterface,
-    private findAvailableMapsUseCase: FindAvailableMapsUseCaseInterface,
-    private findAvailableAgentsUseCase: FindAvailableAgentsUseCaseInterface,
-    private findAllPostUseCase: FindAllPostUseCaseInterface,
-    private findAllByMapAndAgentUseCase: FindAllByMapAndAgentUseCaseInterface,
-    private deletePostUseCase: DeletePostUseCaseInterface,
+    private _createPostUseCase: CreatePostUseCaseInterface,
+    private _updatePostUseCase: UpdatePostUseCaseInterface,
+    private _findPostByIdOrThrowUseCase: FindPostByIdOrThrowUseCaseInterface,
+    private _findAvailableMapsUseCase: FindAvailableMapsUseCaseInterface,
+    private _findAvailableAgentsUseCase: FindAvailableAgentsUseCaseInterface,
+    private _findAllPostUseCase: FindAllPostUseCaseInterface,
+    private _findAllByMapAndAgentUseCase: FindAllByMapAndAgentUseCaseInterface,
+    private _deletePostUseCase: DeletePostUseCaseInterface,
   ) {}
 
   uploadFile = async (req: Request, res: Response): Promise<Response> => res.json({ filename: req!.file!.path });
@@ -32,7 +33,7 @@ export class PostController implements PostControllerInterface {
     const { title, description, tags, imgs } = content.body;
     const userId = req.data.userId as string;
 
-    const post = await this.createPostUseCase.execute({ title, description, userId, tags, imgs });
+    const post = await this._createPostUseCase.execute({ title, description, userId, tags, imgs });
 
     return res.json({
       id: post.id,
@@ -54,7 +55,7 @@ export class PostController implements PostControllerInterface {
     const { id } = content.params;
     const userId = req.data.userId as string;
 
-    const post = await this.updatePostUseCase.execute(id, {
+    const post = await this._updatePostUseCase.execute(id, {
       tags,
       title,
       description,
@@ -68,25 +69,25 @@ export class PostController implements PostControllerInterface {
   get = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const post = await this.findPostByIdOrThrowUseCase.execute(id);
+    const post = await this._findPostByIdOrThrowUseCase.execute(id);
 
     return res.json(post);
   };
 
   getMaps = async (_req: Request, res: Response<{ maps: string[] }>) => {
-    const maps = await this.findAvailableMapsUseCase.execute();
+    const maps = await this._findAvailableMapsUseCase.execute();
 
     return res.json({ maps });
   };
 
   getAgents = async (req: Request, res: Response<{ agents: string[] }>) => {
-    const agents = await this.findAvailableAgentsUseCase.execute(req.params.map);
+    const agents = await this._findAvailableAgentsUseCase.execute(req.params.map);
 
     return res.json({ agents });
   };
 
   getPosts = async (_req: Request, res: Response) => {
-    const posts = await this.findAllPostUseCase.execute();
+    const posts = await this._findAllPostUseCase.execute();
 
     return res.json({
       posts: posts.map((item) => ({
@@ -103,7 +104,7 @@ export class PostController implements PostControllerInterface {
   getPostsByMapAndAgent = async (req: Request, res: Response) => {
     const { agent, map } = req.params as { agent: string; map: string };
 
-    const posts = await this.findAllByMapAndAgentUseCase.execute({ agent, map });
+    const posts = await this._findAllByMapAndAgentUseCase.execute({ agent, map });
 
     return res.status(statusCode.SUCCESS.code).json({
       posts: posts.map((item) => ({
@@ -121,7 +122,7 @@ export class PostController implements PostControllerInterface {
     const idPost = req.params.id;
     const userId = req.data.userId as string;
 
-    await this.deletePostUseCase.execute(idPost, userId);
+    await this._deletePostUseCase.execute(idPost, userId);
 
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

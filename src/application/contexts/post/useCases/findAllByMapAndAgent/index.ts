@@ -1,8 +1,8 @@
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
 import {
   FindAllByMapAndAgentUseCaseInterface,
-  FindByMapAndAgenteInputDto,
-  FindByMapAndAgenteOutputDto,
+  FindByMapAndAgentInputDtoInterface,
+  FindByMapAndAgentOutputDtoInterface,
 } from './FindAllByMapAndAgentUseCaseInterface';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
@@ -13,7 +13,7 @@ export class FindAllByMapAndAgentUseCase implements FindAllByMapAndAgentUseCaseI
     private userRepository: UserRepositoryInterface,
   ) {}
 
-  execute = async (payload: FindByMapAndAgenteInputDto): Promise<FindByMapAndAgenteOutputDto[]> => {
+  execute = async (payload: FindByMapAndAgentInputDtoInterface): Promise<FindByMapAndAgentOutputDtoInterface[]> => {
     const postsItems = await this.postRepository.findAllByMapAndAgent(payload.agent, payload.map);
 
     if (postsItems.length === 0) {

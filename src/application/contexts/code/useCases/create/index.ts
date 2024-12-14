@@ -1,5 +1,5 @@
 import {
-  CreateCodeOutputDto,
+  CreateCodeOutputDtoInterface,
   CreateCodeUseCaseInterface,
 } from '@/application/contexts/code/useCases/create/CreateCodeUseCaseInterface';
 import { CodeEntity } from '@/domain/contexts/contexts/code/entity';
@@ -8,7 +8,7 @@ import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/reposit
 export class CreateCodeUseCase implements CreateCodeUseCaseInterface {
   constructor(private codeRepository: CodeRepositoryInterface) {}
 
-  execute = async (): Promise<CreateCodeOutputDto> => {
+  execute = async (): Promise<CreateCodeOutputDtoInterface> => {
     const code = CodeEntity.create();
 
     const codeCreated = await this.codeRepository.save(code);

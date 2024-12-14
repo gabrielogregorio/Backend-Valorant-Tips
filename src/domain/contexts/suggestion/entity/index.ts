@@ -2,10 +2,10 @@ import { Entity } from '@/domain/contexts/common/entity/entity.abstract';
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
 import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion/entity/interfaces';
 import { SuggestionValidatorFactory } from '@/domain/contexts/contexts/suggestion/factory/suggestion.validator';
-import { statusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
+import { StatusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
 
 type SuggestionEntityDto = {
-  status: statusSuggestionType;
+  status: StatusSuggestionType;
   email: string;
   description: string;
   postId: UniqueId;
@@ -21,7 +21,7 @@ type SuggestionEntityCreateDto = {
 };
 
 type SuggestionEntityRestoreDto = {
-  status: statusSuggestionType;
+  status: StatusSuggestionType;
   email: string;
   description: string;
   postId: string;
@@ -31,7 +31,7 @@ type SuggestionEntityRestoreDto = {
 };
 
 export class SuggestionEntity extends Entity implements SuggestionEntityInterface {
-  private _status: statusSuggestionType;
+  private _status: StatusSuggestionType;
 
   private _email: string;
 
@@ -104,9 +104,7 @@ export class SuggestionEntity extends Entity implements SuggestionEntityInterfac
     return this._updatedAt;
   }
 
-  public delete() {
-    console.log('DELETED_ENTITY');
-  }
+  public delete() {}
 
   private _validate() {
     this._validatorTypes.validate(this);

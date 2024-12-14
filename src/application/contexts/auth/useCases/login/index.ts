@@ -1,33 +1,33 @@
 import {
-  LoginUseCaseInputDto,
+  LoginUseCaseInputDtoInterface,
   LoginUseCaseInterface,
-  LoginUseCaseOutputDto,
+  LoginUseCaseOutputDtoInterface,
 } from '@/application/contexts/auth/useCases/login/LoginUseCaseInterface';
 import { AppError } from '@/application/errors/AppError';
-import { handleAuthTokenInterface } from '@/application/services/handleAuthToken';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
+import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
-    private userRepository: UserRepositoryInterface,
-    private passwordHasher: PasswordHasherInterface,
-    private handleAuthToken: handleAuthTokenInterface,
+    private _userRepository: UserRepositoryInterface,
+    private _passwordHasher: PasswordHasherInterface,
+    private _handleAuthToken: handleAuthTokenInterface,
   ) {}
 
-  execute = async ({ username, password }: LoginUseCaseInputDto): Promise<LoginUseCaseOutputDto> => {
-    const user = await this.userRepository.findOneByUsername(username);
+  execute = async ({ username, password }: LoginUseCaseInputDtoInterface): Promise<LoginUseCaseOutputDtoInterface> => {
+    const user = await this._userRepository.findOneByUsername(username);
     if (!user) {
       throw new AppError('USER_NOT_FOUND', { username });
     }
 
-    const passwordIsValid = await this.passwordHasher.passwordIsValid(password, user.password);
+    const passwordIsValid = await this._passwordHasher.passwordIsValid(password, user.password);
     if (!passwordIsValid) {
       throw new AppError('INVALID_PASSWORD', { username });
     }
 
-    const handleAuthToken = await this.handleAuthToken.generate(
+    const handleAuthToken = await this._handleAuthToken.generate(
       { username, name: user.username, userId: user.id.getValue() },
       {
         expiresIn: '128h',

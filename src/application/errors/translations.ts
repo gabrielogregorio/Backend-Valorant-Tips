@@ -1,6 +1,6 @@
-import { modelsI18nType } from '@/infrastructure/config/i18nInterface';
+import { ModelsI18nType } from '@/infrastructure/config/i18nInterface';
 
-export const translationErrorsResources: modelsI18nType = {
+export const translationErrorsResources: ModelsI18nType = {
   en: {
     USERNAME_ALREADY_EXISTS: "Username '{{username}}' already exists",
     POST_NOT_EXISTS: "Post '{postId}' not exists",

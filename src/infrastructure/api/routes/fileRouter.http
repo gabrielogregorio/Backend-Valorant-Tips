@@ -6,7 +6,7 @@
 ### @name uploadFile
 
 POST {{baseUrl}}/upload HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 Content-Type: multipart/form-data; boundary=xyz
 
 --xyz

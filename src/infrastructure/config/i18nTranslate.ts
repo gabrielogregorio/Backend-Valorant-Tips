@@ -1,8 +1,8 @@
 import { translationErrorsResources } from '@/application/errors/translations';
 import { contextType } from '@/infrastructure/api/logs/types';
-import { languageMapsType, modelsI18nType } from '@/infrastructure/config/i18nInterface';
+import { LanguageMapsType, ModelsI18nType } from '@/infrastructure/config/i18nInterface';
 
-type ModelsI18nLibType = { [key in languageMapsType]: { translation: { [key: string]: string } } };
+type ModelsI18nLibType = { [key in LanguageMapsType]: { translation: { [key: string]: string } } };
 
 class I18nTranslate {
   model: ModelsI18nLibType;
@@ -11,10 +11,10 @@ class I18nTranslate {
     this.model = this._formatToResourcesI18n([translationErrorsResources]);
   }
 
-  private _formatToResourcesI18n(models: modelsI18nType[]): ModelsI18nLibType {
+  private _formatToResourcesI18n(models: ModelsI18nType[]): ModelsI18nLibType {
     const resourceI18n: ModelsI18nLibType = { ptBr: { translation: {} }, en: { translation: {} } };
     models.forEach((model) => {
-      const keys = Object.keys(model) as languageMapsType[];
+      const keys = Object.keys(model) as LanguageMapsType[];
       keys.forEach((key) => {
         resourceI18n[key].translation = { ...resourceI18n[key].translation, ...model[key] };
       });
@@ -23,7 +23,7 @@ class I18nTranslate {
     return resourceI18n;
   }
 
-  private _languageIsValid(language: unknown): language is languageMapsType {
+  private _languageIsValid(language: unknown): language is LanguageMapsType {
     return language === 'en' || language === 'ptBr';
   }
 

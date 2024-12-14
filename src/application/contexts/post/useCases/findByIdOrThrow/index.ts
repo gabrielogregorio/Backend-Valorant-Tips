@@ -1,10 +1,10 @@
 import { AppError } from '@/application/errors/AppError';
+import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import {
   FindPostByIdOrThrowUseCaseInterface,
   FindPostByIdOrThrowUseCaseOutputDto,
 } from './IFindPostByIdOrThrowUseCase';
-import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 
 export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInterface {
   constructor(

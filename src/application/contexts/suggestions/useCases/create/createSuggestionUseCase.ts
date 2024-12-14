@@ -1,4 +1,4 @@
-import { statusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
+import { StatusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
 
 export interface CreateSuggestionInputDto {
   email: string;
@@ -7,7 +7,7 @@ export interface CreateSuggestionInputDto {
 }
 
 export interface SuggestionOutputDto {
-  status: statusSuggestionType;
+  status: StatusSuggestionType;
   email: string;
   description: string;
   id: string;

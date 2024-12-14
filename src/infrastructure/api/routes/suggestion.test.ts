@@ -2,7 +2,7 @@ import { createDatabaseMock, createPostMocker, createUserMocker, requestMock } f
 
 const databaseMock = createDatabaseMock();
 
-let authorization: Record<string, string> = { Authorization: '' };
+let authorization: Record<string, string> = { authorization: '' };
 let postIdReal = '';
 let idCreatedSuggestion = '';
 let suggestionPayload = {

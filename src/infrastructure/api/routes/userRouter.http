@@ -19,13 +19,13 @@ accept-language: ptBr
 ### @name getMe
 
 GET {{baseUrl}}/users/me HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 
 
 ### @name updateUser
 
 PATCH  {{baseUrl}}/users HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 content-type: application/json
 accept-language: ptBr
 
@@ -39,5 +39,5 @@ accept-language: ptBr
 ### @name deleteThis
 
 DELETE  {{baseUrl}}/users HTTP/1.1
-Authorization: {{bearerToken}}
+authorization: {{bearerToken}}
 
