@@ -26,6 +26,6 @@ export const schemaUpdatePosts = z.object({
   }),
 
   data: z.object({
-    id: z.string(),
+    userId: z.string(),
   }),
 });
