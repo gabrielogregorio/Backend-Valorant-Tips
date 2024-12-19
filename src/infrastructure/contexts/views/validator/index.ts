@@ -5,14 +5,12 @@ import { z } from 'zod';
 
 export class ViewsZodValidator implements ValidatorInterface<ViewsValueObject> {
   private _schema = z.object({
-    id: z.string(),
-    dateAccess: z.date(),
+    ip: z.string(),
   });
 
   public validate(entity: ViewsValueObject): void {
     const result = this._schema.safeParse({
       ip: entity.ip,
-      dateAccess: entity.dateAccess,
     });
 
     if (!result?.error) {
