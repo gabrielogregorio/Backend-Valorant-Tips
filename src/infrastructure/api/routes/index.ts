@@ -8,6 +8,7 @@ import { postRouter } from './postRouter';
 import { suggestionRouter } from './suggestionRouter';
 import { userRouter } from './userRouter';
 import { viewsRouter } from './viewsRouter';
+import { mapsRouter } from './mapsRouter';
 
 export const router = Router();
 
@@ -22,3 +23,4 @@ router.use('/suggestions', suggestionRouter);
 router.use('/code', codeRouter);
 router.use('/dashboards', dashboardRouter);
 router.use('/views', viewsRouter);
+router.use('/maps', mapsRouter);

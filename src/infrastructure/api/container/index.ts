@@ -68,6 +68,14 @@ import { GetViewUseCase } from '@/application/contexts/views/useCases/get';
 import { CreateViewUseCase } from '@/application/contexts/views/useCases/add';
 import { HandleAuthToken } from '@/infrastructure/services/HandleAuthToken';
 import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
+import { MapsRepository } from '@/infrastructure/contexts/maps/repository/mongo/mapsRepository';
+import { CreateMapUseCase } from '@/application/contexts/maps/useCases/add';
+import { CreateMapUseCaseInterface } from '@/application/contexts/maps/useCases/add/CreateMapUseCaseInterface';
+import { GetMapsUseCaseInterface } from '@/application/contexts/maps/useCases/get/GetMapsUseCaseInterface';
+import { GetMapsUseCase } from '@/application/contexts/maps/useCases/get';
+import { MapsControllerInterface } from '@/infrastructure/api/controllers/interfaces/MapsControllerInterface';
+import { MapsController } from '@/infrastructure/api/controllers/mapsController';
 
 export class AppDependencyInjector {
   private static _dashboardControllerInstance: DashboardControllerInterface;
@@ -146,6 +154,46 @@ export class AppDependencyInjector {
     }
 
     return this._handleAuthTokenInstance;
+  }
+
+  private static _mapsRepositoryInstance: MapsRepositoryInterface;
+
+  static get mapsRepository(): MapsRepositoryInterface {
+    if (!this._mapsRepositoryInstance) {
+      this._mapsRepositoryInstance = new MapsRepository();
+    }
+
+    return this._mapsRepositoryInstance;
+  }
+
+  private static _mapsControllerInstance: MapsControllerInterface;
+
+  static get mapsController(): MapsControllerInterface {
+    if (!this._mapsControllerInstance) {
+      this._mapsControllerInstance = new MapsController(this.createMapUseCase, this.getMapsUseCase);
+    }
+
+    return this._mapsControllerInstance;
+  }
+
+  private static _createMapUseCaseInstance: CreateMapUseCaseInterface;
+
+  static get createMapUseCase(): CreateMapUseCaseInterface {
+    if (!this._createMapUseCaseInstance) {
+      this._createMapUseCaseInstance = new CreateMapUseCase(this.mapsRepository);
+    }
+
+    return this._createMapUseCaseInstance;
+  }
+
+  private static _getMapsUseCaseInstance: GetMapsUseCaseInterface;
+
+  static get getMapsUseCase(): GetMapsUseCaseInterface {
+    if (!this._getMapsUseCaseInstance) {
+      this._getMapsUseCaseInstance = new GetMapsUseCase(this.mapsRepository);
+    }
+
+    return this._getMapsUseCaseInstance;
   }
 
   static get authController(): AuthControllerInterface {

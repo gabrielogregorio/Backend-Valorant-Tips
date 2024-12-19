@@ -6,22 +6,22 @@ import { DashboardUseCaseInterface, DashboardOutputDtoInterface } from './Dashbo
 
 export class DashboardUseCase implements DashboardUseCaseInterface {
   constructor(
-    private userRepository: UserRepositoryInterface,
-    private postRepository: PostRepositoryInterface,
-    private suggestionRepository: SuggestionRepositoryInterface,
-    private viewsRepository: ViewsRepositoryInterface,
+    private _userRepository: UserRepositoryInterface,
+    private _postRepository: PostRepositoryInterface,
+    private _suggestionRepository: SuggestionRepositoryInterface,
+    private _viewsRepository: ViewsRepositoryInterface,
   ) {}
 
   execute = async (): Promise<DashboardOutputDtoInterface> => {
     const [countAllPosts, countAlMaps, countAlAgents, countAllSuggestions, countAllUsers, count2, count] =
       await Promise.all([
-        await this.postRepository.countAll(),
-        await this.postRepository.findMaps(),
-        await this.postRepository.findAgents(),
-        await this.suggestionRepository.count(),
-        await this.userRepository.countDocuments(),
-        await this.viewsRepository.findAllDistinctIp(),
-        await this.viewsRepository.findAll(),
+        await this._postRepository.countAll(),
+        await this._postRepository.findMaps(),
+        await this._postRepository.findAgents(),
+        await this._suggestionRepository.count(),
+        await this._userRepository.countDocuments(),
+        await this._viewsRepository.findAllDistinctIp(),
+        await this._viewsRepository.findAll(),
       ]);
 
     return {
