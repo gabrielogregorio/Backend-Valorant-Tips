@@ -36,7 +36,7 @@ export class PostRepository implements PostRepositoryInterface {
       id: post.id.getValue(),
     };
 
-    const postUpdated = await Post.findOneAndUpdate({ id: post.id }, { $set: updatePost }, { new: true });
+    const postUpdated = await Post.findOneAndUpdate({ id: post.id.getValue() }, { $set: updatePost }, { new: true });
     if (!postUpdated) {
       throw new AppError('POST_NOT_EXISTS', { postId: post.id.getValue() });
     }
