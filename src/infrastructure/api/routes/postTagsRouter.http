@@ -1,0 +1,19 @@
+@baseUrl = http://localhost:3333
+
+# Melhorar nomes
+### @name addTag
+
+
+POST {{baseUrl}}/tags HTTP/1.1
+content-type: application/json
+
+{
+  "categoryId":"8026db68-1f81-4844-9022-a879de004a65",
+  "name":"aaa22222aa"
+}
+
+
+### @name getTag
+
+GET {{baseUrl}}/tags HTTP/1.1
+
