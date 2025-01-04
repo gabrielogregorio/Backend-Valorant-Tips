@@ -8,7 +8,11 @@ la: logs-api
 
 dev: start-setup
 	make stop
+	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.dev.yaml up -d
+
+seed:
+	@docker exec  vavatips-api yarn ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --no-notify src/seed.ts
 
 build:start-setup
 	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
@@ -69,7 +73,7 @@ test-only: start-setup
 	@docker compose -f ./docker-compose.test.yaml rm -f -s -v vavatips-db-test vavatips-api-test
 
 bash:
-	@docker exec -it vavatips-api /bin/bash
+	@docker exec -it vavatips-api /bin/sh
 
 bash-mongo:
 	@docker exec -it vavatips-api-mongodb /bin/bash
