@@ -5,12 +5,12 @@ import { schemaCode } from '@/infrastructure/api/schemas/code.schema';
 import { CodeControllerInterface } from './interfaces/CodeControllerInterface';
 
 export class CodeController implements CodeControllerInterface {
-  constructor(private createCodeUseCase: CreateCodeUseCaseInterface) {}
+  constructor(private _createCodeUseCase: CreateCodeUseCaseInterface) {}
 
   generate = async (req: Request, res: Response) => {
     useValidation(req, schemaCode);
 
-    const token = await this.createCodeUseCase.execute();
+    const token = await this._createCodeUseCase.execute();
 
     return res.json({ token: token.code });
   };

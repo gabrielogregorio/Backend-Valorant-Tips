@@ -7,13 +7,13 @@ import { AppError } from '@/application/errors/AppError';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 import { JWT_SECRET } from '@/infrastructure/api/config/envs';
-import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 
 export class LoginUseCase implements LoginUseCaseInterface {
   constructor(
     private _userRepository: UserRepositoryInterface,
     private _passwordHasher: PasswordHasherInterface,
-    private _handleAuthToken: handleAuthTokenInterface,
+    private _handleAuthToken: HandleAuthTokenInterface,
   ) {}
 
   execute = async ({ username, password }: LoginUseCaseInputDtoInterface): Promise<LoginUseCaseOutputDtoInterface> => {

@@ -1,11 +1,14 @@
 import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/suggestion/repository';
-import { FindAllSuggestionsUseCaseInterface, FindAllSuggestionsOutputDto } from './FindAllSuggestionsUseCaseInterface';
+import {
+  FindAllSuggestionsUseCaseInterface,
+  FindAllSuggestionsOutputDtoInterface,
+} from './FindAllSuggestionsUseCaseInterface';
 
 export class FindAllSuggestionsUseCase implements FindAllSuggestionsUseCaseInterface {
-  constructor(private suggestionRepository: SuggestionRepositoryInterface) {}
+  constructor(private _suggestionRepository: SuggestionRepositoryInterface) {}
 
-  execute = async (): Promise<FindAllSuggestionsOutputDto[]> => {
-    const suggestions = await this.suggestionRepository.findAll();
+  execute = async (): Promise<FindAllSuggestionsOutputDtoInterface[]> => {
+    const suggestions = await this._suggestionRepository.findAll();
 
     return suggestions.map((suggestion) => ({
       createdAt: suggestion.createdAt,

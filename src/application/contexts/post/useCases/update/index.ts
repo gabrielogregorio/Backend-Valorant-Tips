@@ -1,53 +1,58 @@
+/* eslint-disable max-params */
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
-import { UpdatePostInputDto, UpdatePostOutputDto, UpdatePostUseCaseInterface } from './UpdatePostUseCaseInterface';
+import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
+import { AgentsRepositoryInterface } from '@/domain/contexts/contexts/agents/repository';
+import { DomainError } from '@/domain/contexts/errors';
+import { PostTagsRepositoryInterface } from '@/domain/contexts/contexts/postTags/repository';
+import { PostEntity } from '@/domain/contexts/contexts/post/entity/post';
+import { PostPresenter } from '@/application/presenters/post';
+import {
+  UpdatePostInputDtoInterface,
+  UpdatePostOutputDtoInterface,
+  UpdatePostUseCaseInterface,
+} from './UpdatePostUseCaseInterface';
 
 export class UpdatePostUseCase implements UpdatePostUseCaseInterface {
   constructor(
     private _postRepository: PostRepositoryInterface,
     private _userRepository: UserRepositoryInterface,
+    private _mapsRepository: MapsRepositoryInterface,
+    private _agentsRepository: AgentsRepositoryInterface,
+    private _postTagsRepository: PostTagsRepositoryInterface,
   ) {}
 
-  execute = async (id: string, payload: UpdatePostInputDto): Promise<UpdatePostOutputDto> => {
-    const { title, description, tags, imgs, userId } = payload;
+  execute = async (id: string, payload: UpdatePostInputDtoInterface): Promise<UpdatePostOutputDtoInterface> => {
+    const { title, description, agentIds, authorIds, mapIds, steps, tagIds } = payload;
 
-    const post = PostEntity.restore({ userId: String(userId), title: title ?? '', id });
-
-    if (description) {
-      post.changeDescription(description);
+    const authors = await this._userRepository.findByIds(authorIds);
+    if (!authors) {
+      throw new DomainError('NotFound', `user id '${authorIds}' not found to create post`, { authorIds });
     }
 
-    if (tags) {
-      post.changeTags(tags);
+    const agents = await this._agentsRepository.findByIds(agentIds);
+    if (!agents) {
+      throw new DomainError('NotFound', `agents id '${agentIds}' not found to create post`, { agentIds });
     }
 
-    const newImgs: { description: string; id: string; image: string }[] = [];
-    imgs?.forEach((img) => {
-      newImgs.push({
-        description: img.description,
-        id: img.id,
-        image: img.image,
-      });
-    });
-
-    if (newImgs.length) {
-      post.changeImgs(newImgs);
+    const maps = await this._mapsRepository.findByIds(mapIds);
+    if (!maps) {
+      throw new DomainError('NotFound', `maps id '${agentIds}' not found to create post`, { agentIds });
     }
 
-    const postService = await this._postRepository.update(post);
+    const tags = await this._postTagsRepository.findByIds(tagIds);
+    if (!tags) {
+      throw new DomainError('NotFound', `tagIds id '${tagIds}' not found to create post`, { tagIds });
+    }
 
-    const userData = await this._userRepository.findById(postService.userId.getValue());
-    return {
-      id: postService.id.getValue(),
-      description: postService.description,
-      imgs: postService.imgs,
-      tags: postService.tags,
-      title: postService.title,
-      user: {
-        image: userData?.image ?? '',
-        username: userData?.username ?? '',
-      },
-    };
+    const post = PostEntity.create({ authors, description, title });
+    post.changeAgents(agents);
+    post.changeMap(maps);
+    post.changeTags(tags);
+    post.changeSteps(steps);
+
+    const postUpdated = await this._postRepository.update(post);
+
+    return PostPresenter.toHTTP(postUpdated);
   };
 }

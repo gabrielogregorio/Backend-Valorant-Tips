@@ -68,7 +68,7 @@ import { GetViewUseCaseInterface } from '@/application/contexts/views/useCases/g
 import { GetViewUseCase } from '@/application/contexts/views/useCases/get';
 import { CreateViewUseCase } from '@/application/contexts/views/useCases/add';
 import { HandleAuthToken } from '@/infrastructure/services/HandleAuthToken';
-import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 import { MapsRepositoryInterface } from '@/domain/contexts/contexts/maps/repository';
 import { MapsRepository } from '@/infrastructure/contexts/maps/repository/mongo/mapsRepository';
 import { CreateMapUseCase } from '@/application/contexts/maps/useCases/add';
@@ -101,6 +101,12 @@ import { GetPostTagsUseCase } from '@/application/contexts/postTags/useCases/get
 import { PostTagsControllerInterface } from '@/infrastructure/api/controllers/interfaces/PostTagsControllerInterface';
 import { PostTagsController } from '@/infrastructure/api/controllers/postTagsController';
 import { CreatePostTagCategoryUseCaseInterface } from '@/application/contexts/postTagCategory/useCases/add/CreatePostTagCategoryUseCaseInterface';
+import { CreateImagesUseCase } from '@/application/contexts/images/useCases/add';
+import { CreateImagesUseCaseInterface } from '@/application/contexts/images/useCases/add/CreateImagesUseCaseInterface';
+import { HandleUploadFileInterface } from '@/application/services/HandleAuthToken copy';
+import { HandleUploadFile } from '@/infrastructure/services/HandleUploadFile';
+import { ImagesControllerInterface } from '@/infrastructure/api/controllers/interfaces/ImagesControllerInterface';
+import { ImagesController } from '@/infrastructure/api/controllers/imagesController';
 
 export class AppDependencyInjector {
   private static _dashboardControllerInstance: DashboardControllerInterface;
@@ -171,9 +177,9 @@ export class AppDependencyInjector {
 
   private static _dashboardUseCaseInstance: DashboardUseCaseInterface;
 
-  private static _handleAuthTokenInstance: handleAuthTokenInterface;
+  private static _handleAuthTokenInstance: HandleAuthTokenInterface;
 
-  static get handleAuthToken(): handleAuthTokenInterface {
+  static get handleAuthToken(): HandleAuthTokenInterface {
     if (!this._handleAuthTokenInstance) {
       this._handleAuthTokenInstance = new HandleAuthToken();
     }
@@ -289,6 +295,36 @@ export class AppDependencyInjector {
     }
 
     return this._agentsControllerInstance;
+  }
+
+  private static _createImagesUseCaseInterfaceInstance: CreateImagesUseCaseInterface;
+
+  static get createImagesUseCase(): CreateImagesUseCaseInterface {
+    if (!this._createImagesUseCaseInterfaceInstance) {
+      this._createImagesUseCaseInterfaceInstance = new CreateImagesUseCase(this.handleUploadFile);
+    }
+
+    return this._createImagesUseCaseInterfaceInstance;
+  }
+
+  private static _imagesControllerInterfaceInstance: ImagesControllerInterface;
+
+  static get imagesController(): ImagesControllerInterface {
+    if (!this._imagesControllerInterfaceInstance) {
+      this._imagesControllerInterfaceInstance = new ImagesController(this.createImagesUseCase);
+    }
+
+    return this._imagesControllerInterfaceInstance;
+  }
+
+  private static _handleUploadFileInterfaceInstance: HandleUploadFileInterface;
+
+  static get handleUploadFile(): HandleUploadFileInterface {
+    if (!this._handleUploadFileInterfaceInstance) {
+      this._handleUploadFileInterfaceInstance = new HandleUploadFile();
+    }
+
+    return this._handleUploadFileInterfaceInstance;
   }
 
   static get authController(): AuthControllerInterface {
@@ -483,7 +519,13 @@ export class AppDependencyInjector {
 
   static get createPostUseCase(): CreatePostUseCaseInterface {
     if (!this._createPostUseCaseInstance) {
-      this._createPostUseCaseInstance = new CreatePostUseCase(this.postRepository, this.userRepository);
+      this._createPostUseCaseInstance = new CreatePostUseCase(
+        this.postRepository,
+        this.userRepository,
+        this.agentsRepository,
+        this.mapsRepository,
+        this.postTagsRepository,
+      );
     }
 
     return this._createPostUseCaseInstance;
@@ -496,6 +538,7 @@ export class AppDependencyInjector {
         this.userRepository,
         this.mapsRepository,
         this.agentsRepository,
+        this.postTagsRepository,
       );
     }
 
@@ -531,7 +574,7 @@ export class AppDependencyInjector {
 
   static get findAllPostUseCase(): FindAllPostUseCaseInterface {
     if (!this._findAllPostUseCaseInstance) {
-      this._findAllPostUseCaseInstance = new FindAllPostUseCase(this.postRepository, this.userRepository);
+      this._findAllPostUseCaseInstance = new FindAllPostUseCase(this.postRepository);
     }
 
     return this._findAllPostUseCaseInstance;
@@ -558,7 +601,12 @@ export class AppDependencyInjector {
 
   static get postRepository(): PostRepositoryInterface {
     if (!this._postRepositoryInstance) {
-      this._postRepositoryInstance = new PostRepository();
+      this._postRepositoryInstance = new PostRepository(
+        this.agentsRepository,
+        this.mapsRepository,
+        this.userRepository,
+        this.postTagsRepository,
+      );
     }
 
     return this._postRepositoryInstance;

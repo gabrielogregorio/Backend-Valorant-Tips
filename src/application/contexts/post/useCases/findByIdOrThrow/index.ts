@@ -1,36 +1,18 @@
 import { AppError } from '@/application/errors/AppError';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
-import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
-import {
-  FindPostByIdOrThrowUseCaseInterface,
-  FindPostByIdOrThrowUseCaseOutputDto,
-} from './IFindPostByIdOrThrowUseCase';
+import { PostPresenter, PostPresenterToHttp } from '@/application/presenters/post';
+import { FindPostByIdOrThrowUseCaseInterface } from './IFindPostByIdOrThrowUseCase';
 
 export class FindPostByIdOrThrowUseCase implements FindPostByIdOrThrowUseCaseInterface {
-  constructor(
-    private postRepository: PostRepositoryInterface,
-    private userRepository: UserRepositoryInterface,
-  ) {}
+  constructor(private _postRepository: PostRepositoryInterface) {}
 
-  execute = async (postId: string): Promise<FindPostByIdOrThrowUseCaseOutputDto> => {
-    const post = await this.postRepository.findById(postId);
+  execute = async (postId: string): Promise<PostPresenterToHttp> => {
+    const post = await this._postRepository.findById(postId);
 
     if (!post) {
       throw new AppError('POST_NOT_EXISTS', { postId });
     }
 
-    const userData = await this.userRepository.findById(post.userId.getValue());
-
-    return {
-      id: post.id.getValue(),
-      description: post.description,
-      imgs: post.imgs,
-      tags: post.tags,
-      title: post.title,
-      user: {
-        username: userData?.username || '',
-        image: userData?.image || '',
-      },
-    };
+    return PostPresenter.toHTTP(post);
   };
 }

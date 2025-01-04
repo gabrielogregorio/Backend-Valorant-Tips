@@ -6,34 +6,34 @@ import { AgentsValueObjectInterface } from '@/domain/contexts/contexts/agents/va
 type AgentsValueObjectDto = {
   id: UniqueId;
   name: string;
-  image: string;
+  imageUrl: string;
 };
 
 type AgentsValueObjectCreateDto = {
-  image: string;
+  imageUrl: string;
   name: string;
 };
 
 type AgentsValueObjectRestoreDto = {
   id: string;
   name: string;
-  image: string;
+  imageUrl: string;
 };
 
 export class AgentsValueObject extends ValueObject implements AgentsValueObjectInterface {
   public readonly id: UniqueId;
 
-  public readonly image: string;
+  public readonly imageUrl: string;
 
   public readonly name: string;
 
   private _validatorTypes = AgentsValidatorFactory.create();
 
-  private constructor({ name, id, image }: AgentsValueObjectDto) {
+  private constructor({ name, id, imageUrl }: AgentsValueObjectDto) {
     super();
 
     this.id = id;
-    this.image = image;
+    this.imageUrl = imageUrl;
     this.name = name;
 
     this._validate();
@@ -43,14 +43,14 @@ export class AgentsValueObject extends ValueObject implements AgentsValueObjectI
     return new AgentsValueObject({
       id: new UniqueId(),
       name: payload.name,
-      image: payload.image,
+      imageUrl: payload.imageUrl,
     });
   }
 
   public static restore(payload: AgentsValueObjectRestoreDto) {
     return new AgentsValueObject({
       id: new UniqueId(payload.id),
-      image: payload.image,
+      imageUrl: payload.imageUrl,
       name: payload.name,
     });
   }

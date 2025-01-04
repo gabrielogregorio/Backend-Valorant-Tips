@@ -1,22 +1,22 @@
 import { AppError } from '@/application/errors/AppError';
-import {
-  CreateSuggestionUseCaseInterface,
-  CreateSuggestionInputDto,
-  SuggestionOutputDto,
-} from './createSuggestionUseCase';
 import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/suggestion/repository';
 import { SuggestionEntity } from '@/domain/contexts/contexts/suggestion/entity';
 import { SuggestionEntityInterface } from '@/domain/contexts/contexts/suggestion/entity/interfaces';
 import { PostRepositoryInterface } from '@/domain/contexts/contexts/post/repository';
+import {
+  CreateSuggestionUseCaseInterface,
+  CreateSuggestionInputDtoInterface,
+  SuggestionOutputDtoInterface,
+} from './createSuggestionUseCase';
 
 export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface {
   constructor(
-    private suggestionRepository: SuggestionRepositoryInterface,
-    private postRepository: PostRepositoryInterface,
+    private _suggestionRepository: SuggestionRepositoryInterface,
+    private _postRepository: PostRepositoryInterface,
   ) {}
 
-  execute = async (dto: CreateSuggestionInputDto): Promise<SuggestionOutputDto> => {
-    const postFound = await this.postRepository.findById(dto.postId);
+  execute = async (dto: CreateSuggestionInputDtoInterface): Promise<SuggestionOutputDtoInterface> => {
+    const postFound = await this._postRepository.findById(dto.postId);
     if (!postFound) {
       throw new AppError('POST_NOT_EXISTS', { ...dto });
     }
@@ -27,12 +27,12 @@ export class CreateSuggestionUseCase implements CreateSuggestionUseCaseInterface
       email: dto.email,
     });
 
-    const suggestionCreated = await this.suggestionRepository.save(suggestion);
+    const suggestionCreated = await this._suggestionRepository.save(suggestion);
 
-    return this.toOutputDto(suggestionCreated);
+    return this._toOutputDto(suggestionCreated);
   };
 
-  private toOutputDto(suggestion: SuggestionEntityInterface): SuggestionOutputDto {
+  private _toOutputDto(suggestion: SuggestionEntityInterface): SuggestionOutputDtoInterface {
     return {
       createdAt: suggestion.createdAt,
       description: suggestion.description,

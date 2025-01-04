@@ -4,37 +4,46 @@ import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/reposit
 import { CodeRepositoryInterface } from '@/domain/contexts/contexts/code/repository';
 import {
   CreateUserInputDtoInterface,
+  CreateUserOutputDtoInterface,
   CreateUserUseCaseInterface,
 } from '@/application/contexts/user/useCases/create/CreateUserUseCaseInterface';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(
-    private userRepository: UserRepositoryInterface,
-    private codeRepository: CodeRepositoryInterface,
-    private passwordHasher: PasswordHasherInterface,
+    private _userRepository: UserRepositoryInterface,
+    private _codeRepository: CodeRepositoryInterface,
+    private _passwordHasher: PasswordHasherInterface,
   ) {}
 
-  execute = async (code: string, { username, password, image }: CreateUserInputDtoInterface): Promise<void> => {
-    const codeEntity = await this.codeRepository.findByCode(code);
+  execute = async (
+    code: string,
+    { username, password, imageUrl }: CreateUserInputDtoInterface,
+  ): Promise<CreateUserOutputDtoInterface> => {
+    const codeEntity = await this._codeRepository.findByCode(code);
     if (!codeEntity) {
-      throw new AppError('CODE_NOT_FOUND', { code, username, image });
+      throw new AppError('CODE_NOT_FOUND', { code, username, imageUrl });
     }
 
-    const userFound = await this.userRepository.findOneByUsername(username);
+    const userFound = await this._userRepository.findOneByUsername(username);
     if (userFound) {
       throw new AppError('USERNAME_ALREADY_EXISTS', { username });
     }
 
     codeEntity.useCode();
 
-    this.codeRepository.updateEntity(codeEntity);
-    const user = UserEntity.create({ username, password: await this.passwordHasher.generateHashPassword(password) });
+    this._codeRepository.updateEntity(codeEntity);
+    const user = UserEntity.create({ username, password: await this._passwordHasher.generateHashPassword(password) });
 
-    if (image) {
-      user.changeImage(image);
+    if (imageUrl) {
+      user.changeImageUrl(imageUrl);
     }
 
-    await this.userRepository.save(user);
+    const userCreated = await this._userRepository.save(user);
+    return {
+      id: userCreated.id.getValue(),
+      username: userCreated.username,
+      imageUrl: userCreated.imageUrl,
+    };
   };
 }

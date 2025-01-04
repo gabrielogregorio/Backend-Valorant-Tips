@@ -3,10 +3,10 @@ import { DashboardUseCaseInterface } from '@/application/contexts/dashboard/useC
 import { DashboardControllerInterface, IDashboardServiceType } from './interfaces/DashboardControllerInterface';
 
 export class DashboardController implements DashboardControllerInterface {
-  constructor(private DashboardUseCase: DashboardUseCaseInterface) {}
+  constructor(private _dashboardUseCase: DashboardUseCaseInterface) {}
 
   get = async (_req: Request, res: Response<IDashboardServiceType>) => {
-    const data = await this.DashboardUseCase.execute();
+    const data = await this._dashboardUseCase.execute();
 
     return res.json({
       countAlAgents: data.countAlAgents,

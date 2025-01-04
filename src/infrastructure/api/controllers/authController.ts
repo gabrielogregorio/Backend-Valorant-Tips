@@ -5,14 +5,14 @@ import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { AuthControllerInterface } from './interfaces/AuthControllerInterface';
 
 export class AuthController implements AuthControllerInterface {
-  constructor(private loginUseCase: LoginUseCaseInterface) {}
+  constructor(private _loginUseCase: LoginUseCaseInterface) {}
 
   auth = async (req: Request, res: Response) => {
     const content = useValidation(req, schemaAuth);
 
     const { username, password } = content.body;
 
-    const response = await this.loginUseCase.execute({ username, password });
+    const response = await this._loginUseCase.execute({ username, password });
 
     return res.json(response);
   };

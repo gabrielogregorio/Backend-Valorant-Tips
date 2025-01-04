@@ -2,13 +2,13 @@ import { SuggestionRepositoryInterface } from '@/domain/contexts/contexts/sugges
 import { DeleteSuggestionByIdUseCaseInterface } from './DeleteSuggestionByIdUseCaseInterface';
 
 export class DeleteSuggestionByIdUseCase implements DeleteSuggestionByIdUseCaseInterface {
-  constructor(private suggestionRepository: SuggestionRepositoryInterface) {}
+  constructor(private _suggestionRepository: SuggestionRepositoryInterface) {}
 
   execute = async (id: string): Promise<void> => {
-    const suggestion = await this.suggestionRepository.findById(id);
+    const suggestion = await this._suggestionRepository.findById(id);
 
     suggestion.delete();
 
-    await this.suggestionRepository.deleteById(id);
+    await this._suggestionRepository.deleteById(id);
   };
 }
