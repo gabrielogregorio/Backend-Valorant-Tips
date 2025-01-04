@@ -6,17 +6,17 @@ import { FindUserByIdUseCaseInterface, FindUserByIdOutputDtoInterface } from './
 class OutputMapper {
   static toOutput(user: UserEntity): FindUserByIdOutputDtoInterface {
     return {
-      image: user.image,
+      imageUrl: user.imageUrl,
       username: user.username,
     };
   }
 }
 
 export class FindUserByIdUseCase implements FindUserByIdUseCaseInterface {
-  constructor(private userRepository: UserRepositoryInterface) {}
+  constructor(private _userRepository: UserRepositoryInterface) {}
 
   execute = async (id: string): Promise<FindUserByIdOutputDtoInterface | null> => {
-    const user = await this.userRepository.findById(id);
+    const user = await this._userRepository.findById(id);
     if (user === null) {
       return null;
     }

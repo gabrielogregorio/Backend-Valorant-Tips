@@ -1,35 +1,39 @@
 import { UniqueId } from '@/domain/contexts/common/utils/UniqueId';
+import { AgentsValueObject } from '@/domain/contexts/contexts/agents/valueObject';
+import { MapsValueObject } from '@/domain/contexts/contexts/maps/valueObject';
+import { PostTagsValueObject } from '@/domain/contexts/contexts/postTags/valueObject';
+import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 
-export type PostTagsInterface = {
-  moment: string;
-  difficult: string;
-  ability: string;
-  side: string;
-  map: string;
-  mapPosition: string;
-  agent: string;
-};
-
-export type PostImagesInterface = {
-  id: string;
+export interface PostStepInterface {
+  id: UniqueId;
   description: string;
-  image: string;
-};
+  imageUrl: string;
+}
 
-export interface PostInterface {
-  get id(): UniqueId;
+export interface PostEntityInterface {
+  deletePost(): void;
+  unpublishPost(): void;
+  publishPost(): void;
 
-  get title(): string;
-
-  get description(): string;
-
-  get userId(): UniqueId;
-
-  get tags(): PostTagsInterface;
-
-  get imgs(): PostImagesInterface[];
-
-  changeTags(tags: PostTagsInterface): void;
+  changeTags(tags: PostTagsValueObject[]): void;
+  changeSteps(steps: PostStepInterface[]): void;
+  changeMap(map: MapsValueObject[]): void;
+  changeAgents(agents: AgentsValueObject[]): void;
+  changeAuthors(authors: UserEntity[]): void;
   changeDescription(description: string): void;
-  changeImgs(imgs: PostImagesInterface[]): void;
+  changeTitle(title: string): void;
+
+  readonly id: UniqueId;
+  readonly createdAt: Date;
+
+  updateAt: Date;
+  title: string;
+  description: string;
+  isDeleted: boolean;
+  isPublished: boolean;
+  authors: UserEntity[];
+  agents: AgentsValueObject[];
+  maps: MapsValueObject[];
+  tags: PostTagsValueObject[];
+  steps: PostStepInterface[];
 }

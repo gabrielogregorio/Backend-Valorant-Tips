@@ -11,24 +11,19 @@ import { schemaCreateUser } from '../schemas/createUser.schema';
 
 export class UserController implements UserControllerInterface {
   constructor(
-    private createUserUseCase: CreateUserUseCaseInterface,
-    private updateUserUseCase: UpdateUserUseCaseInterface,
-    private findUserByIdUseCase: FindUserByIdUseCaseInterface,
-    private deleteUserByIdUseCase: DeleteUserByIdUseCaseInterface,
+    private _createUserUseCase: CreateUserUseCaseInterface,
+    private _updateUserUseCase: UpdateUserUseCaseInterface,
+    private _findUserByIdUseCase: FindUserByIdUseCaseInterface,
+    private _deleteUserByIdUseCase: DeleteUserByIdUseCaseInterface,
   ) {}
-
-  uploadImage = async (req: Request, res: Response): Promise<Response> => {
-    const filename = req.file?.filename;
-    return res.json({ filename });
-  };
 
   createUser = async (req: Request, res: Response): Promise<Response> => {
     const data = useValidation(req, schemaCreateUser);
 
-    const { username, password, image, code } = data.body;
+    const { username, password, imageUrl, code } = data.body;
 
-    await this.createUserUseCase.execute(code, {
-      image,
+    await this._createUserUseCase.execute(code, {
+      imageUrl,
       password,
       username,
     });
@@ -39,11 +34,11 @@ export class UserController implements UserControllerInterface {
   updateUser = async (req: Request, res: Response): Promise<Response> => {
     const content = useValidation(req, schemaUpdateUser);
 
-    const { password, username, image } = content.body;
+    const { password, username, imageUrl } = content.body;
     const { userId } = req.data;
 
-    await this.updateUserUseCase.execute(userId, {
-      image,
+    await this._updateUserUseCase.execute(userId, {
+      imageUrl,
       password,
       username,
     });
@@ -55,7 +50,7 @@ export class UserController implements UserControllerInterface {
     const { userId } = req.data;
 
     console.log(req.data);
-    const userFounded = await this.findUserByIdUseCase.execute(userId);
+    const userFounded = await this._findUserByIdUseCase.execute(userId);
 
     return res.json(userFounded);
   };
@@ -63,7 +58,7 @@ export class UserController implements UserControllerInterface {
   delete = async (req: Request, res: Response): Promise<Response> => {
     const { userId } = req.data;
 
-    await this.deleteUserByIdUseCase.execute(userId);
+    await this._deleteUserByIdUseCase.execute(userId);
 
     return res.sendStatus(statusCode.NO_CONTENT.code);
   };

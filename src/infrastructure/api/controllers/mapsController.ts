@@ -15,7 +15,7 @@ export class MapsController implements MapsControllerInterface {
     return res.json({
       id: map.id,
       name: map.name,
-      image: map.image,
+      imageUrl: map.imageUrl,
     });
   };
 
@@ -26,7 +26,7 @@ export class MapsController implements MapsControllerInterface {
       maps.map((map) => ({
         id: map.id,
         name: map.name,
-        image: map.image,
+        imageUrl: map.imageUrl,
       })),
     );
   };

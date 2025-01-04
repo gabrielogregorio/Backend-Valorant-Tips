@@ -5,6 +5,6 @@ export interface CreateMapUseCaseInterface {
   ) => Promise<{
     id: string;
     name: string;
-    image: string;
+    imageUrl: string;
   }>;
 }

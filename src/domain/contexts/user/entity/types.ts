@@ -4,9 +4,9 @@ export interface UserEntityInterface {
   get id(): UniqueId;
   get username(): string;
   get password(): string;
-  get image(): string;
+  get imageUrl(): string;
 
   changeUsername(username: string): void;
   changePassword(passwordHash: string): void;
-  changeImage(image: string): void;
+  changeImageUrl(imageUrl: string): void;
 }

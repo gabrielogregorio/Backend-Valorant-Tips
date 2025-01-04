@@ -5,7 +5,7 @@ import { Maps } from './Maps';
 export class MapsRepository implements MapsRepositoryInterface {
   save = async (mapEntity: MapsValueObject): Promise<MapsValueObject> => {
     const newMap = new Maps({
-      image: mapEntity.image,
+      imageUrl: mapEntity.imageUrl,
       name: mapEntity.name,
       id: mapEntity.id.getValue(),
     });
@@ -13,7 +13,7 @@ export class MapsRepository implements MapsRepositoryInterface {
     await newMap.save();
 
     return MapsValueObject.restore({
-      image: newMap.image ?? '',
+      imageUrl: newMap.imageUrl ?? '',
       name: newMap.name ?? '',
       id: newMap.id,
     });
@@ -22,7 +22,9 @@ export class MapsRepository implements MapsRepositoryInterface {
   findAll = async (): Promise<MapsValueObject[]> => {
     const maps = await Maps.find();
 
-    return maps.map((map) => MapsValueObject.restore({ image: map.image ?? '', name: map.name ?? '', id: map.id }));
+    return maps.map((map) =>
+      MapsValueObject.restore({ imageUrl: map.imageUrl ?? '', name: map.name ?? '', id: map.id }),
+    );
   };
 
   findByName = async (name: string): Promise<MapsValueObject | null> => {
@@ -33,8 +35,37 @@ export class MapsRepository implements MapsRepositoryInterface {
 
     return MapsValueObject.restore({
       id: map.id,
-      image: map.image ?? '',
+      imageUrl: map.imageUrl ?? '',
       name: map.name ?? '',
     });
+  };
+
+  findById = async (id: string): Promise<MapsValueObject | null> => {
+    const map = await Maps.findOne({ id });
+    if (!map) {
+      return null;
+    }
+
+    return MapsValueObject.restore({
+      id: map.id,
+      imageUrl: map.imageUrl ?? '',
+      name: map.name ?? '',
+    });
+  };
+
+  findByIds = async (ids: string[]): Promise<MapsValueObject[]> => {
+    const maps = await Maps.find({
+      id: {
+        $in: ids,
+      },
+    });
+
+    return maps.map((map) =>
+      MapsValueObject.restore({
+        id: map.id,
+        imageUrl: map.imageUrl ?? '',
+        name: map.name ?? '',
+      }),
+    );
   };
 }

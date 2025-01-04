@@ -1,10 +1,10 @@
 export interface CreateAgentUseCaseInterface {
   execute: (
     map: string,
-    image: string,
+    imageUrl: string,
   ) => Promise<{
     id: string;
     name: string;
-    image: string;
+    imageUrl: string;
   }>;
 }

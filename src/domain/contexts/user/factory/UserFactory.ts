@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserEntity } from '@/domain/contexts/contexts/user/entity/user';
 
 export class UserFactory {
+  // resolve tgus
   static mongoDataToUserEntity(userMongoData: any): UserEntity {
     const userEntity = UserEntity.restore({
       id: userMongoData.id,
@@ -9,7 +11,7 @@ export class UserFactory {
     });
 
     if (userMongoData.image) {
-      userEntity.changeImage(userMongoData.image);
+      userEntity.changeImageUrl(userMongoData.imageUrl);
     }
 
     return userEntity;
@@ -18,7 +20,7 @@ export class UserFactory {
   static userEntityToMongo(user: UserEntity): any {
     return {
       id: user.id.getValue(),
-      image: user.image,
+      imageUrl: user.imageUrl,
       password: user.password,
       username: user.username,
     };

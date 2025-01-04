@@ -1,9 +1,9 @@
-export interface UpdateUserUseCaseDto {
+export interface UpdateUserUseCaseDtoInterface {
   username?: string;
   password?: string;
-  image?: string;
+  imageUrl?: string;
 }
 
 export interface UpdateUserUseCaseInterface {
-  execute: (id: string, update: UpdateUserUseCaseDto) => Promise<void>;
+  execute: (id: string, update: UpdateUserUseCaseDtoInterface) => Promise<void>;
 }

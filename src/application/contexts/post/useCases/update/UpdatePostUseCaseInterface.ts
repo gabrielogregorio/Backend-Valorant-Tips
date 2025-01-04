@@ -1,39 +1,50 @@
-export interface UpdatePostInputDto {
-  title?: string;
-  description?: string;
-  userId?: string;
-  tags?: {
-    moment: string;
-    difficult: string;
-    ability: string;
-    side: string;
-    map: string;
-    mapPosition: string;
-    agent: string;
-  };
-  imgs?: { id: string; description: string; image: string }[];
+export interface UpdatePostInputDtoInterface {
+  title: string;
+  description: string;
+  authorIds: string[];
+  agentIds: string[];
+  mapIds: string[];
+  tagIds: string[];
+  steps: {
+    description: string;
+    imageUrl: string;
+  }[];
 }
 
-export interface UpdatePostOutputDto {
+export interface UpdatePostOutputDtoInterface {
   id: string;
   title: string;
   description: string;
-  user: {
-    username: string;
-    image: string;
-  };
+  agents: {
+    id: string;
+    imageUrl: string;
+    name: string;
+  }[];
+
+  maps: {
+    id: string;
+    imageUrl: string;
+    name: string;
+  }[];
+
   tags: {
-    moment: string;
-    difficult: string;
-    ability: string;
-    side: string;
-    map: string;
-    mapPosition: string;
-    agent: string;
-  };
-  imgs: { id: string; description: string; image: string }[];
+    id: string;
+    name: string;
+  }[];
+
+  steps: {
+    id: string;
+    description: string;
+    imageUrl: string;
+  }[];
+
+  authors: {
+    id: string;
+    username: string;
+    imageUrl: string;
+  }[];
 }
 
 export interface UpdatePostUseCaseInterface {
-  execute: (id: string, payload: UpdatePostInputDto) => Promise<UpdatePostOutputDto>;
+  execute: (id: string, payload: UpdatePostInputDtoInterface) => Promise<UpdatePostOutputDtoInterface>;
 }

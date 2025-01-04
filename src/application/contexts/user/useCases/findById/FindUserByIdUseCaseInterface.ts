@@ -1,6 +1,6 @@
 export interface FindUserByIdOutputDtoInterface {
   username: string;
-  image: string;
+  imageUrl: string;
 }
 
 export interface FindUserByIdUseCaseInterface {

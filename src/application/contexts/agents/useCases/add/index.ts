@@ -8,11 +8,11 @@ export class CreateAgentUseCase implements CreateAgentUseCaseInterface {
 
   execute = async (
     name: string,
-    image: string,
+    imageUrl: string,
   ): Promise<{
     id: string;
     name: string;
-    image: string;
+    imageUrl: string;
   }> => {
     if (await this._agentRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `agent name '${name}' already exists`, {
@@ -21,14 +21,14 @@ export class CreateAgentUseCase implements CreateAgentUseCaseInterface {
     }
 
     const agent = AgentsValueObject.create({
-      image,
+      imageUrl,
       name,
     });
 
     const agentCreated = await this._agentRepository.save(agent);
     return {
       id: agentCreated.id.getValue(),
-      image: agentCreated.image,
+      imageUrl: agentCreated.imageUrl,
       name: agentCreated.name,
     };
   };

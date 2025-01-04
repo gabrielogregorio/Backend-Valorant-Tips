@@ -8,27 +8,26 @@ export class CreateMapUseCase implements CreateMapUseCaseInterface {
 
   execute = async (
     name: string,
-    image: string,
+    imageUrl: string,
   ): Promise<{
     id: string;
     name: string;
-    image: string;
+    imageUrl: string;
   }> => {
     if (await this._mapRepository.findByName(name)) {
       throw new DomainError('AlreadyExists', `map name '${name}' already exists`, {
         name,
       });
     }
-
     const maps = MapsValueObject.create({
-      image,
+      imageUrl,
       name,
     });
 
     const mapCreated = await this._mapRepository.save(maps);
     return {
       id: mapCreated.id.getValue(),
-      image: mapCreated.image,
+      imageUrl: mapCreated.imageUrl,
       name: mapCreated.name,
     };
   };

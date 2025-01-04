@@ -1,7 +1,8 @@
+/* eslint-disable sonarjs/no-base-to-string */
 import { AppError } from '@/application/errors/AppError';
 import { UserRepositoryInterface } from '@/domain/contexts/contexts/user/repository';
 import { PasswordHasherInterface } from '@/domain/contexts/services/PasswordHasherInterface';
-import { UpdateUserUseCaseDto, UpdateUserUseCaseInterface } from './UpdateUserUseCaseInterface';
+import { UpdateUserUseCaseDtoInterface, UpdateUserUseCaseInterface } from './UpdateUserUseCaseInterface';
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(
@@ -9,7 +10,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     private _passwordHasher: PasswordHasherInterface,
   ) {}
 
-  execute = async (id: string, { username, password, image }: UpdateUserUseCaseDto): Promise<void> => {
+  execute = async (id: string, { username, password, imageUrl }: UpdateUserUseCaseDtoInterface): Promise<void> => {
     const user = await this._userRepository.findById(id);
     if (!user) {
       throw new AppError('USER_ID_NOT_FOUND', { id });
@@ -17,6 +18,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
 
     if (username) {
       const userFound = await this._userRepository.findOneByUsername(username);
+      // @ts-ignore
       if (userFound !== null && userFound.id?.toString() !== id) {
         throw new AppError('USERNAME_ALREADY_EXISTS', {
           input: { username, id },
@@ -31,8 +33,8 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
       user.changePassword(await this._passwordHasher.generateHashPassword(password));
     }
 
-    if (image) {
-      user.changeImage(image);
+    if (imageUrl) {
+      user.changeImageUrl(imageUrl);
     }
 
     return this._userRepository.update(id, user);

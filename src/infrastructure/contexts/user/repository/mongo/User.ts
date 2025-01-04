@@ -1,7 +1,6 @@
-import { IUser } from '@/infrastructure/api/interfaces/user';
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema<IUser>(
+const userSchema = new mongoose.Schema(
   {
     id: {
       type: String,
@@ -9,7 +8,7 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     username: { type: String, unique: true, required: true },
     password: String,
-    image: String,
+    imageUrl: String,
   },
   {
     timestamps: true,
@@ -17,4 +16,4 @@ const userSchema = new mongoose.Schema<IUser>(
 );
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const User = mongoose.model<IUser>('User', userSchema);
+export const User = mongoose.model('User', userSchema);

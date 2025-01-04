@@ -7,14 +7,14 @@ export class MapsZodValidator implements ValidatorInterface<MapsValueObject> {
   private _schema = z.object({
     id: z.string(),
     name: z.string(),
-    image: z.string(),
+    imageUrl: z.string(),
   });
 
   public validate(entity: MapsValueObject): void {
     const result = this._schema.safeParse({
       id: entity.id.getValue(),
       name: entity.name,
-      image: entity.image,
+      imageUrl: entity.imageUrl,
     });
 
     if (!result?.error) {

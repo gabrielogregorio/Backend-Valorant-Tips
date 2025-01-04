@@ -5,7 +5,7 @@ import { Agents } from './Agents';
 export class AgentsRepository implements AgentsRepositoryInterface {
   save = async (mapEntity: AgentsValueObject): Promise<AgentsValueObject> => {
     const newMap = new Agents({
-      image: mapEntity.image,
+      imageUrl: mapEntity.imageUrl,
       name: mapEntity.name,
       id: mapEntity.id.getValue(),
     });
@@ -13,7 +13,7 @@ export class AgentsRepository implements AgentsRepositoryInterface {
     await newMap.save();
 
     return AgentsValueObject.restore({
-      image: newMap.image ?? '',
+      imageUrl: newMap.imageUrl ?? '',
       name: newMap.name ?? '',
       id: newMap.id,
     });
@@ -23,7 +23,7 @@ export class AgentsRepository implements AgentsRepositoryInterface {
     const agents = await Agents.find();
 
     return agents.map((agent) =>
-      AgentsValueObject.restore({ image: agent.image ?? '', name: agent.name ?? '', id: agent.id }),
+      AgentsValueObject.restore({ imageUrl: agent.imageUrl ?? '', name: agent.name ?? '', id: agent.id }),
     );
   };
 
@@ -35,7 +35,7 @@ export class AgentsRepository implements AgentsRepositoryInterface {
 
     return AgentsValueObject.restore({
       id: agent.id,
-      image: agent.image ?? '',
+      imageUrl: agent.imageUrl ?? '',
       name: agent.name ?? '',
     });
   };
@@ -50,7 +50,7 @@ export class AgentsRepository implements AgentsRepositoryInterface {
     return agents.map((agent) =>
       AgentsValueObject.restore({
         id: agent.id,
-        image: agent.image ?? '',
+        imageUrl: agent.imageUrl ?? '',
         name: agent.name ?? '',
       }),
     );

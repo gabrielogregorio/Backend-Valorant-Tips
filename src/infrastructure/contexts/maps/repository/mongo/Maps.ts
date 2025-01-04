@@ -7,7 +7,7 @@ const mapsSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    image: String,
+    imageUrl: String,
   },
   {
     timestamps: true,

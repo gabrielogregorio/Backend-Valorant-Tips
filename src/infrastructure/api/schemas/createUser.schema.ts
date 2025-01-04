@@ -5,6 +5,6 @@ export const schemaCreateUser = z.object({
     username: z.string(),
     password: z.string(),
     code: z.string(),
-    image: z.string().optional(),
+    imageUrl: z.string().optional(),
   }),
 });

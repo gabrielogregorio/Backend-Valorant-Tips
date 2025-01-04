@@ -6,34 +6,34 @@ import { MapsValueObjectInterface } from '@/domain/contexts/contexts/maps/valueO
 type MapsValueObjectDto = {
   id: UniqueId;
   name: string;
-  image: string;
+  imageUrl: string;
 };
 
 type MapsValueObjectCreateDto = {
-  image: string;
+  imageUrl: string;
   name: string;
 };
 
 type MapsValueObjectRestoreDto = {
   id: string;
   name: string;
-  image: string;
+  imageUrl: string;
 };
 
 export class MapsValueObject extends ValueObject implements MapsValueObjectInterface {
   public readonly id: UniqueId;
 
-  public readonly image: string;
+  public readonly imageUrl: string;
 
   public readonly name: string;
 
   private _validatorTypes = MapsValidatorFactory.create();
 
-  private constructor({ name, id, image }: MapsValueObjectDto) {
+  private constructor({ name, id, imageUrl }: MapsValueObjectDto) {
     super();
 
     this.id = id;
-    this.image = image;
+    this.imageUrl = imageUrl;
     this.name = name;
 
     this._validate();
@@ -43,14 +43,14 @@ export class MapsValueObject extends ValueObject implements MapsValueObjectInter
     return new MapsValueObject({
       id: new UniqueId(),
       name: payload.name,
-      image: payload.image,
+      imageUrl: payload.imageUrl,
     });
   }
 
   public static restore(payload: MapsValueObjectRestoreDto) {
     return new MapsValueObject({
       id: new UniqueId(payload.id),
-      image: payload.image,
+      imageUrl: payload.imageUrl,
       name: payload.name,
     });
   }

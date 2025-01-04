@@ -8,7 +8,7 @@ export class GetMapsUseCase implements GetMapsUseCaseInterface {
     const maps = await this._mapsRepository.findAll();
 
     return maps.map((map) => ({
-      image: map.image,
+      imageUrl: map.imageUrl,
       id: map.id.getValue(),
       name: map.name,
     }));

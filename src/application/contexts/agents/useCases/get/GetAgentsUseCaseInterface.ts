@@ -1,5 +1,5 @@
 export interface GetAgentsOutputDtoInterface {
-  image: string;
+  imageUrl: string;
   name: string;
   id: string;
 }

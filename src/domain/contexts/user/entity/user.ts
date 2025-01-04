@@ -27,7 +27,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
 
   private _password: string;
 
-  private _image: string;
+  private _imageUrl: string;
 
   private _validatorTypes = UserValidatorFactory.create();
 
@@ -36,7 +36,7 @@ export class UserEntity extends Entity implements UserEntityInterface {
     this._id = id;
     this._username = username;
     this._password = password;
-    this._image = '';
+    this._imageUrl = '';
 
     this._validate();
   }
@@ -62,8 +62,8 @@ export class UserEntity extends Entity implements UserEntityInterface {
     this._validate();
   }
 
-  public changeImage(image: string) {
-    this._image = image;
+  public changeImageUrl(imageUrl: string) {
+    this._imageUrl = imageUrl;
     this._validate();
   }
 
@@ -76,8 +76,8 @@ export class UserEntity extends Entity implements UserEntityInterface {
     return this._id;
   }
 
-  get image() {
-    return this._image;
+  get imageUrl() {
+    return this._imageUrl;
   }
 
   get username() {
