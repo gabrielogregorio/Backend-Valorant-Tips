@@ -1,7 +1,7 @@
-import { StatusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export interface FindAllSuggestionsOutputDto {
-  status: StatusSuggestionType;
+export interface FindAllSuggestionsOutputDtoInterface {
+  status: any;
   email: string;
   description: string;
   id: string;
@@ -11,5 +11,5 @@ export interface FindAllSuggestionsOutputDto {
 }
 
 export interface FindAllSuggestionsUseCaseInterface {
-  execute: () => Promise<FindAllSuggestionsOutputDto[]>;
+  execute: () => Promise<FindAllSuggestionsOutputDtoInterface[]>;
 }

@@ -1,7 +1,6 @@
-import { IView } from '@/infrastructure/api/interfaces/view';
 import mongoose from 'mongoose';
 
-const viewSchema = new mongoose.Schema<IView>(
+const viewSchema = new mongoose.Schema(
   {
     ip: String,
     dateAccess: Date,
@@ -13,4 +12,4 @@ const viewSchema = new mongoose.Schema<IView>(
 );
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const View = mongoose.model<IView>('View', viewSchema);
+export const View = mongoose.model('View', viewSchema);

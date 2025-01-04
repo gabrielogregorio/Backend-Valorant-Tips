@@ -1,13 +1,13 @@
-import { StatusSuggestionType } from '@/infrastructure/api/interfaces/suggestion';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export interface CreateSuggestionInputDto {
+export interface CreateSuggestionInputDtoInterface {
   email: string;
   description: string;
   postId: string;
 }
 
-export interface SuggestionOutputDto {
-  status: StatusSuggestionType;
+export interface SuggestionOutputDtoInterface {
+  status: any;
   email: string;
   description: string;
   id: string;
@@ -17,5 +17,5 @@ export interface SuggestionOutputDto {
 }
 
 export interface CreateSuggestionUseCaseInterface {
-  execute: (dto: CreateSuggestionInputDto) => Promise<SuggestionOutputDto>;
+  execute: (dto: CreateSuggestionInputDtoInterface) => Promise<SuggestionOutputDtoInterface>;
 }
