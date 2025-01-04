@@ -1,12 +1,12 @@
-type handleAuthTokenPayload = { username: string; name: string; userId: string };
+type HandleAuthTokenPayload = { username: string; name: string; userId: string };
 
-type handleAuthTokenConfig = {
+type HandleAuthTokenConfig = {
   expiresIn: '128h';
   secret: string;
 };
 
-type handleAuthTokenResponse = { errors: null | 'ANY_ERROR'; data: { token: string; userId: string } | null };
+type HandleAuthTokenResponse = { errors: null | 'ANY_ERROR'; data: { token: string; userId: string } | null };
 
-export interface handleAuthTokenInterface {
-  generate(payload: handleAuthTokenPayload, config: handleAuthTokenConfig): Promise<handleAuthTokenResponse>;
+export interface HandleAuthTokenInterface {
+  generate(payload: HandleAuthTokenPayload, config: HandleAuthTokenConfig): Promise<HandleAuthTokenResponse>;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { NextFunction, Request, Response } from 'express';
 import { i18nTranslate } from '@/infrastructure/config/i18nTranslate';
 import { DomainError } from '@/domain/contexts/errors';
@@ -30,11 +31,19 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
 
   if (error instanceof DomainError) {
     Log.error(`DomainError: ${error.message}`, { ...error.details, shortStack: error.shortStack });
-    return res.status(409).send({ error: error.message });
+    return res.status(400).send({
+      message: 'Entity Error',
+      errors: [
+        {
+          code: error.type,
+          message: error.message,
+        },
+      ],
+    });
   }
 
   if (error instanceof AppError) {
-    const language = req.headers['accept-language'] || 'en';
+    const language = req.headers['accept-language'] ?? 'en';
     const message = i18nTranslate.translate(language, error.code, error.context);
 
     Log.error(`AppError: ${error?.code}`, { ...error.context, file: getLocationError(error) });
@@ -43,7 +52,7 @@ export const useHandleErrors = (error: Error, req: Request, res: Response, next:
   }
 
   if (error instanceof ValidationError) {
-    const language = req.headers['accept-language'] ?? 'en';
+    // const language = req.headers['accept-language'] ?? 'en';
     // const message = i18nTranslate.translate(language, );
 
     Log.error(`ValidationError: ${error?.message}`, {

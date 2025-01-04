@@ -1,8 +1,8 @@
 import { Log } from '@/infrastructure/api/logs';
 import jwt from 'jsonwebtoken';
-import { handleAuthTokenInterface } from '@/application/services/HandleAuthToken';
+import { HandleAuthTokenInterface } from '@/application/services/HandleAuthToken';
 
-export class HandleAuthToken implements handleAuthTokenInterface {
+export class HandleAuthToken implements HandleAuthTokenInterface {
   constructor() {}
 
   async generate(

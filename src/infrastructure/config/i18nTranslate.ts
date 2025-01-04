@@ -1,5 +1,5 @@
 import { translationErrorsResources } from '@/application/errors/translations';
-import { contextType } from '@/infrastructure/api/logs/types';
+import { ContextType } from '@/infrastructure/api/logs/types';
 import { LanguageMapsType, ModelsI18nType } from '@/infrastructure/config/i18nInterface';
 
 type ModelsI18nLibType = { [key in LanguageMapsType]: { translation: { [key: string]: string } } };
@@ -27,7 +27,7 @@ class I18nTranslate {
     return language === 'en' || language === 'ptBr';
   }
 
-  translate(language: unknown, code: string, context?: contextType): string {
+  translate(language: unknown, code: string, context?: ContextType): string {
     if (!this._languageIsValid(language)) {
       return `Language '${language}' is invalid`;
     }
