@@ -12,7 +12,9 @@ export class CodeRepository implements CodeRepositoryInterface {
     await newCode.save();
 
     return CodeEntity.restore({
+      // @ts-ignore
       available: newCode.available,
+      // @ts-ignore
       code: newCode.code,
       id: newCode.id,
     });
@@ -24,7 +26,7 @@ export class CodeRepository implements CodeRepositoryInterface {
     if (!codeFound) {
       return null;
     }
-
+    // @ts-ignore
     return CodeEntity.restore({ id: codeFound.id, available: codeFound.available, code: codeFound.code });
   };
 
@@ -36,7 +38,7 @@ export class CodeRepository implements CodeRepositoryInterface {
     if (!result) {
       return null;
     }
-
+    // @ts-ignore
     return CodeEntity.restore({ id: result.id, available: result?.available, code: result.code });
   };
 }

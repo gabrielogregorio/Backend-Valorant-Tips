@@ -1,4 +1,4 @@
-import { contextType } from '@/infrastructure/api/logs/types';
+import { ContextType } from '@/infrastructure/api/logs/types';
 import { formatStackToBeautiful } from '@/utils/formatStackToBeautiful';
 
 type DomainErrorType =
@@ -16,9 +16,9 @@ export class DomainError extends Error {
 
   public readonly shortStack: string;
 
-  public readonly details: contextType;
+  public readonly details: ContextType;
 
-  constructor(type: DomainErrorType, message: string, details: contextType) {
+  constructor(type: DomainErrorType, message: string, details: ContextType) {
     super(message);
 
     this.name = 'DomainError';

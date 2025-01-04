@@ -1,3 +1,6 @@
+/* eslint-disable sonarjs/no-redundant-type-constituents */
+/* eslint-disable sonarjs/no-nested-template-literals */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { DISABLE_LOGS } from '@/infrastructure/api/config/envs';

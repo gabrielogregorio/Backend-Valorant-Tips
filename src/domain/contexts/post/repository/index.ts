@@ -2,7 +2,7 @@ import { RepositoryInterface } from '@/domain/contexts/common/repository/customR
 import { PostEntity } from '../entity/post';
 
 export interface PostRepositoryInterface extends RepositoryInterface<PostEntity> {
-  save: (post: PostEntity) => Promise<void>;
+  save: (post: PostEntity) => Promise<PostEntity>;
   update: (post: PostEntity) => Promise<PostEntity>;
   findById: (id: string) => Promise<PostEntity | null>;
   findAvailableMaps: () => Promise<string[]>;

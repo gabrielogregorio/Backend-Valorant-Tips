@@ -1,7 +1,7 @@
-import { IDatabaseSuggestion } from '@/infrastructure/api/interfaces/suggestion';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose';
 
-const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
+const suggestionSchema = new mongoose.Schema<any>(
   {
     id: {
       type: String,
@@ -31,4 +31,4 @@ const suggestionSchema = new mongoose.Schema<IDatabaseSuggestion>(
 );
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const Suggestion = mongoose.model<IDatabaseSuggestion>('Suggestion', suggestionSchema);
+export const Suggestion = mongoose.model<any>('Suggestion', suggestionSchema);

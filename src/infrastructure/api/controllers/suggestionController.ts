@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable sonarjs/different-types-comparison */
 import { Request, Response } from 'express';
 import { errorStates } from '@/infrastructure/api/errors/types';
 import { statusCode } from '@/infrastructure/api/config/statusCode';
@@ -9,7 +11,7 @@ import { useValidation } from '@/infrastructure/api/middlewares/useValidation';
 import { schemaCreateSuggestion } from '@/infrastructure/api/schemas/createSuggestions.schema';
 import { schemaEditSuggestion } from '@/infrastructure/api/schemas/updateSuggestion.schema';
 import { SuggestionControllerInterface } from './interfaces/SuggestionControllerInterface';
-import { IDatabaseSuggestion, IResponseSuggestion } from '../interfaces/suggestion';
+// import { IDatabaseSuggestion, any } from '../interfaces/suggestion';
 import { ApiError } from '../errors/ApiError';
 
 export class SuggestionController implements SuggestionControllerInterface {
@@ -20,7 +22,8 @@ export class SuggestionController implements SuggestionControllerInterface {
     private _deleteSuggestionByIdUseCase: DeleteSuggestionByIdUseCaseInterface,
   ) {}
 
-  private _toHttp(suggestion: IDatabaseSuggestion): IResponseSuggestion {
+  // migrar para presentation
+  private _toHttp(suggestion: any): any {
     return {
       description: suggestion?.description,
       email: suggestion?.email,
@@ -46,9 +49,9 @@ export class SuggestionController implements SuggestionControllerInterface {
     return res.json(this._toHttp(suggestion));
   };
 
-  getSuggestions = async (_req: Request, res: Response<IResponseSuggestion[]>): Promise<Response> => {
-    const suggestions: IDatabaseSuggestion[] = await this._findAllSuggestionsUseCase.execute();
-    const suggestionsFactory: IResponseSuggestion[] = [];
+  getSuggestions = async (_req: Request, res: Response<any[]>): Promise<Response> => {
+    const suggestions: any[] = await this._findAllSuggestionsUseCase.execute();
+    const suggestionsFactory: any[] = [];
     suggestions.forEach((suggestion) => {
       suggestionsFactory.push(this._toHttp(suggestion));
     });
@@ -70,6 +73,7 @@ export class SuggestionController implements SuggestionControllerInterface {
     const suggestionId = req.params.id;
 
     const result = await this._deleteSuggestionByIdUseCase.execute(suggestionId);
+    // @ts-ignore
     if (result === null) {
       // bug
       throw new ApiError(errorStates.RESOURCE_NOT_EXISTS);

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import supertest from 'supertest';
 import { createDatabaseMock, handleAuthToken } from '../../../test/utils';
 import { app } from '../app';

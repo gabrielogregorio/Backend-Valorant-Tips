@@ -1,3 +1,3 @@
 export interface CreateViewUseCaseInterface {
-  execute: (ip: string) => void;
+  execute: (ip: string) => Promise<void>;
 }

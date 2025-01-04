@@ -4,7 +4,7 @@ import { PORT } from './config/envs';
 import { Database } from './database/database';
 import { Log } from './logs';
 
-Log.info(`app started in http://localhost:${PORT}`);
+Log.info(`app starting in http://localhost:${PORT}`);
 
 new Database({ verbose: true })
   .connect()

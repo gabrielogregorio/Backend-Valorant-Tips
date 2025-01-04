@@ -5,4 +5,6 @@ export interface MapsRepositoryInterface extends RepositoryInterface<MapsValueOb
   save: (view: MapsValueObject) => Promise<MapsValueObject>;
   findAll: () => Promise<MapsValueObject[]>;
   findByName: (name: string) => Promise<MapsValueObject | null>;
+  findById: (id: string) => Promise<MapsValueObject | null>;
+  findByIds: (ids: string[]) => Promise<MapsValueObject[]>;
 }

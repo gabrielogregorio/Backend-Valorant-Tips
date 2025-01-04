@@ -26,41 +26,39 @@ export class PostController implements PostControllerInterface {
     private _deletePostUseCase: DeletePostUseCaseInterface,
   ) {}
 
-  uploadFile = async (req: Request, res: Response): Promise<Response> => res.json({ filename: req!.file!.path });
-
   createPost = async (req: Request, res: Response) => {
     const content = useValidation(req, schemaCreatePost);
-    const { title, description, tags, imgs } = content.body;
-    const userId = req.data.userId as string;
+    const { title, description, tagIds, agentIds, mapIds, steps } = content.body;
+    const authorId = req.data.userId as string;
 
-    const post = await this._createPostUseCase.execute({ title, description, userId, tags, imgs });
-
-    return res.json({
-      id: post.id,
-      title: post.title,
-      description: post.description,
-      tags: post.tags,
-      user: {
-        username: post.user.username,
-        image: post.user.image,
-      },
-      imgs: post.imgs,
+    const post = await this._createPostUseCase.execute({
+      title,
+      description,
+      agentIds,
+      tagIds,
+      authorIds: [authorId],
+      mapIds,
+      steps,
     });
+
+    return res.json(post);
   };
 
   updatePost = async (req: Request, res: Response): Promise<Response> => {
     const content = useValidation(req, schemaUpdatePosts);
 
-    const { title, description, tags, imgs } = content.body;
+    const { title, description, agentIds, mapIds, steps, tagIds } = content.body;
     const { id } = content.params;
     const userId = req.data.userId as string;
 
     const post = await this._updatePostUseCase.execute(id, {
-      tags,
+      agentIds,
+      authorIds: [userId],
+      mapIds,
+      steps,
       title,
+      tagIds,
       description,
-      imgs,
-      userId,
     });
 
     return res.json(post);
@@ -90,14 +88,7 @@ export class PostController implements PostControllerInterface {
     const posts = await this._findAllPostUseCase.execute();
 
     return res.json({
-      posts: posts.map((item) => ({
-        id: item.id,
-        description: item.description,
-        imgs: item.imgs,
-        tags: item.tags,
-        title: item.title,
-        user: item.user,
-      })),
+      posts,
     });
   };
 
@@ -107,14 +98,7 @@ export class PostController implements PostControllerInterface {
     const posts = await this._findAllByMapAndAgentUseCase.execute({ agent, map });
 
     return res.status(statusCode.SUCCESS.code).json({
-      posts: posts.map((item) => ({
-        id: item.id,
-        description: item.description,
-        imgs: item.imgs,
-        tags: item.tags,
-        title: item.title,
-        user: item.user,
-      })),
+      posts,
     });
   };
 

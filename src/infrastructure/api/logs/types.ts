@@ -1,1 +1,3 @@
-export type contextType = { [key: string]: contextType | string | number | boolean | undefined | null };
+export type ContextType = {
+  [key: string]: ContextType | string | string[] | number | number[] | boolean | boolean[] | undefined | null;
+};

@@ -1,4 +1,4 @@
-export type errorStateItemType = {
+export type ErrorStateItemType = {
   name: string;
   code: number;
   message: string;
