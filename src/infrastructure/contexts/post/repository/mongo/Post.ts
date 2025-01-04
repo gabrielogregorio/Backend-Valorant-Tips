@@ -5,24 +5,56 @@ const postSchema = new mongoose.Schema(
     id: {
       type: String,
       unique: true,
+      required: true,
     },
-    title: String,
-    description: String,
-    userId: String,
-    tags: {
-      moment: String,
-      difficult: String,
-      ability: String,
-      side: String,
-      map: String,
-      mapPosition: String,
-      agent: String,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    imgs: [
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
+    authorIds: {
+      type: [String],
+      default: [],
+    },
+    agentIds: {
+      type: [String],
+      default: [],
+    },
+    mapIds: {
+      type: [String],
+      default: [],
+    },
+    tagIds: {
+      type: [String],
+      default: [],
+    },
+    steps: [
       {
-        id: String,
-        description: String,
-        image: String,
+        id: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+        imageUrl: {
+          type: String,
+          required: true,
+        },
       },
     ],
   },
@@ -30,6 +62,10 @@ const postSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+const asc = 1;
+const desc = -1;
+
+postSchema.index({ isDeleted: asc, isPublished: asc, createdAt: desc });
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const Post = mongoose.model('Post', postSchema);

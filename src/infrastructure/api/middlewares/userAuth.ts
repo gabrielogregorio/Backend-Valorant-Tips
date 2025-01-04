@@ -1,3 +1,7 @@
+/* eslint-disable sonarjs/different-types-comparison */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable sonarjs/no-ignored-exceptions */
+/* eslint-disable sonarjs/prefer-single-boolean-return */
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { asyncLocalStorage, StoreModelType } from '@/infrastructure/api/container/globalState';
