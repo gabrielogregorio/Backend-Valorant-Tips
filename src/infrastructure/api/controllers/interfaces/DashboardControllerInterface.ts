@@ -1,15 +1,10 @@
 import { Request, Response } from 'express';
 
 export type IDashboardServiceType = {
-  countAll: number;
-  countIps: number;
-  countAllPosts: number;
-  countAlMaps: number;
-  countAlAgents: number;
-  countAllSuggestions: number;
-  countAllUsers: number;
+  value: number;
+  key: string;
 };
 
 export interface DashboardControllerInterface {
-  get: (req: Request, res: Response<IDashboardServiceType>) => Promise<Response>;
+  get: (req: Request, res: Response<IDashboardServiceType[]>) => Promise<Response>;
 }
