@@ -20,12 +20,13 @@ export class UserController implements UserControllerInterface {
   createUser = async (req: Request, res: Response): Promise<Response> => {
     const data = useValidation(req, schemaCreateUser);
 
-    const { username, password, imageUrl, code } = data.body;
+    const { username, password, imageUrl, code, name } = data.body;
 
     await this._createUserUseCase.execute(code, {
       imageUrl,
       password,
       username,
+      name,
     });
 
     return res.json({});

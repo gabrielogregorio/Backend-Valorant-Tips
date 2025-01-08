@@ -8,6 +8,7 @@ export class UserFactory {
       id: userMongoData.id,
       password: userMongoData.password,
       username: userMongoData.username,
+      name: userMongoData.name,
     });
 
     if (userMongoData.image) {
@@ -23,6 +24,7 @@ export class UserFactory {
       imageUrl: user.imageUrl,
       password: user.password,
       username: user.username,
+      name: user.name,
     };
   }
 }

@@ -18,7 +18,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
 
   execute = async (
     code: string,
-    { username, password, imageUrl }: CreateUserInputDtoInterface,
+    { username, password, imageUrl, name }: CreateUserInputDtoInterface,
   ): Promise<CreateUserOutputDtoInterface> => {
     const codeEntity = await this._codeRepository.findByCode(code);
     if (!codeEntity) {
@@ -33,7 +33,11 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     codeEntity.useCode();
 
     this._codeRepository.updateEntity(codeEntity);
-    const user = UserEntity.create({ username, password: await this._passwordHasher.generateHashPassword(password) });
+    const user = UserEntity.create({
+      username,
+      password: await this._passwordHasher.generateHashPassword(password),
+      name,
+    });
 
     if (imageUrl) {
       user.changeImageUrl(imageUrl);
@@ -44,6 +48,7 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
       id: userCreated.id.getValue(),
       username: userCreated.username,
       imageUrl: userCreated.imageUrl,
+      name: userCreated.name,
     };
   };
 }

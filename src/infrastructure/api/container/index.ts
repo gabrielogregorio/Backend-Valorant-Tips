@@ -547,10 +547,7 @@ export class AppDependencyInjector {
 
   static get findPostByIdOrThrowUseCase(): FindPostByIdOrThrowUseCaseInterface {
     if (!this._findPostByIdOrThrowUseCaseInstance) {
-      this._findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(
-        this.postRepository,
-        this.userRepository,
-      );
+      this._findPostByIdOrThrowUseCaseInstance = new FindPostByIdOrThrowUseCase(this.postRepository);
     }
 
     return this._findPostByIdOrThrowUseCaseInstance;

@@ -1,7 +1,7 @@
 type HandleAuthTokenPayload = { username: string; name: string; userId: string };
 
 type HandleAuthTokenConfig = {
-  expiresIn: '128h';
+  expiresIn: string;
   secret: string;
 };
 
