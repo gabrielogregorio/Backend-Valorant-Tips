@@ -6,6 +6,7 @@ export interface LoginUseCaseInputDtoInterface {
 export interface LoginUseCaseOutputDtoInterface {
   token: string;
   userId: string;
+  expiresAtIso: string;
 }
 
 export interface LoginUseCaseInterface {

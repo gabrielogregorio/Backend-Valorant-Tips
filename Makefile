@@ -7,8 +7,6 @@ log-api: logs-api
 la: logs-api
 
 dev: start-setup
-	make stop
-	@docker compose -f ./docker-compose.dev.yaml down --remove-orphans --volumes
 	@docker compose -f ./docker-compose.dev.yaml up -d
 
 seed:

@@ -28,13 +28,15 @@ class I18nTranslate {
   }
 
   translate(language: unknown, code: string, context?: ContextType): string {
+    let languageHandled: LanguageMapsType = language as LanguageMapsType;
     if (!this._languageIsValid(language)) {
-      return `Language '${language}' is invalid`;
+      // return `Language '${language}' is invalid`;
+      languageHandled = 'ptBr' as LanguageMapsType;
     }
 
-    let message = this.model[language].translation[code];
+    let message = this.model[languageHandled].translation[code];
     if (!message) {
-      return `Code '${code}' is invalid to language '${language}'`;
+      return `Code '${code}' is invalid to language '${languageHandled}'`;
     }
 
     if (!context) {
