@@ -16,6 +16,19 @@ export class LoginUseCase implements LoginUseCaseInterface {
     private _handleAuthToken: HandleAuthTokenInterface,
   ) {}
 
+  private _geTimeToExpiresToken() {
+    const durationHours = 128;
+    const ONE_HOUR_IN_MINUTES = 60;
+    const ONE_SECOND_IN_MS = 1000; // AAAAAA - salvar
+    const ONE_MINUTES_IN_SECONDS = 60;
+    const expiresAt = new Date(
+      Date.now() + durationHours * ONE_HOUR_IN_MINUTES * ONE_MINUTES_IN_SECONDS * ONE_SECOND_IN_MS,
+    );
+    const expiresAtIso = expiresAt.toISOString();
+
+    return { expiresAtIso, durationHours };
+  }
+
   execute = async ({ username, password }: LoginUseCaseInputDtoInterface): Promise<LoginUseCaseOutputDtoInterface> => {
     const user = await this._userRepository.findOneByUsername(username);
     if (!user) {
@@ -26,11 +39,11 @@ export class LoginUseCase implements LoginUseCaseInterface {
     if (!passwordIsValid) {
       throw new AppError('INVALID_PASSWORD', { username });
     }
-
+    const { durationHours, expiresAtIso } = this._geTimeToExpiresToken();
     const handleAuthToken = await this._handleAuthToken.generate(
       { username, name: user.username, userId: user.id.getValue() },
       {
-        expiresIn: '128h',
+        expiresIn: `${durationHours}h`,
         secret: JWT_SECRET,
       },
     );
@@ -42,6 +55,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
     return {
       userId: handleAuthToken.data.userId,
       token: handleAuthToken.data.token,
+      expiresAtIso,
     };
   };
 }
