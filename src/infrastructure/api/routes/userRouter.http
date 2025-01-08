@@ -1,0 +1,44 @@
+@bearerToken =
+@baseUrl = http://localhost:3333
+@tokenCode =
+
+### @name createUser
+
+POST {{baseUrl}}/users HTTP/1.1
+content-type: application/json
+accept-language: ptBr
+
+{
+  "username":"dev2",
+  "password":"dev2",
+  "code": "{{tokenCode}}",
+  "name":"greg"
+}
+
+### @name uploadFile
+
+### @name getMe
+
+GET {{baseUrl}}/users/me HTTP/1.1
+authorization: {{bearerToken}}
+
+
+### @name updateUser
+
+PATCH  {{baseUrl}}/users HTTP/1.1
+authorization: {{bearerToken}}
+content-type: application/json
+accept-language: ptBr
+
+{
+  "username":"ademirss2",
+  "password":"ademirss2",
+  "image":"https://image-ademir.com/image.jpg"
+}
+
+
+### @name deleteThis
+
+DELETE  {{baseUrl}}/users HTTP/1.1
+authorization: {{bearerToken}}
+

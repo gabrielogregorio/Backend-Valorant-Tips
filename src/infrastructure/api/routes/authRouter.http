@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:3333
+
+### @name login
+
+POST {{baseUrl}}/auth HTTP/1.1
+content-type: application/json
+
+{
+  "username":"dev",
+  "password":"dev"
+}

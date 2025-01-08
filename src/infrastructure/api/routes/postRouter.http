@@ -1,0 +1,83 @@
+@baseUrl = http://localhost:3333
+@bearerToken =
+@postIdExample = 6fee8fdb-4ae8-4b9a-83a2-f58cc416684e
+
+
+### @name GetAllsPosts
+GET {{baseUrl}}/posts HTTP/1.1
+
+### @name GetMaps
+
+GET {{baseUrl}}/posts/maps HTTP/1.1
+
+### @name GetAgentsByMap
+
+GET {{baseUrl}}/posts/agents/Bind HTTP/1.1
+
+### @name GetPostByAgentAndMap
+GET {{baseUrl}}/posts/Bind/Sova HTTP/1.1
+
+### @name CreatePost
+
+POST {{baseUrl}}/posts HTTP/1.1
+authorization: {{bearerToken}}
+content-type: application/json
+
+{
+  "title":"item",
+  "description":"example",
+  "tags":{
+    "moment": "AfterPlant",
+    "difficult": "Example",
+    "ability": "Examnple",
+    "side": "Left",
+    "map": "Ascent",
+    "mapPosition": "Examnokle",
+    "agent": "Aget"
+  },
+  "imgs":[
+    {
+      "id":"example",
+      "description":"descImage",
+      "image":"link"
+    }
+  ]
+}
+
+### @name GetPost
+
+GET {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
+authorization: {{bearerToken}}
+content-type: application/json
+
+### @name UpdatePost
+
+PUT {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
+authorization: {{bearerToken}}
+content-type: application/json
+
+{
+  "title":"itemx",
+  "description":"example2",
+  "tags":{
+    "moment": "AfterPlant2",
+    "difficult": "Example2",
+    "ability": "Examnple2",
+    "side": "Left2",
+    "map": "Ascent2",
+    "mapPosition": "Examnokle2",
+    "agent": "Aget2"
+  },
+  "imgs":[
+    {
+      "id":"example2222",
+      "description":"desc2",
+      "image":"image2"
+    }
+  ]
+}
+
+###  @name DeletPost
+
+DELETE {{baseUrl}}/posts/{{postIdExample}} HTTP/1.1
+authorization: {{bearerToken}}

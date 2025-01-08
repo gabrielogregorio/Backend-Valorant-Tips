@@ -21,25 +21,14 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/controllers/*": ["./src/controllers/*"],
-      "@/factories/*": ["./src/factories/*"],
-      "@/middlewares/*": ["./src/middlewares/*"],
-      "@/config/*": ["./src/config/*"],
-      "@/models/*": ["./src/models/*"],
-      "@/wrappers/*": ["./src/wrappers/*"],
-      "@/repositories/*": ["./src/repositories/*"],
-      "@/interfaces/*": ["./src/interfaces/*"],
-      "@/database/*": ["./src/database/*"],
-      "@/test/*": ["./src/test/*"],
-      "@/errors/*": ["./src/errors/*"],
-      "@/service/*": ["./src/service/*"],
-      "@/logs/*": ["./src/logs/*"],
-      "@/mock/*": ["./src/mock/*"],
-      "@/locales/*": ["./src/locales/*"],
-      "@/helpers/*": ["./src/helpers/*"],
-
-      "@/schemas/*": ["./src/schemas/*"]
+      "@/useCases/*": ["./src/application/useCases/*"],
+      "@/application/*": ["./src/application/*"],
+      "@/domain/contexts/*": ["./src/domain/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/infrastructure/*": ["./src/infrastructure/*"],
+      "@/api/*": ["./src/infrastructure/api/*"]
     }
   },
-  "include": ["src/**/*", "src/**.ts", "./src"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/*.spec.ts"]
 }

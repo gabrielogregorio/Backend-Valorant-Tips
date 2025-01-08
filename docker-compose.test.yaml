@@ -20,7 +20,6 @@ services:
   vavatips-db-test:
     container_name: vavatips-db-test
     env_file: .env.test
-    image: mongo:latest
     build:
       context: ./
       dockerfile: ./database/Dockerfile.test

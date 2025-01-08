@@ -1,0 +1,9 @@
+
+@baseUrl = http://localhost:3333
+@bearerToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZW1pciIsIm5hbWUiOiJhZGVtaXIiLCJpZCI6IjE2MzhmMmE5LTM0MWItNDgwOC1iZmVhLTU5ZWQ5MzZhYmZlZSIsImlhdCI6MTcyOTQzNjE2MSwiZXhwIjoxNzI5ODk2OTYxfQ.qJJKLGW0AN2BWtevdYWUDBefUU7xJSqxAQqx05NZDRY
+
+
+### @name getDashboard
+
+GET {{baseUrl}}/dashboards HTTP/1.1
+authorization: {{bearerToken}}

@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3333
+
+### @name handleAuthToken
+POST {{baseUrl}}/code HTTP/1.1
+content-type: application/json
+
+{
+  "securityCode":"{{$dotenv SECURITY_CODE}}"
+}
+

@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:3333
+@bearerToken =
+@suggestionIdExample = bcc96d76-47f4-4a6d-a7c6-6f71513116b5
+
+
+### @name CreateSuggestion
+
+POST {{baseUrl}}/suggestions HTTP/1.1
+content-type: application/json
+
+{
+  "postId":"61590639cd9902fad4021cc5",
+  "email": "example email",
+  "description":"example description"
+}
+
+### @name GetSuggestions
+
+GET {{baseUrl}}/suggestions HTTP/1.1
+authorization: {{bearerToken}}
+
+
+### @name UpdateSuggestion
+
+
+PUT {{baseUrl}}/suggestions/{{suggestionIdExample}}/ HTTP/1.1
+authorization: {{bearerToken}}
+content-type: application/json
+
+{
+  "status":"rejected"
+}
+
+
+### @name DeleteSuggestion
+
+DELETE {{baseUrl}}/suggestions/{{suggestionIdExample}} HTTP/1.1
+authorization: {{bearerToken}}
+

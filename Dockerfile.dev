@@ -9,6 +9,14 @@ COPY ./package.json ./yarn.lock ./
 
 RUN yarn
 
+ENV DOCKERIZE_VERSION v0.7.0
+RUN apk update --no-cache \
+  && apk add --no-cache wget openssl \
+  && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+  && apk del wget
+
 EXPOSE 3333
 
-CMD ["yarn", "dev"]
+ENV BUILDKIT_PROGRESS=plain
+
+ENTRYPOINT dockerize -timeout 10s -wait tcp://vavatips-api-mongodb:27017 && yarn dev

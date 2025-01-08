@@ -1,0 +1,17 @@
+
+@baseUrl = http://localhost:3333
+@bearerToken =
+
+
+### @name uploadFile
+
+POST {{baseUrl}}/uploadImage HTTP/1.1
+Authorization: {{bearerToken}}
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="image"; filename="project.png"
+Content-Type: image/png
+
+< ./project.png
+--MultipartBoundry--

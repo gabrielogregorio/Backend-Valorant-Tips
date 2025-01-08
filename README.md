@@ -16,8 +16,8 @@
 
 <div align="center">
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&utm_medium=referral&utm_content=gabrielogregorio/valorant-tips-api&utm_campaign=Badge_Grade) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&utm_medium=referral&utm_content=gabrielogregorio/valorant-tips-api&utm_campaign=Badge_Coverage)
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gabrielogregorio/valorant-tips-api&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7b87ad678dc34a92b1f1a7dea10d1f9e)](https://www.codacy.com/gh/gabrielogregorio/valorant-tips-api/dashboard?utm_source=github.com&utm_medium=referral&utm_content=gabrielogregorio/valorant-tips-api&utm_campaign=Badge_Coverage)
 </div>
 
 ### Description
@@ -40,4 +40,13 @@ yarn test
 ```
 
 ### Aprendizados com esse projeto
+
 - Se tudo estiver dando errado no docker, experimente usar outra compilação, saia do ALPINE, tente o SLIM, BULLSEYE ou BUSTER, principalmente se os erros não tiverem nenhum contexto, nem mensagem, nem consumirem muitos recursos, nem darem nenhum tipo de erro detectável.
+
+# Conceitos
+
+Entidades são objetos de dominio, tipo Usuário, Post ou Sugestão, elas não sabem onde estão armazenadas e nem nada do tipo, são isoladas do mundo de fora.
+
+Repositorios são as interfaces que persistem ou alteram entidades, eles tem uma série de kmétodos para se comunicar com fontes de dados e retornar uma ou várias entidade
+
+UseCases: São orquestradores de ações de dominios, eles implementam regras de negócio complexas bem como lógica de validação para ações no dominio

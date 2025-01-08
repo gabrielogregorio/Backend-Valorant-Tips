@@ -25,4 +25,3 @@ jobs:
         run: yarn install
       - run: yarn build
       - run: yarn lint
-      - run: yarn lint-tsc
